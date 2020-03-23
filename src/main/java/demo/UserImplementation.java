@@ -12,9 +12,9 @@ public class UserImplementation implements UserInterface{
 	private String domain = "2020.demo";
 
 	@Override
-	public UserBoundry createNewUser(String email, String role, String username, String avatar) {
-		UserId userId = new UserId(domain, email);
-		return new UserBoundry(userId, role, username, avatar);
+	public UserBoundry createNewUser(NewUserDetails userDetails) {
+		return new UserBoundry(new UserId(this.domain, userDetails.getEmail()), 
+				userDetails.getRole(), userDetails.getUsername() , userDetails.getAvatar()) ;
 	}
 
 	@Override
@@ -23,9 +23,8 @@ public class UserImplementation implements UserInterface{
 	}
 
 	@Override
-	public UserBoundry updateUserDitails(String userDomain, String userEmail, String email, String role,
-			String username, String avatar) {
-		return null;
+	public UserBoundry updateUserDitails(String userDomain, String userEmail, UserBoundry user ) {
+		return user;
 	}
 	
 	
