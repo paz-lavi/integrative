@@ -18,8 +18,8 @@ public class UserImplementation implements UserInterface {
     }
 
     @Override
-    public UserBoundry updateUserDetails(String userDomain, String userEmail, UserBoundry user) {
-        return user;
+    public void updateUserDetails(String userDomain, String userEmail, UserBoundry user) {
+
     }
 
 

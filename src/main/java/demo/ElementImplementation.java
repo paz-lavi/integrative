@@ -7,7 +7,9 @@ public class ElementImplementation implements ElementInterface {
 
     @Override
     public ElementBoundry createNewElement(Element element) {
-        return null;
+        return new ElementBoundry(new ElementId(Constants.DOMAIN, 54), element.getType(), element.getName()
+                , element.isActive(), element.getCreatedTimeStamp(), element.getCreatedBy()
+                , element.getLocation(), element.getElementAttributes());
     }
 
     @Override
