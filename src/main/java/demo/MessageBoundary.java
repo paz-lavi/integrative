@@ -1,23 +1,23 @@
 package demo;
 
 public class MessageBoundary {
-	private String message;
+    private String message;
 
-	public MessageBoundary() {
-		// TODO Auto-generated constructor stub
-	}
+    public MessageBoundary() {
+        // TODO Auto-generated constructor stub
+    }
 
-	public MessageBoundary(String message) {
-		super();
-		this.message = message;
-	}
+    public MessageBoundary(String message) {
+        super();
+        this.message = message;
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
 }

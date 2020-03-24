@@ -1,57 +1,55 @@
 package demo;
 
 public class NewUserDetails {
-	private String email;
-	private TypeEnum role;
-	private String username;
-	private String avatar;
-	
-	
-	public NewUserDetails() {
-
-	}
+    private String email;
+    private TypeEnum role;
+    private String username;
+    private String avatar;
 
 
-	public String getEmail() {
-		return email;
-	}
+    public NewUserDetails() {
+
+    }
 
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
 
-	public TypeEnum getRole() {
-		return role;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
 
-	public void setRole(TypeEnum role) {
-		this.role = role;
-	}
+    public TypeEnum getRole() {
+        return role;
+    }
 
 
-	public String getUsername() {
-		return username;
-	}
+    public void setRole(TypeEnum role) {
+        this.role = role;
+    }
 
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public String getUsername() {
+        return username;
+    }
 
 
-	public String getAvatar() {
-		return avatar;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
 
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
-	
-	
-	
+    public String getAvatar() {
+        return avatar;
+    }
+
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
 
 }
