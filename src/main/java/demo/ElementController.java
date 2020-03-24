@@ -37,7 +37,7 @@ public class ElementController {
     }
 
 
-    @RequestMapping(path = "/acs/{userDomain}/{userEmail}/{elementDomain}/{elementId}",
+    @RequestMapping(path = "/acs/elements/{userDomain}/{userEmail}/{elementDomain}/{elementId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ElementBoundry retrieveSpecificElements(
@@ -48,7 +48,7 @@ public class ElementController {
         return this.elementInterface.retrieveSpecificElements(userDomain, userEmail, elementDomain, elementId);
     }
 
-    @RequestMapping(path = "/acs/{userDomain}/{userEmail}",
+    @RequestMapping(path = "/acs/elements/{userDomain}/{userEmail}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ElementBoundry getAllElements(
