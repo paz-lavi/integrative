@@ -2,18 +2,13 @@ package demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
 
     private UserInterface userInterface;
 
-    //private NewUserDetails userDitails;
     @Autowired
     public UserController(UserInterface userInterface) {
         super();
@@ -32,7 +27,7 @@ public class UserController {
     @RequestMapping(path = "/acs/users/login/{userDomain}/{userEmail}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserBoundry loginAndRetrieveUserDitails(
+    public UserBoundry loginAndRetrieveUserDetails(
             @PathVariable("userDomain") String userDomain,
             @PathVariable("userEmail") String userEmail) {
         return this.userInterface.loginAndRetrieveUserDetails(userDomain, userEmail);
@@ -41,7 +36,7 @@ public class UserController {
     @RequestMapping(path = "/acs/users/{userDomain}/{userEmail}",
             method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateUserDitails(
+    public void updateUserDetails(
             @PathVariable("userDomain") String userDomain,
             @PathVariable("userEmail") String userEmail,
             @RequestBody UserBoundry user) {
