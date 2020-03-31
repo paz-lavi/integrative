@@ -9,13 +9,11 @@ public class UserController {
 
     private UserInterface userInterface;
 
-    //private NewUserDetails userDitails;
     @Autowired
     public UserController(UserInterface userInterface) {
         super();
         this.userInterface = userInterface;
     }
-
 
     @RequestMapping(path = "/acs/users",
             method = RequestMethod.POST,
@@ -29,7 +27,7 @@ public class UserController {
     @RequestMapping(path = "/acs/users/login/{userDomain}/{userEmail}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserBoundry loginAndRetrieveUserDitails(
+    public UserBoundry loginAndRetrieveUserDetails(
             @PathVariable("userDomain") String userDomain,
             @PathVariable("userEmail") String userEmail) {
         return this.userInterface.loginAndRetrieveUserDetails(userDomain, userEmail);
@@ -38,7 +36,7 @@ public class UserController {
     @RequestMapping(path = "/acs/users/{userDomain}/{userEmail}",
             method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateUserDitails(
+    public void updateUserDetails(
             @PathVariable("userDomain") String userDomain,
             @PathVariable("userEmail") String userEmail,
             @RequestBody UserBoundry user) {
