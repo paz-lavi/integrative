@@ -1,5 +1,6 @@
 package demo;
 
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -7,13 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.minidev.json.JSONObject;
-
 @RestController
 public class ActionController {
-	
-	
-	private ActionInterface actionInterface;
+
+
+    private ActionInterface actionInterface;
 
     //Invoke an action;
     @Autowired
@@ -21,9 +20,8 @@ public class ActionController {
         super();
         this.actionInterface = actionInterface;
     }
-    
-    
-    
+
+
     @RequestMapping(path = "/acs/actions",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
