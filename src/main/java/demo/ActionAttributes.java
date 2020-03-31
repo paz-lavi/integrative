@@ -3,8 +3,8 @@ package demo;
 import java.util.Map;
 
 public class ActionAttributes {
-	
-	private Map<String, Object> map;
+
+    private Map<String, Object> map;
 
     public ActionAttributes() {
 

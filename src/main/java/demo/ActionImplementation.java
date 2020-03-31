@@ -8,6 +8,8 @@ public class ActionImplementation implements ActionInterface {
 
     @Override
     public JSONObject InvokeAnAction(ActionBoundary action) {
-        return null;
+        JSONObject temp = new JSONObject();
+        temp.put("key0", "Invoke An Action");
+        return temp;
     }
 }
