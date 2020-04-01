@@ -1,25 +1,25 @@
 package main.java.demo;
 
 public class Location {
-    private double lon;
     private double lat;
+    private double lng;
 
     public Location() {
 
     }
 
-    public Location(double lon, double lat) {
+    public Location(double lat, double lng) {
         super();
-        this.lon = lon;
         this.lat = lat;
+        this.lng = lng;
     }
 
-    public double getLon() {
-        return lon;
+    public double getLng() {
+        return lng;
     }
 
-    public void setLon(double lon) {
-        this.lon = lon;
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
     public double getLat() {

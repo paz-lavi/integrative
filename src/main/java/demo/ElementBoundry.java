@@ -1,6 +1,7 @@
 package main.java.demo;
 
 import java.util.Date;
+import java.util.Map;
 
 public class ElementBoundry {
     private ElementId elementId;
@@ -10,14 +11,14 @@ public class ElementBoundry {
     private Date createdTimeStamp = new Date();
     private UserId createdBy;
     private Location location;
-    private ElementAttributes elementAttributes;
+    private Map<String, Object> elementAttributes;
 
     public ElementBoundry() {
 
     }
 
     public ElementBoundry(ElementId elementId, String type, String name, boolean active, Date createdTimeStamp,
-                          UserId createdBy, Location location, ElementAttributes elementAttributes) {
+                          UserId createdBy, Location location, Map<String, Object> elementAttributes) {
         super();
         this.elementId = elementId;
         this.type = type;
@@ -85,11 +86,11 @@ public class ElementBoundry {
         this.location = location;
     }
 
-    public ElementAttributes getElementAttributes() {
+    public Map<String, Object> getElementAttributes() {
         return elementAttributes;
     }
 
-    public void setElementAttributes(ElementAttributes elementAttributes) {
+    public void setElementAttributes(Map<String, Object> elementAttributes) {
         this.elementAttributes = elementAttributes;
     }
 }

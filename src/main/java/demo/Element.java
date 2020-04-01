@@ -1,6 +1,7 @@
 package main.java.demo;
 
 import java.util.Date;
+import java.util.Map;
 
 public class Element {
     private String type;
@@ -9,7 +10,7 @@ public class Element {
     private Date createdTimeStamp = new Date();
     private UserId createdBy;
     private Location location;
-    private ElementAttributes elementAttributes;
+    private Map<String, Object> elementAttributes;
 
     public String getType() {
         return type;
@@ -59,11 +60,11 @@ public class Element {
         this.location = location;
     }
 
-    public ElementAttributes getElementAttributes() {
+    public Map<String, Object> getElementAttributes() {
         return elementAttributes;
     }
 
-    public void setElementAttributes(ElementAttributes elementAttributes) {
+    public void setElementAttributes(Map<String, Object> elementAttributes) {
         this.elementAttributes = elementAttributes;
     }
 
