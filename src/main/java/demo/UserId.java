@@ -1,4 +1,4 @@
-package demo;
+package main.java.demo;
 
 public class UserId {
     private String domain;

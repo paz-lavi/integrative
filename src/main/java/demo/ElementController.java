@@ -1,4 +1,4 @@
-package demo;
+package main.java.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

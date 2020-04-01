@@ -1,4 +1,4 @@
-package demo;
+package main.java.demo;
 
 import java.util.Map;
 

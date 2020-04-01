@@ -1,4 +1,4 @@
-package demo;
+package main.java.demo;
 
 public class MessageBoundary {
     private String message;
