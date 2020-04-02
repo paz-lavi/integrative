@@ -1,4 +1,4 @@
-package demo;
+package main.java.demo;
 
 public class ActionId {
     private String domain;

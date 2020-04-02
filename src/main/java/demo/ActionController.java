@@ -1,4 +1,4 @@
-package demo;
+package main.java.demo;
 
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
