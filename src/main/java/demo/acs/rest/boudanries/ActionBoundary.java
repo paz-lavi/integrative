@@ -1,4 +1,8 @@
-package main.java.demo;
+package demo.acs.rest.boudanries;
+
+import demo.acs.data.ActionId;
+import demo.acs.data.ElementId;
+import demo.acs.data.UserId;
 
 import java.util.Date;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package main.java.demo;
+package demo.acs.data;
 
 public class UserId {
     private String domain;

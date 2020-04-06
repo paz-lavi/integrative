@@ -1,5 +1,8 @@
-package main.java.demo;
+package demo.acs.rest;
 
+import demo.acs.data.NewUserDetails;
+import demo.acs.logic.UserService;
+import demo.acs.rest.boudanries.UserBoundry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -7,12 +10,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UserController {
 
-    private UserInterface userInterface;
+    private UserService userService;
 
     @Autowired
-    public UserController(UserInterface userInterface) {
+    public UserController(UserService userService) {
         super();
-        this.userInterface = userInterface;
+        this.userService = userService;
     }
 
     @RequestMapping(path = "/acs/users",
@@ -20,7 +23,7 @@ public class UserController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public UserBoundry createNewUser(@RequestBody NewUserDetails userDetails) {
-        return this.userInterface.createNewUser(userDetails);
+        return this.userService.createNewUser(userDetails);
     }
 
 
@@ -30,7 +33,7 @@ public class UserController {
     public UserBoundry loginAndRetrieveUserDetails(
             @PathVariable("userDomain") String userDomain,
             @PathVariable("userEmail") String userEmail) {
-        return this.userInterface.loginAndRetrieveUserDetails(userDomain, userEmail);
+        return this.userService.loginAndRetrieveUserDetails(userDomain, userEmail);
     }
 
     @RequestMapping(path = "/acs/users/{userDomain}/{userEmail}",
@@ -40,7 +43,7 @@ public class UserController {
             @PathVariable("userDomain") String userDomain,
             @PathVariable("userEmail") String userEmail,
             @RequestBody UserBoundry user) {
-        this.userInterface.updateUserDetails(userDomain, userEmail, user);
+        this.userService.updateUserDetails(userDomain, userEmail, user);
     }
 
 

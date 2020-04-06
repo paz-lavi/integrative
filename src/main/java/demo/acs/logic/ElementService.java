@@ -1,6 +1,9 @@
-package main.java.demo;
+package demo.acs.logic;
 
-public interface ElementInterface {
+import demo.acs.data.Element;
+import demo.acs.rest.boudanries.ElementBoundry;
+
+public interface ElementService {
 
     ElementBoundry createNewElement(Element element);
 

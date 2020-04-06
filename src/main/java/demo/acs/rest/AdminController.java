@@ -1,5 +1,8 @@
-package main.java.demo;
+package demo.acs.rest;
 
+import demo.acs.logic.AdminService;
+import demo.acs.rest.boudanries.ActionBoundary;
+import demo.acs.rest.boudanries.UserBoundry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
 
 
-    private AdminInterface adminInterface;
+    private AdminService adminService;
 
 
     @Autowired
-    public AdminController(AdminInterface adminInterface) {
+    public AdminController(AdminService adminService) {
         super();
-        this.adminInterface = adminInterface;
+        this.adminService = adminService;
     }
 
 
@@ -30,7 +33,7 @@ public class AdminController {
             @PathVariable("adminEmail") String adminEmail) {
 
         //The users deleted here
-        this.adminInterface.deleteAllUsersInTheSystem(adminDomain, adminEmail);
+        this.adminService.deleteAllUsersInTheSystem(adminDomain, adminEmail);
 
     }
 
@@ -44,7 +47,7 @@ public class AdminController {
             @PathVariable("adminEmail") String adminEmail) {
 
         //The Elements deleted here
-        this.adminInterface.deleteAllElementsInTheSystem(adminDomain, adminEmail);
+        this.adminService.deleteAllElementsInTheSystem(adminDomain, adminEmail);
 
     }
 
@@ -58,7 +61,7 @@ public class AdminController {
             @PathVariable("adminEmail") String adminEmail) {
 
         //The Elements deleted here
-        this.adminInterface.deleteAllActionsInTheSystem(adminDomain, adminEmail);
+        this.adminService.deleteAllActionsInTheSystem(adminDomain, adminEmail);
 
     }
 
@@ -71,7 +74,7 @@ public class AdminController {
     public UserBoundry exportAllUsers(
             @PathVariable("adminDomain") String adminDomain,
             @PathVariable("adminEmail") String adminEmail) {
-        return this.adminInterface.exportAllUsers(adminDomain, adminEmail);
+        return this.adminService.exportAllUsers(adminDomain, adminEmail);
     }
 
 
@@ -83,7 +86,7 @@ public class AdminController {
     public ActionBoundary exportAllActions(
             @PathVariable("adminDomain") String adminDomain,
             @PathVariable("adminEmail") String adminEmail) {
-        return this.adminInterface.exportAllActions(adminDomain, adminEmail);
+        return this.adminService.exportAllActions(adminDomain, adminEmail);
     }
 
 }

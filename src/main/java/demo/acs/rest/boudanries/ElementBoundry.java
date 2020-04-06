@@ -1,9 +1,14 @@
-package main.java.demo;
+package demo.acs.rest.boudanries;
+
+import demo.acs.data.ElementId;
+import demo.acs.data.Location;
+import demo.acs.data.UserId;
 
 import java.util.Date;
 import java.util.Map;
 
-public class Element {
+public class ElementBoundry {
+    private ElementId elementId;
     private String type;
     private String name;
     private boolean active;
@@ -11,6 +16,31 @@ public class Element {
     private UserId createdBy;
     private Location location;
     private Map<String, Object> elementAttributes;
+
+    public ElementBoundry() {
+
+    }
+
+    public ElementBoundry(ElementId elementId, String type, String name, boolean active, Date createdTimeStamp,
+                          UserId createdBy, Location location, Map<String, Object> elementAttributes) {
+        super();
+        this.elementId = elementId;
+        this.type = type;
+        this.name = name;
+        this.active = active;
+        this.createdTimeStamp = createdTimeStamp;
+        this.createdBy = createdBy;
+        this.location = location;
+        this.elementAttributes = elementAttributes;
+    }
+
+    public ElementId getElementId() {
+        return elementId;
+    }
+
+    public void setElementId(ElementId elementId) {
+        this.elementId = elementId;
+    }
 
     public String getType() {
         return type;
@@ -67,5 +97,4 @@ public class Element {
     public void setElementAttributes(Map<String, Object> elementAttributes) {
         this.elementAttributes = elementAttributes;
     }
-
 }

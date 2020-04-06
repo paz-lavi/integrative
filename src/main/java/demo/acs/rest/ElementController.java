@@ -1,5 +1,8 @@
-package main.java.demo;
+package demo.acs.rest;
 
+import demo.acs.data.Element;
+import demo.acs.logic.ElementService;
+import demo.acs.rest.boudanries.ElementBoundry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -7,12 +10,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ElementController {
 
-    private ElementInterface elementInterface;
+    private ElementService elementService;
 
     @Autowired
-    public ElementController(ElementInterface elementInterface) {
+    public ElementController(ElementService elementService) {
         super();
-        this.elementInterface = elementInterface;
+        this.elementService = elementService;
     }
 
 
@@ -21,7 +24,7 @@ public class ElementController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ElementBoundry createNewElement(@RequestBody Element element) {
-        return this.elementInterface.createNewElement(element);
+        return this.elementService.createNewElement(element);
     }
 
     @RequestMapping(path = "/acs/elements/{managerDomain}/{managerEmail}/{elementDomain}/{elementId}",
@@ -33,7 +36,7 @@ public class ElementController {
             @PathVariable("elementDomain") String elementDomain,
             @PathVariable("elementId") String elementId,
             @RequestBody ElementBoundry element) {
-        this.elementInterface.updateElementDetails(managerDomain, managerEmail, elementDomain, elementId, element);
+        this.elementService.updateElementDetails(managerDomain, managerEmail, elementDomain, elementId, element);
     }
 
 
@@ -45,7 +48,7 @@ public class ElementController {
             @PathVariable("userEmail") String userEmail,
             @PathVariable("elementDomain") String elementDomain,
             @PathVariable("elementId") String elementId) {
-        return this.elementInterface.retrieveSpecificElements(userDomain, userEmail, elementDomain, elementId);
+        return this.elementService.retrieveSpecificElements(userDomain, userEmail, elementDomain, elementId);
     }
 
     @RequestMapping(path = "/acs/elements/{userDomain}/{userEmail}",
@@ -54,7 +57,7 @@ public class ElementController {
     public ElementBoundry getAllElements(
             @PathVariable("userDomain") String userDomain,
             @PathVariable("userEmail") String userEmail) {
-        return this.elementInterface.getAllElements(userDomain, userEmail);
+        return this.elementService.getAllElements(userDomain, userEmail);
     }
 
 

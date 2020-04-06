@@ -1,9 +1,12 @@
-package main.java.demo;
+package demo.acs.logic;
 
+import demo.acs.rest.boudanries.ActionBoundary;
+import demo.acs.rest.boudanries.UserBoundry;
 import org.springframework.stereotype.Service;
 
+
 @Service
-public class AdminImplementation implements AdminInterface {
+public class AdminImplementation implements AdminService {
 
 
     @Override

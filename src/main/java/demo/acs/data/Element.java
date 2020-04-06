@@ -1,10 +1,9 @@
-package main.java.demo;
+package demo.acs.data;
 
 import java.util.Date;
 import java.util.Map;
 
-public class ElementBoundry {
-    private ElementId elementId;
+public class Element {
     private String type;
     private String name;
     private boolean active;
@@ -12,31 +11,6 @@ public class ElementBoundry {
     private UserId createdBy;
     private Location location;
     private Map<String, Object> elementAttributes;
-
-    public ElementBoundry() {
-
-    }
-
-    public ElementBoundry(ElementId elementId, String type, String name, boolean active, Date createdTimeStamp,
-                          UserId createdBy, Location location, Map<String, Object> elementAttributes) {
-        super();
-        this.elementId = elementId;
-        this.type = type;
-        this.name = name;
-        this.active = active;
-        this.createdTimeStamp = createdTimeStamp;
-        this.createdBy = createdBy;
-        this.location = location;
-        this.elementAttributes = elementAttributes;
-    }
-
-    public ElementId getElementId() {
-        return elementId;
-    }
-
-    public void setElementId(ElementId elementId) {
-        this.elementId = elementId;
-    }
 
     public String getType() {
         return type;
@@ -93,4 +67,5 @@ public class ElementBoundry {
     public void setElementAttributes(Map<String, Object> elementAttributes) {
         this.elementAttributes = elementAttributes;
     }
+
 }

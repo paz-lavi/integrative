@@ -1,9 +1,13 @@
-package main.java.demo;
+package demo.acs.logic;
 
+import demo.Constants;
+import demo.acs.data.Element;
+import demo.acs.data.ElementId;
+import demo.acs.rest.boudanries.ElementBoundry;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ElementImplementation implements ElementInterface {
+public class ElementImplementation implements ElementService {
 
     @Override
     public ElementBoundry createNewElement(Element element) {

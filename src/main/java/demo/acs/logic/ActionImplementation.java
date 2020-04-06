@@ -1,10 +1,11 @@
-package main.java.demo;
+package demo.acs.logic;
 
+import demo.acs.rest.boudanries.ActionBoundary;
 import net.minidev.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ActionImplementation implements ActionInterface {
+public class ActionImplementation implements ActionService {
 
     @Override
     public JSONObject InvokeAnAction(ActionBoundary action) {

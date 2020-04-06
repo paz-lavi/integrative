@@ -1,6 +1,9 @@
-package main.java.demo;
+package demo.acs.logic;
 
-public interface AdminInterface {
+import demo.acs.rest.boudanries.ActionBoundary;
+import demo.acs.rest.boudanries.UserBoundry;
+
+public interface AdminService {
 
     public void deleteAllUsersInTheSystem(String adminDomain, String adminEmail);
 

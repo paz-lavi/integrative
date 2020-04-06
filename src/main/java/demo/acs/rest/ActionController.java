@@ -1,5 +1,7 @@
-package main.java.demo;
+package demo.acs.rest;
 
+import demo.acs.logic.ActionService;
+import demo.acs.rest.boudanries.ActionBoundary;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -12,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ActionController {
 
 
-    private ActionInterface actionInterface;
+    private ActionService actionService;
 
     //Invoke an action;
     @Autowired
-    public ActionController(ActionInterface actionInterface) {
+    public ActionController(ActionService actionService) {
         super();
-        this.actionInterface = actionInterface;
+        this.actionService = actionService;
     }
 
 
@@ -27,7 +29,7 @@ public class ActionController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public JSONObject InvokeAnAction(@RequestBody ActionBoundary action) {
-        return this.actionInterface.InvokeAnAction(action);
+        return this.actionService.InvokeAnAction(action);
     }
 
 }

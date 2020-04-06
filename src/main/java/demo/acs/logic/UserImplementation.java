@@ -1,9 +1,13 @@
-package main.java.demo;
+package demo.acs.logic;
 
+import demo.Constants;
+import demo.acs.data.NewUserDetails;
+import demo.acs.data.UserId;
+import demo.acs.rest.boudanries.UserBoundry;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserImplementation implements UserInterface {
+public class UserImplementation implements UserService {
 
 
     @Override

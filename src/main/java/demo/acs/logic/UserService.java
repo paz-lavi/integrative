@@ -1,6 +1,9 @@
-package main.java.demo;
+package demo.acs.logic;
 
-public interface UserInterface {
+import demo.acs.data.NewUserDetails;
+import demo.acs.rest.boudanries.UserBoundry;
+
+public interface UserService {
 
     UserBoundry createNewUser(NewUserDetails userDetails);
 
