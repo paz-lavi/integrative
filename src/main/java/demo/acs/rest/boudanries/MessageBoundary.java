@@ -1,4 +1,4 @@
-package demo.acs.rest.boudanries;
+package main.java.demo.acs.rest.boudanries;
 
 public class MessageBoundary {
     private String message;

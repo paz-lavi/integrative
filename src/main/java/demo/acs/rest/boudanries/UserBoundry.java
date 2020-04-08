@@ -1,8 +1,8 @@
-package demo.acs.rest.boudanries;
+package main.java.demo.acs.rest.boudanries;
 
 
-import demo.acs.data.TypeEnum;
-import demo.acs.data.UserId;
+import main.java.demo.acs.data.TypeEnum;
+import main.java.demo.acs.data.UserId;
 
 public class UserBoundry {
     private UserId userId;

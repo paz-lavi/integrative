@@ -1,7 +1,7 @@
-package demo.acs.logic;
+package main.java.demo.acs.logic;
 
-import demo.acs.rest.boudanries.ActionBoundary;
-import demo.acs.rest.boudanries.UserBoundry;
+import main.java.demo.acs.rest.boudanries.ActionBoundary;
+import main.java.demo.acs.rest.boudanries.UserBoundry;
 
 public interface AdminService {
 

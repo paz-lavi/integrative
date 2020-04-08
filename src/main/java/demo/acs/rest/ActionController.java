@@ -1,7 +1,7 @@
-package demo.acs.rest;
+package main.java.demo.acs.rest;
 
-import demo.acs.logic.ActionService;
-import demo.acs.rest.boudanries.ActionBoundary;
+import main.java.demo.acs.logic.ActionService;
+import main.java.demo.acs.rest.boudanries.ActionBoundary;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

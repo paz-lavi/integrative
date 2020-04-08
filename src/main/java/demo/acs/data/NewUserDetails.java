@@ -1,4 +1,4 @@
-package demo.acs.data;
+package main.java.demo.acs.data;
 
 public class NewUserDetails {
     private String email;

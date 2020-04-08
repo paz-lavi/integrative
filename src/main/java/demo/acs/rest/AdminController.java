@@ -1,8 +1,8 @@
-package demo.acs.rest;
+package main.java.demo.acs.rest;
 
-import demo.acs.logic.AdminService;
-import demo.acs.rest.boudanries.ActionBoundary;
-import demo.acs.rest.boudanries.UserBoundry;
+import main.java.demo.acs.logic.AdminService;
+import main.java.demo.acs.rest.boudanries.ActionBoundary;
+import main.java.demo.acs.rest.boudanries.UserBoundry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
