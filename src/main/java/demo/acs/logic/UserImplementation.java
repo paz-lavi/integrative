@@ -4,9 +4,16 @@ import main.java.demo.acs.data.UserConverter;
 import main.java.demo.acs.data.UserEntity;
 import main.java.demo.acs.data.UserId;
 import main.java.demo.acs.rest.boudanries.UserBoundry;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -15,12 +22,25 @@ import org.springframework.stereotype.Service;
 public class UserImplementation implements UserService {
 	UserConverter userConverter;	
 	Map<UserId, UserEntity> userDatabase;
-
+	
+	
+	@Autowired
+	public UserImplementation(UserConverter converter) {
+		this.userConverter = converter;
+	}
+	
+	@PostConstruct
+	public void init() {
+		// since this class is a singleton, we generate a thread safe collection
+		this.userDatabase = Collections.synchronizedMap(new TreeMap<>());
+	}
 
 	@Override
 	public UserBoundry createUser(UserBoundry boundry) {
 		UserEntity entity = this.userConverter.toEntity(boundry);
+		System.out.println(entity.toString()); 
 		this.userDatabase.put(entity.getUserId(), entity);
+		System.out.println(this.userDatabase.get(entity.getUserId()).toString()); 
 		return boundry;
 	}
 

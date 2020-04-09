@@ -51,5 +51,13 @@ public class UserEntity {
 	        this.avatar = avatar;
 	    }
 
+		@Override
+		public String toString() {
+			return "UserEntity [userId=" + userId + ", role=" + role + ", username=" + username + ", avatar=" + avatar
+					+ "]";
+		}
+	    
+	    
+
 
 	}

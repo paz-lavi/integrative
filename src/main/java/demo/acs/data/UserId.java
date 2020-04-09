@@ -1,6 +1,6 @@
 package main.java.demo.acs.data;
 
-public class UserId {
+public class UserId implements Comparable{
     private String domain;
     private String email;
 
@@ -36,5 +36,18 @@ public class UserId {
         UserId userId = (UserId) obj;
         return this.email.equals(userId.email);
     }
+
+	@Override
+	public int compareTo(Object o) {
+		UserId id = (UserId)o;
+		return this.getEmail().compareTo(id.getEmail());
+	}
+
+	@Override
+	public String toString() {
+		return "UserId [domain=" + domain + ", email=" + email + "]";
+	}
+	
+	
 
 }
