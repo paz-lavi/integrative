@@ -1,6 +1,8 @@
 package main.java.demo.acs.rest;
 
 import main.java.demo.acs.logic.UserNotFoundException;
+import main.java.demo.acs.logic.InsafitiontInputExeption;
+import main.java.demo.acs.logic.IncorrectInputExeption; 
 import main.java.demo.acs.logic.UserService;
 import main.java.demo.acs.rest.boudanries.UserBoundry;
 import java.util.Collections;
@@ -75,6 +77,24 @@ public class UserController {
 		return Collections.singletonMap("error", 
 				(e.getMessage() == null)?
 						"User was not found":
+						e.getMessage());
+	}
+	
+	@ExceptionHandler
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public Map<String, Object> handleException (InsafitiontInputExeption e){
+		return Collections.singletonMap("error", 
+				(e.getMessage() == null)?
+						"Insafitiont input":
+						e.getMessage());
+	}
+	
+	@ExceptionHandler
+	@ResponseStatus(code = HttpStatus.CONFLICT)
+	public Map<String, Object> handleException (IncorrectInputExeption e){
+		return Collections.singletonMap("error", 
+				(e.getMessage() == null)?
+						"Incorrect input":
 						e.getMessage());
 	}
 	

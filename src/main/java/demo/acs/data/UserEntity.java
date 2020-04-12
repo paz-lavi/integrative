@@ -2,7 +2,7 @@ package main.java.demo.acs.data;
 
 public class UserEntity {
 	 private UserId userId;
-	    private TypeEnum role;
+	    private UserRole role;
 	    private String username;
 	    private String avatar;
 
@@ -11,7 +11,7 @@ public class UserEntity {
 
 	    }
 
-	    public UserEntity(UserId userId, TypeEnum role, String username, String avatar) {
+	    public UserEntity(UserId userId, UserRole role, String username, String avatar) {
 	        super();
 	        this.userId = userId;
 	        this.role = role;
@@ -27,11 +27,11 @@ public class UserEntity {
 	        this.userId = userId;
 	    }
 
-	    public TypeEnum getRole() {
+	    public UserRole getRole() {
 	        return role;
 	    }
 
-	    public void setRole(TypeEnum role) {
+	    public void setRole(UserRole role) {
 	        this.role = role;
 	    }
 

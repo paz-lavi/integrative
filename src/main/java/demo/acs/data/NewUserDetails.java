@@ -2,7 +2,7 @@ package main.java.demo.acs.data;
 
 public class NewUserDetails {
     private String email;
-    private TypeEnum role;
+    private UserRole role;
     private String username;
     private String avatar;
 
@@ -22,12 +22,12 @@ public class NewUserDetails {
     }
 
 
-    public TypeEnum getRole() {
+    public UserRole getRole() {
         return role;
     }
 
 
-    public void setRole(TypeEnum role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 

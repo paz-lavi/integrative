@@ -1,12 +1,12 @@
 package main.java.demo.acs.rest.boudanries;
 
 
-import main.java.demo.acs.data.TypeEnum;
+import main.java.demo.acs.data.UserRole;
 import main.java.demo.acs.data.UserId;
 
 public class UserBoundry {
     private UserId userId;
-    private TypeEnum role;
+    private UserRole role;
     private String username;
     private String avatar;
 
@@ -15,7 +15,7 @@ public class UserBoundry {
 
     }
 
-    public UserBoundry(UserId userId, TypeEnum role, String username, String avatar) {
+    public UserBoundry(UserId userId, UserRole role, String username, String avatar) {
         super();
         this.userId = userId;
         this.role = role;
@@ -31,11 +31,11 @@ public class UserBoundry {
         this.userId = userId;
     }
 
-    public TypeEnum getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(TypeEnum role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 

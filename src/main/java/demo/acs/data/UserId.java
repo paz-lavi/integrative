@@ -32,10 +32,35 @@ public class UserId implements Comparable{
     }
 
     @Override
-    public boolean equals(Object obj) {
-        UserId userId = (UserId) obj;
-        return this.email.equals(userId.email);
-    }
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((domain == null) ? 0 : domain.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserId other = (UserId) obj;
+		if (domain == null) {
+			if (other.domain != null)
+				return false;
+		} else if (!domain.equals(other.domain))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		return true;
+	}
 
 	@Override
 	public int compareTo(Object o) {
