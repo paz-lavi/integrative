@@ -1,10 +1,18 @@
-package main.java.demo.acs.logic;
+package demo.acs.logic;
 
-import main.java.demo.acs.rest.boudanries.ActionBoundary;
-import net.minidev.json.JSONObject;
+import demo.acs.rest.boudanries.ActionBoundary;
+
+import java.util.List;
 
 public interface ActionService {
 
 
-    JSONObject InvokeAnAction(ActionBoundary action);
+    public Object InvokeAction(ActionBoundary action);
+
+    public List<ActionBoundary> getAllActions(String adminDomain, String adminEmail);
+
+    public void deleteAllActions(String adminDomain, String adminEmail);
+
+
+
 }

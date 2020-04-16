@@ -1,22 +1,20 @@
-package main.java.demo.acs.logic;
+package demo.acs.logic;
+
+import demo.acs.rest.boudanries.UserBoundary;
 
 import java.util.List;
-import java.util.Map;
-
-import main.java.demo.acs.rest.boudanries.UserBoundry;
 
 public interface UserService {
 
-    UserBoundry createUser(UserBoundry boundry);
-    
-    UserBoundry login(String userDomain, String userEmail);
-    
-    UserBoundry updateUser(String userDomain, String userEmail, UserBoundry update);
-    
-    List<UserBoundry> getAllUsers(String adminDomain, String adminEmail);
-    
-    void deleteAllUsers(String adminDomain, String adminEma);
+    UserBoundary createUser(UserBoundary boundry);
 
-	Map<String, Object> getProjectName();
+    UserBoundary login(String userDomain, String userEmail);
+
+    UserBoundary updateUser(String userDomain, String userEmail, UserBoundary update);
+
+    List<UserBoundary> getAllUsers(String adminDomain, String adminEmail);
+
+    void deleteAllUsers(String adminDomain, String adminEmail);
+
 
 }

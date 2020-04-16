@@ -1,8 +1,8 @@
-package main.java.demo.acs.rest;
+package demo.acs.rest;
 
-import main.java.demo.acs.data.Element;
-import main.java.demo.acs.logic.ElementService;
-import main.java.demo.acs.rest.boudanries.ElementBoundry;
+import demo.acs.data.Element;
+import demo.acs.logic.ElementService;
+import demo.acs.rest.boudanries.ElementBoundary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ public class ElementController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ElementBoundry createNewElement(@RequestBody Element element) {
+    public ElementBoundary createNewElement(@RequestBody Element element) {
         return this.elementService.createNewElement(element);
     }
 
@@ -35,7 +35,7 @@ public class ElementController {
             @PathVariable("managerEmail") String managerEmail,
             @PathVariable("elementDomain") String elementDomain,
             @PathVariable("elementId") String elementId,
-            @RequestBody ElementBoundry element) {
+            @RequestBody ElementBoundary element) {
         this.elementService.updateElementDetails(managerDomain, managerEmail, elementDomain, elementId, element);
     }
 
@@ -43,7 +43,7 @@ public class ElementController {
     @RequestMapping(path = "/acs/elements/{userDomain}/{userEmail}/{elementDomain}/{elementId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ElementBoundry retrieveSpecificElements(
+    public ElementBoundary retrieveSpecificElements(
             @PathVariable("userDomain") String userDomain,
             @PathVariable("userEmail") String userEmail,
             @PathVariable("elementDomain") String elementDomain,
@@ -54,7 +54,7 @@ public class ElementController {
     @RequestMapping(path = "/acs/elements/{userDomain}/{userEmail}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ElementBoundry getAllElements(
+    public ElementBoundary getAllElements(
             @PathVariable("userDomain") String userDomain,
             @PathVariable("userEmail") String userEmail) {
         return this.elementService.getAllElements(userDomain, userEmail);

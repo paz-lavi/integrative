@@ -1,8 +1,7 @@
-package main.java.demo.acs.rest;
+package demo.acs.rest;
 
-import main.java.demo.acs.logic.ActionService;
-import main.java.demo.acs.rest.boudanries.ActionBoundary;
-import net.minidev.json.JSONObject;
+import demo.acs.logic.ActionService;
+import demo.acs.rest.boudanries.ActionBoundary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,8 +27,8 @@ public class ActionController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public JSONObject InvokeAnAction(@RequestBody ActionBoundary action) {
-        return this.actionService.InvokeAnAction(action);
+    public Object InvokeAnAction(@RequestBody ActionBoundary action) {
+        return this.actionService.InvokeAction(action);
     }
 
 }

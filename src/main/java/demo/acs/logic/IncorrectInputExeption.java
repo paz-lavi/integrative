@@ -1,4 +1,4 @@
-package main.java.demo.acs.logic;
+package demo.acs.logic;
 
 public class IncorrectInputExeption extends IllegalArgumentException{
 

@@ -1,34 +1,26 @@
-package demo.acs.rest.boudanries;
-
-import demo.acs.data.ActionId;
-import demo.acs.data.ElementId;
-import demo.acs.data.UserId;
+package demo.acs.data;
 
 import java.util.Date;
 import java.util.Map;
 
-public class ActionBoundary {
+public class ActionEntity {
     private ActionId actionId;
     private String type;
     private ElementId element;
-    private Date createdTimeStamp = new Date();
+    private Date createdTimeStamp;
     private UserId invokedBy;
     private Map<String, Object> actionAttributes;
 
-
-    public ActionBoundary() {
-
+    public ActionEntity() {
     }
 
-    public ActionBoundary(ActionId actionId, String type, ElementId element, Date createdTimeStamp, UserId invokedBy, Map<String, Object> actionAttributes) {
+    public ActionEntity(ActionId actionId, String type, ElementId element, Date createdTimeStamp, UserId invokedBy, Map<String, Object> actionAttributes) {
         this.actionId = actionId;
         this.type = type;
         this.element = element;
         this.createdTimeStamp = createdTimeStamp;
         this.invokedBy = invokedBy;
         this.actionAttributes = actionAttributes;
-
-
     }
 
     public ActionId getActionId() {
@@ -78,6 +70,4 @@ public class ActionBoundary {
     public void setActionAttributes(Map<String, Object> actionAttributes) {
         this.actionAttributes = actionAttributes;
     }
-
-
 }

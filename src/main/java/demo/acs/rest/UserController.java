@@ -1,16 +1,17 @@
-package main.java.demo.acs.rest;
+package demo.acs.rest;
 
-import main.java.demo.acs.logic.UserNotFoundException;
-import main.java.demo.acs.logic.InsafitiontInputExeption;
-import main.java.demo.acs.logic.IncorrectInputExeption; 
-import main.java.demo.acs.logic.UserService;
-import main.java.demo.acs.rest.boudanries.UserBoundry;
-import java.util.Collections;
-import java.util.Map;
+import demo.acs.logic.IncorrectInputExeption;
+import demo.acs.logic.InsafitiontInputExeption;
+import demo.acs.logic.UserNotFoundException;
+import demo.acs.logic.UserService;
+import demo.acs.rest.boudanries.UserBoundary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+import java.util.Map;
 
 @RestController
 public class UserController {
@@ -27,7 +28,7 @@ public class UserController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserBoundry createNewUser(@RequestBody UserBoundry boundry) {
+    public UserBoundary createNewUser(@RequestBody UserBoundary boundry) {
         return this.userService.createUser(boundry);
     }
 
@@ -35,7 +36,7 @@ public class UserController {
     @RequestMapping(path = "/acs/users/login/{userDomain}/{userEmail}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserBoundry loginAndRetrieveUserDetails(
+    public UserBoundary loginAndRetrieveUserDetails(
             @PathVariable("userDomain") String userDomain,
             @PathVariable("userEmail") String userEmail) {
         return this.userService.login(userDomain, userEmail);
@@ -47,19 +48,19 @@ public class UserController {
     public void updateUserDetails(
             @PathVariable("userDomain") String userDomain,
             @PathVariable("userEmail") String userEmail,
-            @RequestBody UserBoundry boundry) {
+            @RequestBody UserBoundary boundry) {
         this.userService.updateUser(userDomain, userEmail, boundry);
     }
     
     @RequestMapping(path = "/acs/users/getall/{adminDomain}/{adminEmail}",
     		method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public UserBoundry[] getAllDummies(
+    public UserBoundary[] getAllDummies(
 			@PathVariable("adminDomain") String adminDomain,
             @PathVariable("adminEmail") String adminEmail) {
 		return this.userService
 				.getAllUsers(adminDomain, adminEmail)
-				.toArray(new UserBoundry[0]);
+                .toArray(new UserBoundary[0]);
 	}
     
 	@RequestMapping(path = "/acs/users/deleteAll/{adminDomain}/{adminEmail}", 

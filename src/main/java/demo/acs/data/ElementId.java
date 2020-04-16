@@ -1,4 +1,4 @@
-package main.java.demo.acs.data;
+package demo.acs.data;
 
 public class ElementId {
     private String domain;

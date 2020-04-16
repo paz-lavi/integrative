@@ -1,13 +1,13 @@
-package main.java.demo.acs.rest.boudanries;
+package demo.acs.rest.boudanries;
 
-import main.java.demo.acs.data.ElementId;
-import main.java.demo.acs.data.Location;
-import main.java.demo.acs.data.UserId;
+import demo.acs.data.ElementId;
+import demo.acs.data.Location;
+import demo.acs.data.UserId;
 
 import java.util.Date;
 import java.util.Map;
 
-public class ElementBoundry {
+public class ElementBoundary {
     private ElementId elementId;
     private String type;
     private String name;
@@ -17,12 +17,12 @@ public class ElementBoundry {
     private Location location;
     private Map<String, Object> elementAttributes;
 
-    public ElementBoundry() {
+    public ElementBoundary() {
 
     }
 
-    public ElementBoundry(ElementId elementId, String type, String name, boolean active, Date createdTimeStamp,
-                          UserId createdBy, Location location, Map<String, Object> elementAttributes) {
+    public ElementBoundary(ElementId elementId, String type, String name, boolean active, Date createdTimeStamp,
+                           UserId createdBy, Location location, Map<String, Object> elementAttributes) {
         super();
         this.elementId = elementId;
         this.type = type;
