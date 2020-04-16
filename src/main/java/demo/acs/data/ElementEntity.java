@@ -3,7 +3,8 @@ package demo.acs.data;
 import java.util.Date;
 import java.util.Map;
 
-public class Element {
+public class ElementEntity {
+	private ElementId elementId;
     private String type;
     private String name;
     private boolean active;
@@ -11,7 +12,16 @@ public class Element {
     private UserId createdBy;
     private Location location;
     private Map<String, Object> elementAttributes;
-
+    
+    
+    public void setElementId(ElementId elementId) {
+        this.elementId = elementId;
+    }
+    
+    public ElementId getElementId() {
+    	return this.elementId;
+    }
+    
     public String getType() {
         return type;
     }

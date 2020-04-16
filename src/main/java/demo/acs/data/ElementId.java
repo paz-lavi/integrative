@@ -2,13 +2,13 @@ package demo.acs.data;
 
 public class ElementId {
     private String domain;
-    private int id;
+    private String id;
 
     public ElementId() {
 
     }
 
-    public ElementId(String domain, int id) {
+    public ElementId(String domain, String id) {
         super();
         this.domain = domain;
         this.id = id;
@@ -22,11 +22,11 @@ public class ElementId {
         this.domain = domain;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

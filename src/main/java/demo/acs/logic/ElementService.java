@@ -1,17 +1,20 @@
 package demo.acs.logic;
 
-import demo.acs.data.Element;
+import java.util.List;
+
+import demo.acs.data.ElementEntity;
 import demo.acs.rest.boudanries.ElementBoundary;
 
 public interface ElementService {
 
-    ElementBoundary createNewElement(Element element);
+    ElementBoundary create(String managerDomain, String managerEmail, ElementBoundary element);
 
-    void updateElementDetails(String domain, String email, String managerDomain, String managerEmail, ElementBoundary element);
+    ElementBoundary update(String managerDomain, String managerEmail, String elementDomain, String elementID, ElementBoundary update);
+    
+    List<ElementBoundary> getAll(String userDomain, String userEmail);
+    
+    ElementBoundary getSpecificElement(String userDomain, String userEmail, String elementDomain, String elementId);
 
-    ElementBoundary retrieveSpecificElements(String userDomain, String userEmail, String elementDomain, String elementId);
-
-    ElementBoundary getAllElements(String userDomain, String userEmail);
-
+    void deleteAllElements(String adminDomain, String adminEmail);
 
 }
