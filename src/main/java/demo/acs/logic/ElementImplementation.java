@@ -3,6 +3,7 @@ package demo.acs.logic;
 import demo.acs.data.ElementConverter;
 import demo.acs.data.ElementEntity;
 import demo.acs.data.ElementId;
+import demo.acs.data.UserEntity;
 import demo.acs.rest.boudanries.ElementBoundary;
 
 import java.util.Collections;
@@ -10,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -88,21 +90,27 @@ public class ElementImplementation implements ElementService {
 
 	@Override
 	public List<ElementBoundary> getAll(String userDomain, String userEmail) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.elementDatabase // Map<String, ElementEntity>
+				.values()           // Collection<ElementEntity>
+				.stream()		    // Stream<ElementEntity>				
+				.map(this.elementConverter::fromEntity)	// Stream<ElementBoundary>		
+				.collect(Collectors.toList()); // List<ElementBoundary>
 	}
 
 	@Override
 	public ElementBoundary getSpecificElement(String userDomain, String userEmail, String elementDomain,
 			String elementId) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ElementEntity existing = this.elementDatabase.get(elementId);
+		if (existing == null) {
+			throw new UserNotFoundException("could not find object by id: " + elementId);
+		}
+		return this.elementConverter.fromEntity(this.elementDatabase.get(elementId));
 	}
 
 	@Override
 	public void deleteAllElements(String adminDomain, String adminEmail) {
-		// TODO Auto-generated method stub
-		
+		this.elementDatabase.clear();
 	}
 
 
