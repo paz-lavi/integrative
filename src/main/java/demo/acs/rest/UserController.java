@@ -4,7 +4,7 @@ import main.java.demo.acs.logic.UserNotFoundException;
 import main.java.demo.acs.logic.InsafitiontInputExeption;
 import main.java.demo.acs.logic.IncorrectInputExeption; 
 import main.java.demo.acs.logic.UserService;
-import main.java.demo.acs.rest.boudanries.UserBoundry;
+import main.java.demo.acs.rest.boudanries.UserBoundary;
 import java.util.Collections;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +22,14 @@ public class UserController {
         super();
         this.userService = userService;
     }
+    
+    
 
     @RequestMapping(path = "/acs/users",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserBoundry createNewUser(@RequestBody UserBoundry boundry) {
+    public UserBoundary createNewUser(@RequestBody UserBoundary boundry) {
         return this.userService.createUser(boundry);
     }
 
@@ -35,7 +37,7 @@ public class UserController {
     @RequestMapping(path = "/acs/users/login/{userDomain}/{userEmail}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserBoundry loginAndRetrieveUserDetails(
+    public UserBoundary loginAndRetrieveUserDetails(
             @PathVariable("userDomain") String userDomain,
             @PathVariable("userEmail") String userEmail) {
         return this.userService.login(userDomain, userEmail);
@@ -47,19 +49,19 @@ public class UserController {
     public void updateUserDetails(
             @PathVariable("userDomain") String userDomain,
             @PathVariable("userEmail") String userEmail,
-            @RequestBody UserBoundry boundry) {
+            @RequestBody UserBoundary boundry) {
         this.userService.updateUser(userDomain, userEmail, boundry);
     }
     
     @RequestMapping(path = "/acs/users/getall/{adminDomain}/{adminEmail}",
     		method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public UserBoundry[] getAllDummies(
+	public UserBoundary[] getAllUsers(
 			@PathVariable("adminDomain") String adminDomain,
             @PathVariable("adminEmail") String adminEmail) {
 		return this.userService
 				.getAllUsers(adminDomain, adminEmail)
-				.toArray(new UserBoundry[0]);
+				.toArray(new UserBoundary[0]);
 	}
     
 	@RequestMapping(path = "/acs/users/deleteAll/{adminDomain}/{adminEmail}", 

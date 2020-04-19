@@ -3,17 +3,17 @@ package main.java.demo.acs.logic;
 import java.util.List;
 import java.util.Map;
 
-import main.java.demo.acs.rest.boudanries.UserBoundry;
+import main.java.demo.acs.rest.boudanries.UserBoundary;
 
 public interface UserService {
 
-    UserBoundry createUser(UserBoundry boundry);
+    UserBoundary createUser(UserBoundary boundry);
     
-    UserBoundry login(String userDomain, String userEmail);
+    UserBoundary login(String userDomain, String userEmail);
     
-    UserBoundry updateUser(String userDomain, String userEmail, UserBoundry update);
+    UserBoundary updateUser(String userDomain, String userEmail, UserBoundary update);
     
-    List<UserBoundry> getAllUsers(String adminDomain, String adminEmail);
+    List<UserBoundary> getAllUsers(String adminDomain, String adminEmail);
     
     void deleteAllUsers(String adminDomain, String adminEma);
 

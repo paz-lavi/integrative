@@ -4,18 +4,18 @@ package main.java.demo.acs.rest.boudanries;
 import main.java.demo.acs.data.UserRole;
 import main.java.demo.acs.data.UserId;
 
-public class UserBoundry {
+public class UserBoundary {
     private UserId userId;
     private UserRole role;
     private String username;
     private String avatar;
 
 
-    public UserBoundry() {
+    public UserBoundary() {
 
     }
 
-    public UserBoundry(UserId userId, UserRole role, String username, String avatar) {
+    public UserBoundary(UserId userId, UserRole role, String username, String avatar) {
         super();
         this.userId = userId;
         this.role = role;

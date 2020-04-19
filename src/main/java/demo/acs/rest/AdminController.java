@@ -2,7 +2,7 @@ package main.java.demo.acs.rest;
 
 import main.java.demo.acs.logic.AdminService;
 import main.java.demo.acs.rest.boudanries.ActionBoundary;
-import main.java.demo.acs.rest.boudanries.UserBoundry;
+import main.java.demo.acs.rest.boudanries.UserBoundary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,7 +71,7 @@ public class AdminController {
     @RequestMapping(path = "/acs/admin/users/{adminDomain}/{adminEmail}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserBoundry exportAllUsers(
+    public UserBoundary exportAllUsers(
             @PathVariable("adminDomain") String adminDomain,
             @PathVariable("adminEmail") String adminEmail) {
         return this.adminService.exportAllUsers(adminDomain, adminEmail);

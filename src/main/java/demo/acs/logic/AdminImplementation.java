@@ -1,7 +1,7 @@
 package main.java.demo.acs.logic;
 
 import main.java.demo.acs.rest.boudanries.ActionBoundary;
-import main.java.demo.acs.rest.boudanries.UserBoundry;
+import main.java.demo.acs.rest.boudanries.UserBoundary;
 import org.springframework.stereotype.Service;
 
 
@@ -25,7 +25,7 @@ public class AdminImplementation implements AdminService {
     }
 
     @Override
-    public UserBoundry exportAllUsers(String adminDomain, String adminEmail) {
+    public UserBoundary exportAllUsers(String adminDomain, String adminEmail) {
         return null;
     }
 

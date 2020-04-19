@@ -2,14 +2,14 @@ package main.java.demo.acs.data;
 
 import org.springframework.stereotype.Component;
 
-import main.java.demo.acs.rest.boudanries.UserBoundry;
+import main.java.demo.acs.rest.boudanries.UserBoundary;
 
 
 @Component
 public class UserConverter {
 	
-	public UserBoundry fromEntity(UserEntity entity) {
-		UserBoundry rv = new UserBoundry();
+	public UserBoundary fromEntity(UserEntity entity) {
+		UserBoundary rv = new UserBoundary();
 		rv.setAvatar(entity.getAvatar());
 		rv.setRole(entity.getRole());
 		rv.setUserId(entity.getUserId());
@@ -17,7 +17,7 @@ public class UserConverter {
 		return rv;
 	}
 	
-	public UserEntity toEntity(UserBoundry boundry) {
+	public UserEntity toEntity(UserBoundary boundry) {
 		UserEntity rv = new UserEntity();
 		rv.setAvatar(boundry.getAvatar());
 		rv.setRole(boundry.getRole());

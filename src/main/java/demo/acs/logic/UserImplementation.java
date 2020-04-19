@@ -4,7 +4,7 @@ import main.java.demo.acs.data.UserConverter;
 import main.java.demo.acs.data.UserEntity;
 import main.java.demo.acs.data.UserId;
 import main.java.demo.acs.data.UserRole;
-import main.java.demo.acs.rest.boudanries.UserBoundry;
+import main.java.demo.acs.rest.boudanries.UserBoundary;
 
 import java.util.Collections;
 import java.util.List;
@@ -48,7 +48,7 @@ public class UserImplementation implements UserService {
 	}
 
 	@Override
-	public UserBoundry createUser(UserBoundry boundry) {
+	public UserBoundary createUser(UserBoundary boundry) {
 		if(boundry.getAvatar() == null)
 			boundry.setAvatar(""); 
        
@@ -58,8 +58,7 @@ public class UserImplementation implements UserService {
 		UserId userid = boundry.getUserId();
         if(userid.getEmail() == null)
         	throw new InsafitiontInputExeption("Need email to create new user");
-    
-        if(userid.getEmail().isEmpty() || userid.getEmail() == null)
+        if(userid.getEmail().isEmpty())
         	throw new InsafitiontInputExeption("Need email to create new user");
         
         userid.setDomain(this.domain);
@@ -75,7 +74,7 @@ public class UserImplementation implements UserService {
 	}
 
 	@Override
-	public UserBoundry login(String userDomain, String userEmail) {
+	public UserBoundary login(String userDomain, String userEmail) {
 		UserId userId = new UserId();
 		userId.setDomain(userDomain);
 		userId.setEmail(userEmail);
@@ -89,7 +88,7 @@ public class UserImplementation implements UserService {
 	}
 
 	@Override
-	public UserBoundry updateUser(String userDomain, String userEmail, UserBoundry update) {
+	public UserBoundary updateUser(String userDomain, String userEmail, UserBoundary update) {
 		UserId userId = new UserId();
 		userId.setDomain(userDomain);
 		userId.setEmail(userEmail);
@@ -102,7 +101,7 @@ public class UserImplementation implements UserService {
 	}
 
 	@Override
-	public List<UserBoundry> getAllUsers(String adminDomain, String adminEmail) {
+	public List<UserBoundary> getAllUsers(String adminDomain, String adminEmail) {
 		return this.userDatabase // Map<String, DummyEntity>
 						.values()           // Collection<DummyEntity>
 						.stream()		    // Stream<DummyEntity>				
