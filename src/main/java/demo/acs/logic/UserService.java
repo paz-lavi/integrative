@@ -1,9 +1,9 @@
-package main.java.demo.acs.logic;
+package demo.acs.logic;
 
 import java.util.List;
 import java.util.Map;
 
-import main.java.demo.acs.rest.boudanries.UserBoundary;
+import demo.acs.rest.boudanries.UserBoundary;
 
 public interface UserService {
 

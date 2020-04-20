@@ -1,4 +1,4 @@
-package main.java.demo.acs.data;
+package demo.acs.data;
 
 public enum UserRole {
     PLAYER;

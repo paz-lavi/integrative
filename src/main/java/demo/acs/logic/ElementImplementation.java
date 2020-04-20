@@ -1,9 +1,9 @@
-package main.java.demo.acs.logic;
+package demo.acs.logic;
 
-import main.java.demo.Constants;
-import main.java.demo.acs.data.Element;
-import main.java.demo.acs.data.ElementId;
-import main.java.demo.acs.rest.boudanries.ElementBoundry;
+import demo.Constants;
+import demo.acs.data.Element;
+import demo.acs.data.ElementId;
+import demo.acs.rest.boudanries.ElementBoundry;
 import org.springframework.stereotype.Service;
 
 @Service

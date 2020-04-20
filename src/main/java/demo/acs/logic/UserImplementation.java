@@ -1,10 +1,10 @@
-package main.java.demo.acs.logic;
+package demo.acs.logic;
 
-import main.java.demo.acs.data.UserConverter;
-import main.java.demo.acs.data.UserEntity;
-import main.java.demo.acs.data.UserId;
-import main.java.demo.acs.data.UserRole;
-import main.java.demo.acs.rest.boudanries.UserBoundary;
+import demo.acs.data.UserConverter;
+import demo.acs.data.UserEntity;
+import demo.acs.data.UserId;
+import demo.acs.data.UserRole;
+import demo.acs.rest.boudanries.UserBoundary;
 
 import java.util.Collections;
 import java.util.List;

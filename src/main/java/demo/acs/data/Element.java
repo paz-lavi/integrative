@@ -1,4 +1,4 @@
-package main.java.demo.acs.data;
+package demo.acs.data;
 
 import java.util.Date;
 import java.util.Map;

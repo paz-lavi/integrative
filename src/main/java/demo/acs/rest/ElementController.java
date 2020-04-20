@@ -1,8 +1,8 @@
-package main.java.demo.acs.rest;
+package demo.acs.rest;
 
-import main.java.demo.acs.data.Element;
-import main.java.demo.acs.logic.ElementService;
-import main.java.demo.acs.rest.boudanries.ElementBoundry;
+import demo.acs.data.Element;
+import demo.acs.logic.ElementService;
+import demo.acs.rest.boudanries.ElementBoundry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

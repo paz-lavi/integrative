@@ -1,8 +1,8 @@
-package main.java.demo.acs.data;
+package demo.acs.data;
 
 import org.springframework.stereotype.Component;
 
-import main.java.demo.acs.rest.boudanries.UserBoundary;
+import demo.acs.rest.boudanries.UserBoundary;
 
 
 @Component

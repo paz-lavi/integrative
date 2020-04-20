@@ -1,10 +1,10 @@
-package main.java.demo.acs.rest;
+package demo.acs.rest;
 
-import main.java.demo.acs.logic.UserNotFoundException;
-import main.java.demo.acs.logic.InsafitiontInputExeption;
-import main.java.demo.acs.logic.IncorrectInputExeption; 
-import main.java.demo.acs.logic.UserService;
-import main.java.demo.acs.rest.boudanries.UserBoundary;
+import demo.acs.logic.UserNotFoundException;
+import demo.acs.logic.InsafitiontInputExeption;
+import demo.acs.logic.IncorrectInputExeption; 
+import demo.acs.logic.UserService;
+import demo.acs.rest.boudanries.UserBoundary;
 import java.util.Collections;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package test.java.demo;
+package demo;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import javax.annotation.PostConstruct;
@@ -11,9 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.web.client.RestTemplate;
 
-import main.java.demo.acs.data.UserId;
-import main.java.demo.acs.data.UserRole;
-import main.java.demo.acs.rest.boudanries.UserBoundary;
+import demo.acs.data.UserId;
+import demo.acs.data.UserRole;
+import demo.acs.rest.boudanries.UserBoundary;
 
 
 
@@ -22,6 +22,11 @@ public class UserTests {
 	private RestTemplate restTemplate;
 	private String url;
 	private int port;
+	
+	@Test
+	public void testContext() {
+		
+	}
 	
 	@LocalServerPort
 	public void setPort(int port) {
@@ -43,11 +48,6 @@ public class UserTests {
 	public void teardown() {
 		this.restTemplate
 			.delete(this.url);
-	}
-	
-	@Test
-	public void testContext() {
-		
 	}
 	
 	@Test

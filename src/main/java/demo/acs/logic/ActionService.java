@@ -1,6 +1,6 @@
-package main.java.demo.acs.logic;
+package demo.acs.logic;
 
-import main.java.demo.acs.rest.boudanries.ActionBoundary;
+import demo.acs.rest.boudanries.ActionBoundary;
 import net.minidev.json.JSONObject;
 
 public interface ActionService {

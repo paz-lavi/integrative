@@ -1,8 +1,8 @@
-package main.java.demo.acs.rest.boudanries;
+package demo.acs.rest.boudanries;
 
 
-import main.java.demo.acs.data.UserRole;
-import main.java.demo.acs.data.UserId;
+import demo.acs.data.UserRole;
+import demo.acs.data.UserId;
 
 public class UserBoundary {
     private UserId userId;
