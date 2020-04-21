@@ -535,5 +535,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="resources" level="project" />
   </component>
 </module>
