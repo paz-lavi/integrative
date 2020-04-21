@@ -82,24 +82,7 @@ public class UserController {
 						e.getMessage());
 	}
 	
-	@ExceptionHandler
-	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	public Map<String, Object> handleException (InsafitiontInputExeption e){
-		return Collections.singletonMap("error", 
-				(e.getMessage() == null)?
-						"Insafitiont input":
-						e.getMessage());
-	}
-	
-	@ExceptionHandler
-	@ResponseStatus(code = HttpStatus.CONFLICT)
-	public Map<String, Object> handleException (IncorrectInputExeption e){
-		return Collections.singletonMap("error", 
-				(e.getMessage() == null)?
-						"Incorrect input":
-						e.getMessage());
-	}
-	
+
 
 
 

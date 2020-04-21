@@ -47,7 +47,7 @@ public class UserTests {
 	@AfterEach
 	public void teardown() {
 		this.restTemplate
-			.delete(this.url);
+			.delete(this.url + "/deleteAll/{adminDomain}/{adminEmail}", "adminDomain", "adminEmail");
 	}
 	
 	@Test
@@ -64,14 +64,59 @@ public class UserTests {
 					UserBoundary.class).getUserId();
 		
 		// THEN the database contains a user with the id's mail attribute "test"
-			UserId actualId = 
+		UserId actualId = 
 					  this.restTemplate
-						.getForObject(this.url + "/login/{userDomain}/{userEmail}", UserBoundary.class, postedId)
+						.getForObject(this.url + "/login/{userDomain}/{userEmail}", 
+								UserBoundary.class, postedId.getDomain(), postedId.getEmail())
 						.getUserId();
 					
-					assertThat(actualId.getEmail())
+		assertThat(actualId.getEmail())
 						.isNotNull()
-						.isEqualTo(postedId.getEmail());
+						.isEqualTo(postedId.getEmail());					
 	}
+	
+	@Test
+	public void testNewUserWhithNameAndAvatarAsNaullThenDataBaseContainsUserWhithNameAndAvatarAsEmtyStrings() throws Exception{
+		// GIVEN the server is up
+	    // do nothing
+				
+		// WHEN I POST new user with name and avatar as nulls"
+		UserId postedId =
+		  this.restTemplate
+			.postForObject(this.url, 
+					new UserBoundary(new UserId("aaa", "test"), UserRole.PLAYER, null, null),
+					UserBoundary.class).getUserId();
+		
+		// THEN the database contains a user with name and avatar as empty strings
+		UserBoundary userBoundary = 
+					  this.restTemplate
+						.getForObject(this.url + "/login/{userDomain}/{userEmail}", 
+								UserBoundary.class, postedId.getDomain(), postedId.getEmail());
+					
+		assertThat(userBoundary.getUsername()).isNotNull();
+		assertThat(userBoundary.getAvatar()).isNotNull();
+	}
+	
+	public void testAfterDeleteAllDataBaseIsEmpty() {
+		// GIVEN the server is up and i admin
+	    //insert new user to database
+		this.restTemplate
+			.postForObject(this.url, 
+					new UserBoundary(new UserId("aaa", "test"), UserRole.PLAYER, null, null),
+					UserBoundary.class);
+	  
+		// When i delete all users 
+		this.restTemplate
+			.delete(this.url + "/deleteAll/{adminDomain}/{adminEmail}", "adminDomain", "adminEmail");
+		 	 
+		//Then database is empty
+		UserBoundary[] users = this.restTemplate.getForObject(this.url + "/getall/{adminDomain}/{adminEmail}",
+				UserBoundary[].class, "adminDomain", "adminEmail");
+		
+		assertThat(users).isEmpty();
+		
+	}
+	
+	
 	
 }
