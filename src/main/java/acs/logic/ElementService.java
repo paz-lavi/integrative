@@ -6,14 +6,14 @@ import java.util.List;
 
 public interface ElementService {
 
-    ElementBoundary create(String managerDomain, String managerEmail, ElementBoundary element);
+    public ElementBoundary create(String managerDomain, String managerEmail, ElementBoundary element);
 
-    ElementBoundary update(String managerDomain, String managerEmail, String elementDomain, String elementID, ElementBoundary update);
+    public ElementBoundary update(String managerDomain, String managerEmail, String elementDomain, String elementID, ElementBoundary update);
     
-    List<ElementBoundary> getAll(String userDomain, String userEmail);
+    public List<ElementBoundary> getAll(String userDomain, String userEmail);
     
-    ElementBoundary getSpecificElement(String userDomain, String userEmail, String elementDomain, String elementId);
+    public ElementBoundary getSpecificElement(String userDomain, String userEmail, String elementDomain, String elementId) throws Exception;
 
-    void deleteAllElements(String adminDomain, String adminEmail);
+    public void deleteAllElements(String adminDomain, String adminEmail);
 
 }

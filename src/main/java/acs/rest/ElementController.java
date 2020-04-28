@@ -1,24 +1,52 @@
 package acs.rest;
 
 import acs.logic.ElementService;
+import acs.logic.IncorrectInputExeption;
+import acs.logic.InsafitiontInputExeption;
+import acs.logic.UserNotFoundException;
 import acs.rest.boudanries.ElementBoundary;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 @RestController
 public class ElementController {
 
     private ElementService elementService;
 
-    @Autowired
     public ElementController(ElementService elementService) {
         super();
         this.elementService = elementService;
     }
 
+    @Autowired
+    public ElementController() {
+	}
+    
+    @Autowired
+    public void setElementService(ElementService elementService) {
+		this.elementService = elementService;
+	}
+    
+	// invoked by spring after singleton is created and after injections
+	@PostConstruct
+	public void init() {
+		System.err.println("***** 2020b.ari.kuznicki");
+	}
+	
+	// invoked by spring when it is shutting down gracefully
+	@PreDestroy
+	public void byeBye() {
+		System.err.println("elementController is about to be destroyed...");
+	}
 
     @RequestMapping(path = "/acs/elements/{managerDomain}/{managerEmail}",
             method = RequestMethod.POST,
@@ -50,7 +78,7 @@ public class ElementController {
             @PathVariable("userDomain") String userDomain,
             @PathVariable("userEmail") String userEmail,
             @PathVariable("elementDomain") String elementDomain,
-            @PathVariable("elementId") String elementId) {
+            @PathVariable("elementId") String elementId) throws Exception {
         return this.elementService.getSpecificElement(userDomain, userEmail, elementDomain, elementId);
     }
 
@@ -62,4 +90,32 @@ public class ElementController {
             @PathVariable("userEmail") String userEmail) {
         return this.elementService.getAll(userDomain, userEmail);
     }
+    
+	@ExceptionHandler
+	@ResponseStatus(code = HttpStatus.NOT_FOUND)
+	public Map<String, Object> handleException (UserNotFoundException e){
+		return Collections.singletonMap("error", 
+				(e.getMessage() == null)?
+						"Element was not found":
+						e.getMessage());
+	}
+	
+	@ExceptionHandler
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public Map<String, Object> handleException (InsafitiontInputExeption e){
+		return Collections.singletonMap("error", 
+				(e.getMessage() == null)?
+						"Insofficient input":
+						e.getMessage());
+	}
+	
+	@ExceptionHandler
+	@ResponseStatus(code = HttpStatus.CONFLICT)
+	public Map<String, Object> handleException (IncorrectInputExeption e){
+		return Collections.singletonMap("error", 
+				(e.getMessage() == null)?
+						"Incorrect input":
+						e.getMessage());
+	}
+	
 }

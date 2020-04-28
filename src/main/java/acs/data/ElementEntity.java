@@ -7,13 +7,18 @@ public class ElementEntity {
 	private ElementId elementId;
     private String type;
     private String name;
-    private boolean active;
+    private boolean isActive;
     private Date createdTimeStamp = new Date();
     private UserId createdBy;
     private Location location;
     private Map<String, Object> elementAttributes;
     
-    
+    public ElementEntity() {
+    }
+    public ElementEntity(ElementId id) {
+    	this.elementId = id;
+    }
+
     public void setElementId(ElementId elementId) {
         this.elementId = elementId;
     }
@@ -39,11 +44,11 @@ public class ElementEntity {
     }
 
     public boolean isActive() {
-        return active;
+        return isActive;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setIsActive(boolean active) {
+        this.isActive = active;
     }
 
     public Date getCreatedTimeStamp() {

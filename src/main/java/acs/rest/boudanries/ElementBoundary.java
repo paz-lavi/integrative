@@ -41,7 +41,7 @@ public class ElementBoundary {
     public void setElementId(ElementId elementId) {
         this.elementId = elementId;
     }
-
+    
     public String getType() {
         return type;
     }
@@ -62,7 +62,7 @@ public class ElementBoundary {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setIsActive(boolean active) {
         this.active = active;
     }
 
