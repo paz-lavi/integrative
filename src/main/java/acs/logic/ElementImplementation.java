@@ -43,6 +43,7 @@ public class ElementImplementation implements ElementService {
 		
 		element.setElementId(id);
 		
+		
 		UserId userId = new UserId();
 		userId.setDomain(managerDomain);
 		userId.setEmail(managerEmail);

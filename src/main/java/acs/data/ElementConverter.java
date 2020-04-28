@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 	@Component
 	public class ElementConverter {
-		
 		public ElementBoundary fromEntity(ElementEntity entity) {
 			ElementBoundary rv = new ElementBoundary();
 			rv.setElementId(entity.getElementId());

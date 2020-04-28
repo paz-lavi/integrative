@@ -18,9 +18,9 @@ public class ElementBoundary {
     private Map<String, Object> elementAttributes;
 
     public ElementBoundary() {
-
     }
 
+    
     public ElementBoundary(ElementId elementId, String type, String name, boolean active, Date createdTimeStamp,
                            UserId createdBy, Location location, Map<String, Object> elementAttributes) {
         super();

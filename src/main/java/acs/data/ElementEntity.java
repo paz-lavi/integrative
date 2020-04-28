@@ -13,6 +13,7 @@ public class ElementEntity {
     private Location location;
     private Map<String, Object> elementAttributes;
     
+    
     public ElementEntity() {
     }
     public ElementEntity(ElementId id) {
