@@ -12,9 +12,9 @@ public interface AdminService {
     public void deleteAllActionsInTheSystem(String adminDomain, String adminEmail);
 
 
-    UserBoundary exportAllUsers(String adminDomain, String adminEmail);
+    public UserBoundary exportAllUsers(String adminDomain, String adminEmail);
 
-    ActionBoundary exportAllActions(String adminDomain, String adminEmail);
+    public ActionBoundary exportAllActions(String adminDomain, String adminEmail);
 
 
 }
