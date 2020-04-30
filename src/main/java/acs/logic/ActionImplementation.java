@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -20,32 +21,23 @@ import java.util.stream.Collectors;
 public class ActionImplementation implements ActionService {
     private ActionConverter actionConverter;
     private Map<ActionId, ActionEntity> actionsDatabase;
-    //private String domain;
-
-
-//    // injection of value from the spring boot configuration
-//    @Value("${spring.application.name:demo}")
-//    @PostConstruct
-//    public void init(String domain) {
-//        // since this class is a singleton, we generate a thread safe collection
-//        this.actionsDatabase = Collections.synchronizedMap(new TreeMap<>());
-//    }
-
+    
+    
     @Autowired
     public ActionImplementation(ActionConverter actionConverter) {
         this.actionConverter = actionConverter;
     }
-
+    
     @PostConstruct
     public void init() {
         // since this class is a singleton, we generate a thread safe collection
-        this.actionsDatabase = Collections.synchronizedMap(new TreeMap<>());
+        this.actionsDatabase = Collections.synchronizedMap(new HashMap<>());
     }
 
     @Override
     public Object InvokeAction(ActionBoundary action) {
         actionsDatabase.put(action.getActionId(), this.actionConverter.toEntity(action));
-        return "item added to map";
+        return (Object)action;
     }
 
     @Override
@@ -60,6 +52,5 @@ public class ActionImplementation implements ActionService {
     @Override
     public void deleteAllActions(String adminDomain, String adminEmail) {
         actionsDatabase.clear();
-
     }
 }
