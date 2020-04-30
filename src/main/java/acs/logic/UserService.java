@@ -6,15 +6,15 @@ import java.util.List;
 
 public interface UserService {
 
-    UserBoundary createUser(UserBoundary boundry);
+    public UserBoundary createUser(UserBoundary boundry);
 
-    UserBoundary login(String userDomain, String userEmail);
+    public UserBoundary login(String userDomain, String userEmail);
 
-    UserBoundary updateUser(String userDomain, String userEmail, UserBoundary update);
+    public UserBoundary updateUser(String userDomain, String userEmail, UserBoundary update);
 
-    List<UserBoundary> getAllUsers(String adminDomain, String adminEmail);
+    public List<UserBoundary> getAllUsers(String adminDomain, String adminEmail);
 
-    void deleteAllUsers(String adminDomain, String adminEmail);
+    public void deleteAllUsers(String adminDomain, String adminEmail);
 
 
 }
