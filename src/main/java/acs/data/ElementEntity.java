@@ -2,7 +2,29 @@ package acs.data;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
+//import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import acs.dal.MapToJsonConverter;
+
+
+@Entity
+@Table(name="Elements")
 public class ElementEntity {
 	private ElementId elementId;
     private String type;
@@ -12,6 +34,9 @@ public class ElementEntity {
     private UserId createdBy;
     private Location location;
     private Map<String, Object> elementAttributes;
+	private Set<ElementEntity> responses;
+	private ElementEntity origin;
+
     
     
     public ElementEntity() {
@@ -24,6 +49,7 @@ public class ElementEntity {
         this.elementId = elementId;
     }
     
+    @Id
     public ElementId getElementId() {
     	return this.elementId;
     }
@@ -44,14 +70,15 @@ public class ElementEntity {
         this.name = name;
     }
 
-    public boolean isActive() {
+    public boolean getActive() {
         return isActive;
     }
 
-    public void setIsActive(boolean active) {
+    public void setActive(boolean active) {
         this.isActive = active;
     }
 
+    @Temporal(TemporalType.TIMESTAMP)
     public Date getCreatedTimeStamp() {
         return createdTimeStamp;
     }
@@ -76,6 +103,8 @@ public class ElementEntity {
         this.location = location;
     }
 
+	@Convert(converter = MapToJsonConverter.class)
+	@Lob
     public Map<String, Object> getElementAttributes() {
         return elementAttributes;
     }
@@ -83,5 +112,32 @@ public class ElementEntity {
     public void setElementAttributes(Map<String, Object> elementAttributes) {
         this.elementAttributes = elementAttributes;
     }
-
+    
+	@Transient
+	public String getDummyDetails() {
+		return "details of dummy: " +this.elementAttributes.toString();
+	}
+	
+	@ManyToOne
+	public ElementEntity getOrigin() {
+		return origin;
+	}
+	
+	public void setOrigin(ElementEntity origin) {
+		this.origin = origin;
+	}
+	
+	@OneToMany(mappedBy = "origin")
+	public Set<ElementEntity> getResponses() {
+		return responses;
+	}
+	
+	public void setResponses(Set<ElementEntity> responses) {
+		this.responses = responses;
+	}
+	
+	public void addResponse (ElementEntity response) {
+		this.responses.add(response);
+		response.setOrigin(this);
+	}
 }

@@ -97,7 +97,7 @@ public class ElementImplementation implements ElementService {
 		}
 		
 		if (update.isActive() != false) {
-			existing.setIsActive(true);
+			existing.setActive(true);
 		}
 		
 		existing.setCreatedTimeStamp(new Date());
