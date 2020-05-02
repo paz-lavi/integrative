@@ -20,6 +20,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.checkerframework.common.value.qual.BoolVal;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.BooleanString;
+
 import acs.dal.MapToJsonConverter;
 
 
@@ -27,6 +30,7 @@ import acs.dal.MapToJsonConverter;
 @Table(name="Elements")
 public class ElementEntity {
 	private ElementId elementId;
+	private String id;
     private String type;
     private String name;
     private boolean isActive;
@@ -48,12 +52,17 @@ public class ElementEntity {
     public void setElementId(ElementId elementId) {
         this.elementId = elementId;
     }
-    
-    @Id
+    @Transient
     public ElementId getElementId() {
     	return this.elementId;
     }
-    
+    @Id
+    public String getId() {
+    	return id;
+    }
+    public void setId() {
+    	this.id = elementId.getId();
+    }
     public String getType() {
         return type;
     }
@@ -70,6 +79,7 @@ public class ElementEntity {
         this.name = name;
     }
 
+    @Transient
     public boolean getActive() {
         return isActive;
     }
@@ -87,6 +97,7 @@ public class ElementEntity {
         this.createdTimeStamp = createdTimeStamp;
     }
 
+    @Transient
     public UserId getCreatedBy() {
         return createdBy;
     }
@@ -95,6 +106,7 @@ public class ElementEntity {
         this.createdBy = createdBy;
     }
 
+    @Transient
     public Location getLocation() {
         return location;
     }
