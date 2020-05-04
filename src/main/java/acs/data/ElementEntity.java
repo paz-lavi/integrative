@@ -2,7 +2,6 @@ package acs.data;
 
 import java.util.Date;
 import java.util.Map;
-import java.util.HashSet;
 import java.util.Set;
 
 //import javax.persistence.Column;
@@ -30,7 +29,6 @@ import acs.dal.MapToJsonConverter;
 @Table(name="Elements")
 public class ElementEntity {
 	private ElementId elementId;
-	private String id;
     private String type;
     private String name;
     private boolean isActive;
@@ -54,17 +52,11 @@ public class ElementEntity {
     }
     
     @Id
-    @Lob
+    @Embedded
     public ElementId getElementId() {
     	return this.elementId;
     }
     
-//    public String getId() {
-//    	return id;
-//    }
-//    public void setId() {
-//    	this.id = elementId.getId();
-//    }
     public String getType() {
         return type;
     }
@@ -81,7 +73,6 @@ public class ElementEntity {
         this.name = name;
     }
 
-    @Transient
     public boolean getActive() {
         return isActive;
     }
@@ -108,7 +99,7 @@ public class ElementEntity {
         this.createdBy = createdBy;
     }
 
-    @Transient
+    @Embedded
     public Location getLocation() {
         return location;
     }
@@ -127,11 +118,6 @@ public class ElementEntity {
         this.elementAttributes = elementAttributes;
     }
     
-//	@Transient
-//	public String getDummyDetails() {
-//		return "details of dummy: " +this.elementAttributes.toString();
-//	}
-	
 	@ManyToOne
 	public ElementEntity getOrigin() {
 		return origin;

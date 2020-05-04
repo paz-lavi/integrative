@@ -1,7 +1,16 @@
 package acs.data;
 
-public class ElementId implements Comparable<Object> {
-    private String domain;
+import java.io.Serializable;
+
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class ElementId implements Comparable<Object>, Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String domain;
     private String id;
 
     
