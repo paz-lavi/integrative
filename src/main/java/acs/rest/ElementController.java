@@ -1,6 +1,5 @@
 package acs.rest;
 
-import acs.logic.ElementService;
 import acs.logic.EnhancedElementService;
 import acs.logic.IncorrectInputExeption;
 import acs.logic.InsafitiontInputExeption;

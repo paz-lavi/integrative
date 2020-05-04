@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.stereotype.Service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -172,7 +171,7 @@ public class DbElementServiceImplementation implements EnhancedElementService{
 
 	// origin<----->response
 	@Transactional
-	public void connectDummies (String originId, String responseId) {
+	public void connectElements (String originId, String responseId) {
 		ElementEntity origin = this.elementDao.findById(originId)
 				.orElseThrow(()->
 						new RuntimeException("could not find origin by id:" + originId));
