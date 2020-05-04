@@ -1,6 +1,7 @@
 package acs.rest;
 
 import acs.logic.ElementService;
+import acs.logic.EnhancedElementService;
 import acs.logic.IncorrectInputExeption;
 import acs.logic.InsafitiontInputExeption;
 import acs.logic.UserNotFoundException;
@@ -22,9 +23,9 @@ import javax.annotation.PreDestroy;
 @RestController
 public class ElementController {
 
-    private ElementService elementService;
+    private EnhancedElementService elementService;
 
-    public ElementController(ElementService elementService) {
+    public ElementController(EnhancedElementService elementService) {
         super();
         this.elementService = elementService;
     }
@@ -34,7 +35,7 @@ public class ElementController {
 	}
     
     @Autowired
-    public void setElementService(ElementService elementService) {
+    public void setElementService(EnhancedElementService elementService) {
 		this.elementService = elementService;
 	}
     

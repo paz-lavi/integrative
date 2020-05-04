@@ -52,17 +52,19 @@ public class ElementEntity {
     public void setElementId(ElementId elementId) {
         this.elementId = elementId;
     }
-    @Transient
+    
+    @Id
+    @Lob
     public ElementId getElementId() {
     	return this.elementId;
     }
-    @Id
-    public String getId() {
-    	return id;
-    }
-    public void setId() {
-    	this.id = elementId.getId();
-    }
+    
+//    public String getId() {
+//    	return id;
+//    }
+//    public void setId() {
+//    	this.id = elementId.getId();
+//    }
     public String getType() {
         return type;
     }
@@ -125,10 +127,10 @@ public class ElementEntity {
         this.elementAttributes = elementAttributes;
     }
     
-	@Transient
-	public String getDummyDetails() {
-		return "details of dummy: " +this.elementAttributes.toString();
-	}
+//	@Transient
+//	public String getDummyDetails() {
+//		return "details of dummy: " +this.elementAttributes.toString();
+//	}
 	
 	@ManyToOne
 	public ElementEntity getOrigin() {
