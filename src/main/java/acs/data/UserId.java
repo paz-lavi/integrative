@@ -1,7 +1,11 @@
 package acs.data;
 
-public class UserId implements Comparable<Object>{
-    private String domain;
+import java.io.Serializable;
+
+public class UserId implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	private String domain;
     private String email;
 
 
@@ -31,7 +35,12 @@ public class UserId implements Comparable<Object>{
         this.email = email;
     }
 
-    @Override
+	@Override
+	public String toString() {
+		return "UserId [domain=" + domain + ", email=" + email + "]";
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -61,18 +70,5 @@ public class UserId implements Comparable<Object>{
 			return false;
 		return true;
 	}
-
-	@Override
-	public int compareTo(Object o) {
-		UserId id = (UserId)o;
-		return this.getEmail().compareTo(id.getEmail());
-	}
-
-	@Override
-	public String toString() {
-		return "UserId [domain=" + domain + ", email=" + email + "]";
-	}
-	
-	
 
 }

@@ -1,8 +1,8 @@
 package acs.logic;
 
-import acs.rest.boudanries.UserBoundary;
-
 import java.util.List;
+
+import acs.rest.boudanries.UserBoundary;
 
 public interface UserService {
 

@@ -1,32 +1,47 @@
 package acs.data;
 
+import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+
+@Entity
+@Table(name="USERS")
 public class UserEntity {
-	 private UserId userId;
-	    private UserRole role;
-	    private String username;
-	    private String avatar;
+	@EmbeddedId
+	private UserId userId;
+	private UserRole role;
+	private String username;
+	private String avatar;
 
 
-	    public UserEntity() {
+	public UserEntity() {
 
-	    }
+    }
 
-	    public UserEntity(UserId userId, UserRole role, String username, String avatar) {
-	        super();
-	        this.userId = userId;
-	        this.role = role;
-	        this.username = username;
-	        this.avatar = avatar;
-	    }
-
-	    public UserId getUserId() {
-	        return userId;
-	    }
+	public UserEntity(UserId userId, UserRole role, String username, String avatar) {
+        super();
+        this.userId = userId;
+        this.role = role;
+        this.username = username;
+        this.avatar = avatar;
+	}
+	@Embedded   
+    @Id
+    public UserId getUserId() {
+    return userId;
+    }
 
 	    public void setUserId(UserId userId) {
 	        this.userId = userId;
 	    }
-
+        
+	    @Enumerated(EnumType.STRING)
 	    public UserRole getRole() {
 	        return role;
 	    }
@@ -34,7 +49,7 @@ public class UserEntity {
 	    public void setRole(UserRole role) {
 	        this.role = role;
 	    }
-
+	
 	    public String getUsername() {
 	        return username;
 	    }
@@ -57,7 +72,4 @@ public class UserEntity {
 					+ "]";
 		}
 	    
-	    
-
-
 	}

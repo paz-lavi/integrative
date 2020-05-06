@@ -1,10 +1,11 @@
 package acs.rest;
 
+import acs.rest.boudanries.UserBoundary;
 import acs.logic.IncorrectInputExeption;
 import acs.logic.InsafitiontInputExeption;
+import acs.logic.UserImplementationDB_H2;
 import acs.logic.UserNotFoundException;
-import acs.logic.UserService;
-import acs.rest.boudanries.UserBoundary;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,10 +17,10 @@ import java.util.Map;
 @RestController
 public class UserController {
 
-    private UserService userService;
+    private UserImplementationDB_H2 userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserImplementationDB_H2 userService) {
         super();
         this.userService = userService;
     }

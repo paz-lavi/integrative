@@ -1,9 +1,10 @@
 package acs.logic;
 
+import acs.rest.boudanries.UserBoundary;
 import acs.data.UserConverter;
 import acs.data.UserEntity;
 import acs.data.UserId;
-import acs.rest.boudanries.UserBoundary;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
