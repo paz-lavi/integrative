@@ -1,13 +1,8 @@
 package acs.logic;
 
-import java.util.List;
 import java.util.Set;
-
 import acs.rest.boudanries.ElementBoundary;
 import acs.rest.boudanries.ElementIdBoundary;
-
-
-
 
 public interface EnhancedElementService extends ElementService{
 		

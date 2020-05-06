@@ -25,11 +25,11 @@ public class ElementId implements Comparable<Object>, Serializable {
         this.id = id;
     }
 
-    public String getDomain() {
+    public String getElementDomain() {
         return domain;
     }
 
-    public void setDomain(String domain) {
+    public void setElementDomain(String domain) {
         this.domain = domain;
     }
 

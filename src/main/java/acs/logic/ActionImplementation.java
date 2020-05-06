@@ -47,26 +47,12 @@ public class ActionImplementation implements ActionService {
     @Override
     public Object InvokeAction(ActionBoundary action) {
     	ActionId aid = new ActionId();
-    	aid.setDomain(this.domain);
-    	aid.setId(ActionIdGenerator.nextValue());
+    	aid.setActionDomain(this.domain);
+    	aid.setActionId(ActionIdGenerator.nextValue());
     	action.setActionId(aid);
         actionsDatabase.put(action.getActionId(), this.actionConverter.toEntity(action));
         return (Object)action;
     }
-
-
-
-//    @Override
-//    public Object InvokeAction(ActionBoundary action) {
-//    	ActionId aid = new ActionId();
-//    	aid.setDomain(this.domain);
-//    	aid.setId(ActionIdGenerator.nextValue());
-//    	action.setActionId(aid);
-//        actionsDatabase.put(action.getActionId().toString(), this.actionConverter.toEntity(action));
-//        return (Object)action;
-//    }
-
-    
     
     @Override
     public List<ActionBoundary> getAllActions(String adminDomain, String adminEmail) {

@@ -22,19 +22,19 @@ public class ActionId implements Serializable{
         this.actionID = actionID;
     }
 
-    public String getDomain() {
+    public String getActionDomain() {
         return actionDomain;
     }
 
-    public void setDomain(String actionDomain) {
+    public void setActionDomain(String actionDomain) {
         this.actionDomain = actionDomain;
     }
 
-    public int getId() {
+    public int getActionId() {
         return actionID;
     }
 
-    public void setId(int actionID) {
+    public void setActionId(int actionID) {
         this.actionID = actionID;
     }
 

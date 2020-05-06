@@ -3,7 +3,7 @@ package acs.rest;
 import acs.rest.boudanries.UserBoundary;
 import acs.logic.IncorrectInputExeption;
 import acs.logic.InsafitiontInputExeption;
-import acs.logic.UserImplementationDB_H2;
+import acs.logic.UserServiceImplementationDB;
 import acs.logic.UserNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +17,10 @@ import java.util.Map;
 @RestController
 public class UserController {
 
-    private UserImplementationDB_H2 userService;
+    private UserServiceImplementationDB userService;
 
     @Autowired
-    public UserController(UserImplementationDB_H2 userService) {
+    public UserController(UserServiceImplementationDB userService) {
         super();
         this.userService = userService;
     }

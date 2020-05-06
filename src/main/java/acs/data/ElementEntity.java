@@ -15,7 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import acs.dal.MapToJsonConverter;
 
 
@@ -84,7 +83,7 @@ public class ElementEntity {
         this.createdTimeStamp = createdTimeStamp;
     }
 
-    @Transient
+    @Embedded
     public UserId getCreatedBy() {
         return createdBy;
     }

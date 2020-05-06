@@ -39,7 +39,7 @@ public class ElementImplementation implements ElementService {
 	public ElementBoundary create(String managerDomain, String managerEmail, ElementBoundary element) {
 		ElementId id = new ElementId();
 		id.setId(UUID.randomUUID().toString());
-		id.setDomain(domain);
+		id.setElementDomain(domain);
 		
 		element.setElementId(id);
 		
@@ -82,7 +82,7 @@ public class ElementImplementation implements ElementService {
 			ElementBoundary update) {
 		
 		ElementId id = new ElementId();
-		id.setDomain(elementDomain);
+		id.setElementDomain(elementDomain);
 		id.setId(elementID);
 		
 		ElementEntity existing = this.elementDatabase.get(id);
@@ -129,7 +129,7 @@ public class ElementImplementation implements ElementService {
 			String elementId) throws Exception {
 		
 		ElementId id = new ElementId();
-		id.setDomain(elementDomain);
+		id.setElementDomain(elementDomain);
 		id.setId(elementId);
 		
 		ElementEntity existing = this.elementDatabase.get(id);

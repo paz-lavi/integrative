@@ -18,7 +18,13 @@ public class ElementBoundary {
     private Map<String, Object> elementAttributes;
 
     public ElementBoundary() {
+    	this.createdBy = new UserId("dummy", "user");
     }
+
+	public ElementBoundary(UserId id, String message) {
+		this();
+		this.createdBy = id;
+	}
 
     
     public ElementBoundary(ElementId elementId, String type, String name, boolean active, Date createdTimeStamp,
