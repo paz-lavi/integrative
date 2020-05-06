@@ -3,6 +3,7 @@ package acs.logic;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -21,6 +22,7 @@ import acs.data.ElementId;
 import acs.data.Location;
 import acs.data.UserId;
 import acs.rest.boudanries.ElementBoundary;
+import acs.rest.boudanries.ElementIdBoundary;
 
 
 @Service
@@ -115,7 +117,7 @@ public class DbElementServiceImplementation implements EnhancedElementService{
 	public ElementBoundary getSpecificElement(String userDomain, String userEmail, String elementDomain,
 			String elementId) throws Exception {
 		
-		Optional<ElementEntity> existing = this.elementDao.findById(elementId);
+		Optional<ElementEntity> existing = this.elementDao.findById(new ElementId(elementDomain,elementId));
 		
 		if (existing.isPresent()) {
 			return this.converter
@@ -138,7 +140,7 @@ public class DbElementServiceImplementation implements EnhancedElementService{
 		id.setDomain(elementDomain);
 		id.setId(elementID);
 		
-		ElementEntity existing = this.elementDao.findById(elementID)
+		ElementEntity existing = this.elementDao.findById(new ElementId(elementDomain,elementID))
 		.orElseThrow(()->new RuntimeException("could not find object by id: " + id));
 		
 		if (update.getName() != null) {
@@ -169,32 +171,63 @@ public class DbElementServiceImplementation implements EnhancedElementService{
 					this.elementDao.save(existing));
 	}
 
-	// origin<----->response
-	@Transactional
-	public void connectElements (String originId, String responseId) {
-		ElementEntity origin = this.elementDao.findById(originId)
-				.orElseThrow(()->
-						new RuntimeException("could not find origin by id:" + originId));
-		
-		ElementEntity response = this.elementDao.findById(responseId)
-				.orElseThrow(()->
-						new RuntimeException("could not find response by id:" + responseId));
 
-		origin.addResponse(response);
-		this.elementDao.save(origin);
-	}
 	
+
+	@Override
+	@Transactional
+	public void bind(String managerDomain, String managerEmail, String elementDomain, String elementID,
+			ElementIdBoundary update) {
+	
+		ElementEntity parentExisting = this.elementDao.findById(new ElementId(elementDomain,elementID))
+				.orElseThrow(()->new RuntimeException("could not find object by id: " + elementID));
+		
+		ElementEntity childExisting = this.elementDao.findById(new ElementId(elementDomain,elementID))
+				.orElseThrow(()->new RuntimeException("could not find object by id: " + update.getId()));
+		
+		//Add child
+		parentExisting.addResponse(childExisting);
+		this.elementDao.save(parentExisting);
+	
+
+			
+	}
+
 	@Override
 	@Transactional(readOnly = true)
-	public Set<ElementBoundary> getAllResponses (String originId) {
-		ElementEntity origin = this.elementDao.findById(originId)
-				.orElseThrow(()->
-						new RuntimeException("could not find origin by id:" + originId));
+	public Set<ElementBoundary> getAllChildrensOfElement(String userDomain, String userEmail, String elementDomain,
+			String elementId) {
 		
-		return origin
-			.getResponses()
-			.stream()
-			.map(this.converter::fromEntity)
-			.collect(Collectors.toSet());
+		// get entity objects from database
+		ElementEntity elementExisting = this.elementDao.findById(new ElementId(elementDomain,elementId))
+				.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));
+		
+		return elementExisting
+				.getResponses()
+				.stream()
+				.map(this.converter::fromEntity)
+				.collect(Collectors.toSet());
+		
+		
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Set<ElementBoundary> getAllParentsOfElement(String userDomain, String userEmail, String elementDomain,
+			String elementId) {
+		
+		// get entity objects from database
+		ElementEntity elementExisting = this.elementDao.findById(new ElementId(elementDomain,elementId))
+				.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));
+		
+		Set<ElementBoundary> rv = new HashSet<>(); 
+		
+		while(elementExisting.getOrigin()!=null) {
+			rv.add(this.converter.fromEntity(elementExisting.getOrigin()));
+			elementExisting=elementExisting.getOrigin();
+		}
+		
+		return rv;
+	}
+	
 }

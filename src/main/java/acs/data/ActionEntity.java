@@ -3,6 +3,20 @@ package acs.data;
 import java.util.Date;
 import java.util.Map;
 
+import javax.persistence.Convert;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import acs.dal.MapToJsonConverter;
+
+@Entity
+@Table(name="Actions")
 public class ActionEntity {
     private ActionId actionId;
     private String type;
@@ -23,6 +37,8 @@ public class ActionEntity {
         this.actionAttributes = actionAttributes;
     }
 
+    @Id
+    @Embedded
     public ActionId getActionId() {
         return actionId;
     }
@@ -46,7 +62,8 @@ public class ActionEntity {
     public void setElement(ElementId element) {
         this.element = element;
     }
-
+    
+    @Temporal(TemporalType.TIMESTAMP)
     public Date getCreatedTimeStamp() {
         return createdTimeStamp;
     }
@@ -54,7 +71,8 @@ public class ActionEntity {
     public void setCreatedTimeStamp(Date createdTimeStamp) {
         this.createdTimeStamp = createdTimeStamp;
     }
-
+    
+    @Transient
     public UserId getInvokedBy() {
         return invokedBy;
     }
@@ -63,6 +81,8 @@ public class ActionEntity {
         this.invokedBy = invokedBy;
     }
 
+    @Convert(converter = MapToJsonConverter.class)
+	@Lob
     public Map<String, Object> getActionAttributes() {
         return actionAttributes;
     }

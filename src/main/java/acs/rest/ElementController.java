@@ -5,6 +5,8 @@ import acs.logic.IncorrectInputExeption;
 import acs.logic.InsafitiontInputExeption;
 import acs.logic.UserNotFoundException;
 import acs.rest.boudanries.ElementBoundary;
+import acs.rest.boudanries.ElementIdBoundary;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -92,6 +95,48 @@ public class ElementController {
             @PathVariable("userEmail") String userEmail) {
         return this.elementService.getAll(userDomain, userEmail);
     }
+    
+    // Tal and Yahel ElementsId Methods Sprint 4:
+    
+    @RequestMapping(path = "/acs/elements/{managerDomain}/{managerEmail}/{elementDomain}/{elementId}/children",
+            method = RequestMethod.PUT,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void bindElementToExistParent(
+            @PathVariable("managerDomain") String managerDomain,
+            @PathVariable("managerEmail") String managerEmail,
+            @PathVariable("elementDomain") String elementDomain,
+            @PathVariable("elementId") String elementId,
+            @RequestBody ElementIdBoundary element) {
+        this.elementService.bind(managerDomain, managerEmail, elementDomain, elementId, element);
+    }
+    
+    
+    @RequestMapping(path = "/acs/elements/{userDomain}/{userEmail}/{elementDomain}/{elementId}/children",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public Set<ElementBoundary> getAllChildrens(
+            @PathVariable("userDomain") String userDomain,
+            @PathVariable("userEmail") String userEmail,
+    		@PathVariable("elementDomain") String elementDomain,
+    		@PathVariable("elementId") String elementId)	{
+        return this.elementService.getAllChildrensOfElement(userDomain, userEmail,elementDomain,elementId);
+    }
+    
+    
+    @RequestMapping(path = "/acs/elements/{userDomain}/{userEmail}/{elementDomain}/{elementId}/parents",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public Set<ElementBoundary> getAllParents(
+            @PathVariable("userDomain") String userDomain,
+            @PathVariable("userEmail") String userEmail,
+    		@PathVariable("elementDomain") String elementDomain,
+    		@PathVariable("elementId") String elementId)	{
+        return this.elementService.getAllParentsOfElement(userDomain, userEmail,elementDomain,elementId);
+    }
+    
+    //
+    
+    
     
 	@ExceptionHandler
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
