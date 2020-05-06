@@ -10,6 +10,8 @@ import acs.data.ActionEntity;
 import acs.rest.boudanries.ActionBoundary;
 
 
+
+
 public class DbActionServiceImplementation implements ActionService{
 	private String projectName;
 	private ActionDao actionDao;
@@ -39,6 +41,11 @@ public class DbActionServiceImplementation implements ActionService{
         return (Object)action;
 	}
 
+
+
+	
+	
+	
 	@Override
 	@Transactional(readOnly = true)
 	public List<ActionBoundary> getAllActions(String adminDomain, String adminEmail) {

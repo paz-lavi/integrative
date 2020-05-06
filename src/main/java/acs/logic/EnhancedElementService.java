@@ -7,6 +7,8 @@ import acs.rest.boudanries.ElementBoundary;
 import acs.rest.boudanries.ElementIdBoundary;
 
 
+
+
 public interface EnhancedElementService extends ElementService{
 		
 	

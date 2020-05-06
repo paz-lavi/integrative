@@ -15,6 +15,7 @@ import javax.persistence.Transient;
 
 import acs.dal.MapToJsonConverter;
 
+
 @Entity
 @Table(name="Actions")
 public class ActionEntity {

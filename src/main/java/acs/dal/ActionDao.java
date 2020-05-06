@@ -8,4 +8,5 @@ import acs.data.ActionId;
 //Create Read Update Delete - CRUD
 public interface ActionDao extends CrudRepository<ActionEntity, ActionId>{
 
+	
 }
