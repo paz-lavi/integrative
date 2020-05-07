@@ -115,7 +115,56 @@ public class UserTests {
 		
 		assertThat(users).isEmpty();
 	}
-	
+	@Test
+	public void testThatUsersAreAddedToDB(){
+		restTemplate
+				.delete(this.url + "/deleteAll/{adminDomain}/{adminEmail}", "adminDomain", "adminEmail");
+
+		String domain = "domain";
+		//insert 3 new users
+		restTemplate.postForObject(this.url,
+				new UserBoundary(new UserId(domain, "test@gmail.com"), UserRole.PLAYER, "aaa", "aa"),
+				UserBoundary.class);
+		restTemplate.postForObject(this.url,
+				new UserBoundary(new UserId(domain, "test2@gmail.com"), UserRole.PLAYER, "bbb", "bb"),
+				UserBoundary.class);
+		restTemplate.postForObject(this.url,
+				new UserBoundary(new UserId(domain, "test3@gmail.com"), UserRole.PLAYER, "ccc", "cc"),
+				UserBoundary.class);
+
+		//get all users
+		UserBoundary[] users = this.restTemplate.getForObject(this.url + "/getall/{adminDomain}/{adminEmail}",
+				UserBoundary[].class, "adminDomain", "adminEmail");
+
+		assertThat(users.length).isEqualTo(3);
+
+	}
+
+
+	@Test
+	public void TestUpdatingAUserChangesTheValuesInTheDatabase(){
+		restTemplate
+				.delete(this.url + "/deleteAll/{adminDomain}/{adminEmail}", "adminDomain", "adminEmail");
+
+		String domain = "2020b.ari.kuznicki";
+		//insert new users
+		restTemplate.postForObject(this.url,
+				new UserBoundary(new UserId(domain, "test@gmail.com"), UserRole.PLAYER, "aaa", "aa"),
+				UserBoundary.class);
+
+		//update user
+		UserBoundary update = new UserBoundary(new UserId(domain, "test@gmail.com"), UserRole.PLAYER, "avfvfvfv", "fvfvfv");
+		restTemplate.put(this.url+"/"+domain+"/test@gmail.com",update, UserBoundary.class);
+
+
+		//get all users
+		UserBoundary[] users = this.restTemplate.getForObject(this.url + "/getall/{adminDomain}/{adminEmail}",
+				UserBoundary[].class, "adminDomain", "adminEmail");
+
+		assertThat(users.length).isEqualTo(1);
+		assertThat(users[0]).isEqualTo(update);
+
+	}
 	
 	
 }

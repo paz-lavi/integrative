@@ -18,7 +18,6 @@ public class ActionServiceImplementationDB implements ActionService{
 	private ActionConverter converter; 
     private String domain;
 
-	
 	@Autowired
 	public ActionServiceImplementationDB(ActionDao actionDao, ActionConverter converter) {
 		this.actionDao = actionDao;

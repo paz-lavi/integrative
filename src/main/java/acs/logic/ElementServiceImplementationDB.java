@@ -43,8 +43,6 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 		this.projectName = projectName;
 	}
 	
-	
-	
 	@Override
 	@Transactional(readOnly = true)
 	public List<ElementBoundary> getAll(String userDomain, String userEmail) {
