@@ -97,9 +97,7 @@ public class ElementController {
             @PathVariable("userEmail") String userEmail) {
         return this.elementService.getAll(userDomain, userEmail);
     }
-    
-    // Tal and Yahel ElementsId Methods Sprint 4:
-    
+        
     @RequestMapping(path = "/acs/elements/{managerDomain}/{managerEmail}/{elementDomain}/{elementId}/children",
             method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE)

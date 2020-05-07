@@ -25,8 +25,6 @@ import acs.rest.boudanries.ElementBoundary;
 import acs.rest.boudanries.ElementIdBoundary;
 
 
-
-
 @Service
 public class ElementServiceImplementationDB implements EnhancedElementService{
 	private String projectName;
@@ -63,7 +61,7 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 	}
 
 	@Override
-	@Transactional//(readOnly = false)
+	@Transactional
 	public ElementBoundary create(String managerDomain, String managerEmail, ElementBoundary element) {
 		ElementId id = new ElementId();
 		id.setId(UUID.randomUUID().toString());
@@ -109,7 +107,7 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 	
 	
 	@Override
-	@Transactional//(readOnly = false)
+	@Transactional
 	public void deleteAllElements(String adminDomain, String adminEmail) {
 		this.elementDao.deleteAll();
 	}
@@ -134,7 +132,7 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 	}
 	
 	@Override
-	@Transactional//(readOnly = false)
+	@Transactional
 	public ElementBoundary update(String managerDomain, String managerEmail, String elementDomain, String elementID,
 			ElementBoundary update) {
 		

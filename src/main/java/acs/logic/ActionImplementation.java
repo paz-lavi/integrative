@@ -16,9 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
-
-@Service
 public class ActionImplementation implements ActionService {
     private ActionConverter actionConverter;
     private Map<ActionId, ActionEntity> actionsDatabase;

@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import acs.dal.ActionDao;
 import acs.data.ActionConverter;
@@ -11,6 +12,7 @@ import acs.data.ActionId;
 import acs.data.ActionIdGenerator;
 import acs.rest.boudanries.ActionBoundary;
 
+@Service
 public class ActionServiceImplementationDB implements ActionService{
 	private ActionDao actionDao;
 	private ActionConverter converter; 
