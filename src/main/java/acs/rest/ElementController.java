@@ -6,12 +6,10 @@ import acs.logic.InsafitiontInputExeption;
 import acs.logic.UserNotFoundException;
 import acs.rest.boudanries.ElementBoundary;
 import acs.rest.boudanries.ElementIdBoundary;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -94,10 +92,25 @@ public class ElementController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ElementBoundary> getAllElements(
             @PathVariable("userDomain") String userDomain,
-            @PathVariable("userEmail") String userEmail) {
-        return this.elementService.getAll(userDomain, userEmail);
+            @PathVariable("userEmail") String userEmail,
+            @RequestParam (name = "size", required = false, defaultValue = "3") int size,
+            @RequestParam (name = "page", required = false, defaultValue = "0") int page)
+    {
+        return this.elementService.getAll(userDomain, userEmail, size, page);
     }
-        
+    
+//    @RequestMapping(path = "/acs/elements/{userDomain}/{userEmail}?size={size}&page={page}",
+//            method = RequestMethod.GET,
+//            produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ElementBoundary[] getAllElements(
+//            @PathVariable("userDomain") String userDomain,
+//            @PathVariable("userEmail") String userEmail, 
+//            @RequestParam (name = "size", required = false, defaultValue = "3") int size,
+//            @RequestParam (name = "page", required = false, defaultValue = "0") int page)
+//    {
+//        return this.elementService.getAll(userDomain, userEmail,size, page).toArray(new ElementBoundary[0]);
+//    }
+    
     @RequestMapping(path = "/acs/elements/{managerDomain}/{managerEmail}/{elementDomain}/{elementId}/children",
             method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE)

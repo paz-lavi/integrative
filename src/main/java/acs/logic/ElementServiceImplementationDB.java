@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,6 +60,16 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 		return rv;
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<ElementBoundary> getAll(String userDomain,String  userEmail,int size, int page) {
+		return this.elementDao.findAll(
+				PageRequest.of(page,size, Direction.DESC, "type")) // Page<ElementEntity>
+				.getContent() // List<ElementEntity>
+				.stream() // Stream<ElementEntity>
+				.map(this.converter::fromEntity) // Stream<ElementBoundary>
+				.collect(Collectors.toList()); // List<ElementBoundary>
+	}
 	@Override
 	@Transactional
 	public ElementBoundary create(String managerDomain, String managerEmail, ElementBoundary element) {
@@ -227,5 +239,4 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 		
 		return rv;
 	}
-	
 }
