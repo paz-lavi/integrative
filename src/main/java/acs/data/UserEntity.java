@@ -1,11 +1,9 @@
 package acs.data;
 
-import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 
@@ -13,7 +11,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name="USERS")
 public class UserEntity {
-	@EmbeddedId
 	private UserId userId;
 	private UserRole role;
 	private String username;
@@ -21,18 +18,10 @@ public class UserEntity {
 
 
 	public UserEntity() {
-
     }
-
-	public UserEntity(UserId userId, UserRole role, String username, String avatar) {
-        super();
-        this.userId = userId;
-        this.role = role;
-        this.username = username;
-        this.avatar = avatar;
-	}
-	@Embedded   
-    @Id
+	
+	
+	@EmbeddedId
     public UserId getUserId() {
     return userId;
     }

@@ -60,7 +60,7 @@ public class UserServiceImplementationDB extends UserImplementation {
         	throw new RuntimeException("User's name cannot be null or empty");
         
         if (boundary.getAvatar() == null || boundary.getAvatar().equals(""))
-        	throw new RuntimeException("User's avatar cannot e null or empty");
+        	throw new RuntimeException("User's avatar cannot be null or empty");
 
         UserEntity entity = this.userConverter.toEntity(boundary);
         return this.userConverter.fromEntity(this.userDao.save(entity));

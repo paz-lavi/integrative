@@ -11,10 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
@@ -90,27 +88,15 @@ public class ElementController {
     @RequestMapping(path = "/acs/elements/{userDomain}/{userEmail}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ElementBoundary> getAllElements(
+    public ElementBoundary[] getAllElements(
             @PathVariable("userDomain") String userDomain,
             @PathVariable("userEmail") String userEmail,
             @RequestParam (name = "size", required = false, defaultValue = "3") int size,
             @RequestParam (name = "page", required = false, defaultValue = "0") int page)
     {
-        return this.elementService.getAll(userDomain, userEmail, size, page);
+        return this.elementService.getAll(userDomain, userEmail, size, page).toArray(new ElementBoundary[0]);
     }
-    
-//    @RequestMapping(path = "/acs/elements/{userDomain}/{userEmail}?size={size}&page={page}",
-//            method = RequestMethod.GET,
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ElementBoundary[] getAllElements(
-//            @PathVariable("userDomain") String userDomain,
-//            @PathVariable("userEmail") String userEmail, 
-//            @RequestParam (name = "size", required = false, defaultValue = "3") int size,
-//            @RequestParam (name = "page", required = false, defaultValue = "0") int page)
-//    {
-//        return this.elementService.getAll(userDomain, userEmail,size, page).toArray(new ElementBoundary[0]);
-//    }
-    
+        
     @RequestMapping(path = "/acs/elements/{managerDomain}/{managerEmail}/{elementDomain}/{elementId}/children",
             method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -146,11 +132,7 @@ public class ElementController {
     		@PathVariable("elementId") String elementId)	{
         return this.elementService.getAllParentsOfElement(userDomain, userEmail,elementDomain,elementId);
     }
-    
-    //
-    
-    
-    
+   
 	@ExceptionHandler
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	public Map<String, Object> handleException (UserNotFoundException e){

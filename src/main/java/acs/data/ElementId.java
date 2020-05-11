@@ -5,11 +5,12 @@ import java.io.Serializable;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class ElementId implements Comparable<Object>, Serializable {
-    /**
+public class ElementId implements Serializable {
+
+	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3528172988180320286L;
 	private String domain;
     private String id;
 
@@ -73,12 +74,6 @@ public class ElementId implements Comparable<Object>, Serializable {
 		return true;
 	}
 	
-	@Override
-	public int compareTo(Object o) {
-		ElementId id = (ElementId)o;
-		return this.getId().compareTo(id.getId());
-	}
-
 	@Override
 	public String toString() {
 		return "ElementId [domain=" + domain + ", id=" + id + "]";

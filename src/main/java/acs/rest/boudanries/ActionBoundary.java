@@ -20,17 +20,6 @@ public class ActionBoundary {
 
     }
 
-    public ActionBoundary(ActionId actionId, String type, ElementId element, Date createdTimeStamp, UserId invokedBy, Map<String, Object> actionAttributes) {
-        this.actionId = actionId;
-        this.type = type;
-        this.element = element;
-        this.createdTimeStamp = createdTimeStamp;
-        this.invokedBy = invokedBy;
-        this.actionAttributes = actionAttributes;
-
-
-    }
-
     public ActionId getActionId() {
         return actionId;
     }

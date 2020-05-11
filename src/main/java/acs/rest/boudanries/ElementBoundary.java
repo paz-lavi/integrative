@@ -17,28 +17,6 @@ public class ElementBoundary {
     private Location location;
     private Map<String, Object> elementAttributes;
 
-    public ElementBoundary() {
-    	this.createdBy = new UserId("dummy", "user");
-    }
-
-	public ElementBoundary(UserId id, String message) {
-		this();
-		this.createdBy = id;
-	}
-
-    
-    public ElementBoundary(ElementId elementId, String type, String name, boolean active, Date createdTimeStamp,
-                           UserId createdBy, Location location, Map<String, Object> elementAttributes) {
-        super();
-        this.elementId = elementId;
-        this.type = type;
-        this.name = name;
-        this.active = active;
-        this.createdTimeStamp = createdTimeStamp;
-        this.createdBy = createdBy;
-        this.location = location;
-        this.elementAttributes = elementAttributes;
-    }
 
     public ElementId getElementId() {
         return elementId;

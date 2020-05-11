@@ -4,13 +4,12 @@ import java.util.Date;
 import java.util.Map;
 import javax.persistence.Convert;
 import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 import acs.dal.MapToJsonConverter;
 
@@ -38,8 +37,7 @@ public class ActionEntity {
         this.actionAttributes = actionAttributes;
     }
 
-    @Id
-    @Embedded
+    @EmbeddedId
     public ActionId getActionId() {
         return actionId;
     }
@@ -75,7 +73,7 @@ public class ActionEntity {
         this.createdTimeStamp = createdTimeStamp;
     }
     
-    @Transient
+    @Embedded
     public UserId getInvokedBy() {
         return invokedBy;
     }

@@ -7,8 +7,8 @@ import java.util.Set;
 //import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -36,16 +36,11 @@ public class ElementEntity {
     
     public ElementEntity() {
     }
-    public ElementEntity(ElementId id) {
-    	this.elementId = id;
-    }
-
+    
     public void setElementId(ElementId elementId) {
         this.elementId = elementId;
     }
-    
-    @Id
-    @Embedded
+    @EmbeddedId
     public ElementId getElementId() {
     	return this.elementId;
     }

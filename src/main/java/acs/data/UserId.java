@@ -2,9 +2,13 @@ package acs.data;
 
 import java.io.Serializable;
 
+import javax.persistence.Embeddable;
+@Embeddable
 public class UserId implements Serializable{
-
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8988461616734752850L;
 	private String domain;
     private String email;
 

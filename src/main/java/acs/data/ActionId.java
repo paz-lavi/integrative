@@ -37,30 +37,33 @@ public class ActionId implements Serializable{
     public void setActionId(int actionID) {
         this.actionID = actionID;
     }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((actionDomain == null) ? 0 : actionDomain.hashCode());
+		result = prime * result + actionID;
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        ActionId actionId = (ActionId) obj;
-        return this.actionID == actionId.actionID;
-    }
-    
-    
-    
-//    @Override
-//	public int hashCode() {
-//		final int prime = 31;
-//		int result = 1;
-//		result = prime * result + ((domain == null) ? 0 : domain.hashCode());
-//		result = prime * result + ((id == null) ? 0 : id.hashCode());
-//		return result;
-//	}
-//    
-	
-//	@Override
-//	public int compareTo(Object o) {
-//		ElementId id = (ElementId)o;
-//		return this.getId().compareTo(id.getId());
-//	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ActionId other = (ActionId) obj;
+		if (actionDomain == null) {
+			if (other.actionDomain != null)
+				return false;
+		} else if (!actionDomain.equals(other.actionDomain))
+			return false;
+		if (actionID != other.actionID)
+			return false;
+		return true;
+	}
 
 	@Override
 	public String toString() {

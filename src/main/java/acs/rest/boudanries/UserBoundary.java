@@ -15,14 +15,6 @@ public class UserBoundary {
 
     }
 
-    public UserBoundary(UserId userId, UserRole role, String username, String avatar) {
-        super();
-        this.userId = userId;
-        this.role = role;
-        this.username = username;
-        this.avatar = avatar;
-    }
-
     public UserId getUserId() {
         return userId;
     }

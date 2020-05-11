@@ -94,7 +94,7 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 		if (element.getElementAttributes() == null) {
 			element.setElementAttributes(new HashMap<>());
 		}
-		element.setIsActive(false);
+		element.setIsActive(true);
         element.setCreatedTimeStamp(new Date());
         
         if(managerDomain.equals(null))
@@ -105,7 +105,8 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
         
         element.setCreatedBy(userId);
         
-        element.setLocation(new Location(32.123704, 34.806708));
+        if(element.getLocation() == null)
+        element.setLocation(new Location(0,0));
         
 		ElementEntity entity = this.converter.toEntity(element);
 		entity.setCreatedTimeStamp(new Date());
@@ -160,14 +161,10 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 			existing.setType(update.getType());
 		}
 		
-		if (update.isActive() != false) {
+		if (update.isActive() == false) {
 			existing.setActive(true);
 		}
 		
-		existing.setCreatedTimeStamp(new Date());
-		if (update.getCreatedBy() != null) {
-			existing.setCreatedBy(update.getCreatedBy());
-		}
 		if (update.getLocation() != null) {
 			existing.setLocation(update.getLocation());
 		}
@@ -180,9 +177,6 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 				.fromEntity(
 					this.elementDao.save(existing));
 	}
-
-
-	
 
 	@Override
 	@Transactional
