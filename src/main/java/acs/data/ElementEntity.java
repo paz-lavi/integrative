@@ -9,6 +9,7 @@ import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -106,7 +107,7 @@ public class ElementEntity {
         this.elementAttributes = elementAttributes;
     }
     
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	public ElementEntity getOrigin() {
 		return origin;
 	}
@@ -115,7 +116,7 @@ public class ElementEntity {
 		this.origin = origin;
 	}
 	
-	@OneToMany(mappedBy = "origin")
+	@OneToMany(mappedBy = "origin", fetch = FetchType.LAZY)
 	public Set<ElementEntity> getResponses() {
 		return responses;
 	}

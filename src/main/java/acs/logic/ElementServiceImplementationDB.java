@@ -1,6 +1,7 @@
 package acs.logic;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -199,38 +200,91 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 
 	@Override
 	@Transactional(readOnly = true)
-	public Set<ElementBoundary> getAllChildrensOfElement(String userDomain, String userEmail, String elementDomain,
-			String elementId) {
+	public Collection<ElementBoundary> getAllChildrenOfElement(String userDomain, String userEmail, String elementDomain,
+			String elementId, int size, int page) {
+	
+		ElementId element_Id = new ElementId(elementDomain,elementId);
 		
-		// get entity objects from database
-		ElementEntity elementExisting = this.elementDao.findById(new ElementId(elementDomain,elementId))
-				.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));
-		
-		return elementExisting
-				.getResponses()
+		return this.elementDao.findAllByElementId(element_Id,
+				PageRequest.of(page, size, Direction.DESC, "createdTimeStamp"))
 				.stream()
 				.map(this.converter::fromEntity)
-				.collect(Collectors.toSet());
+				.collect(Collectors.toList());
+		
+//		// get entity objects from database
+//		ElementEntity elementExisting = this.elementDao.findById(new ElementId(elementDomain,elementId))
+//				.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));
+//		
+//		return elementExisting
+//				.getResponses()
+//				.stream()
+//				.map(this.converter::fromEntity)
+//				.collect(Collectors.toSet());
 		
 		
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Set<ElementBoundary> getAllParentsOfElement(String userDomain, String userEmail, String elementDomain,
-			String elementId) {
+	public Collection<ElementBoundary> getAllParentsOfElement(String userDomain, String userEmail, String elementDomain,
+			String elementId, int size, int page) {
 		
 		// get entity objects from database
 		ElementEntity elementExisting = this.elementDao.findById(new ElementId(elementDomain,elementId))
 				.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));
 		
-		Set<ElementBoundary> rv = new HashSet<>(); 
-		
-		while(elementExisting.getOrigin()!=null) {
-			rv.add(this.converter.fromEntity(elementExisting.getOrigin()));
-			elementExisting=elementExisting.getOrigin();
+		if (size < 1) {
+			throw new RuntimeException("size must be not less than 1"); 
 		}
 		
+		if (page < 0) {
+			throw new RuntimeException("page must not be negative");
+		}
+		
+		ElementEntity origin = elementExisting.getOrigin();
+		
+		Set<ElementBoundary> rv = new HashSet<>(); 
+		
+		// page = 0 && size >= 1
+		if (origin != null && page == 0) {
+			ElementBoundary rvBoundary = this.converter.fromEntity(origin);
+			rv.add(rvBoundary);
+		}
 		return rv;
+		
+//		while(elementExisting.getOrigin()!=null) {
+//			rv.add(this.converter.fromEntity(elementExisting.getOrigin()));
+//			elementExisting=elementExisting.getOrigin();
+//		}
+//		
+//		return rv;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<ElementBoundary> getElementByType(String type, int size, int page) {
+		return this.elementDao
+				.findAllByType(type, PageRequest.of(page, size, Direction.DESC, "createdTimeStamp", "elementId"))
+				.stream()
+				.map(this.converter::fromEntity)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ElementBoundary> getElementByName(String name, int size, int page) {
+		return this.elementDao
+				.findAllByName(name, PageRequest.of(page, size, Direction.DESC,"createdTimeStamp", "elementId"))
+				.stream()
+				.map(this.converter::fromEntity)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ElementBoundary> getElementByLocation(Location location, int size, int page) {
+		return this.elementDao
+				.findAllByLocation(location, PageRequest.of(page, size, Direction.DESC,"createdTimeStamp", "elementId"))
+				.stream()
+				.map(this.converter::fromEntity)
+				.collect(Collectors.toList());
 	}
 }
