@@ -183,15 +183,15 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 	@Transactional
 	public void bind(String managerDomain, String managerEmail, String elementDomain, String elementID,
 			ElementIdBoundary update) {
-	
+		
 		ElementEntity parentExisting = this.elementDao.findById(new ElementId(elementDomain,elementID))
 				.orElseThrow(()->new RuntimeException("could not find object by id: " + elementID));
 		
-		ElementEntity childExisting = this.elementDao.findById(new ElementId(elementDomain,elementID))
+		ElementEntity childExisting = this.elementDao.findById(new ElementId(elementDomain,update.getId()))
 				.orElseThrow(()->new RuntimeException("could not find object by id: " + update.getId()));
 		
 		//Add child
-		parentExisting.addResponse(childExisting);
+		parentExisting.addChild(childExisting);
 		this.elementDao.save(parentExisting);
 	
 
@@ -241,7 +241,7 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 			throw new RuntimeException("page must not be negative");
 		}
 		
-		ElementEntity origin = elementExisting.getOrigin();
+		ElementEntity origin = elementExisting.getParent();
 		
 		Set<ElementBoundary> rv = new HashSet<>(); 
 		
