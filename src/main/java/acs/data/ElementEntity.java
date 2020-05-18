@@ -26,12 +26,12 @@ public class ElementEntity {
     private String type;
     private String name;
     private boolean isActive;
-    private Date createdTimeStamp = new Date();
+    private Date createdTimestamp = new Date();
     private UserId createdBy;
     private Location location;
     private Map<String, Object> elementAttributes;
-	private Set<ElementEntity> responses;
-	private ElementEntity origin;
+	private Set<ElementEntity> children;
+	private ElementEntity parent;
 
     
     
@@ -71,12 +71,12 @@ public class ElementEntity {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    public Date getCreatedTimeStamp() {
-        return createdTimeStamp;
+    public Date getCreatedTimestamp() {
+        return createdTimestamp;
     }
 
-    public void setCreatedTimeStamp(Date createdTimeStamp) {
-        this.createdTimeStamp = createdTimeStamp;
+    public void setCreatedTimestamp(Date createdTimeStamp) {
+        this.createdTimestamp = createdTimeStamp;
     }
 
     @Embedded
@@ -108,25 +108,25 @@ public class ElementEntity {
     }
     
 	@ManyToOne(fetch = FetchType.LAZY)
-	public ElementEntity getOrigin() {
-		return origin;
+	public ElementEntity getParent() {
+		return parent;
 	}
 	
-	public void setOrigin(ElementEntity origin) {
-		this.origin = origin;
+	public void setParent(ElementEntity parent) {
+		this.parent = parent;
 	}
 	
-	@OneToMany(mappedBy = "origin", fetch = FetchType.LAZY)
-	public Set<ElementEntity> getResponses() {
-		return responses;
+	@OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+	public Set<ElementEntity> getChildren() {
+		return children;
 	}
 	
-	public void setResponses(Set<ElementEntity> responses) {
-		this.responses = responses;
+	public void setChildren(Set<ElementEntity> children) {
+		this.children = children;
 	}
 	
-	public void addResponse (ElementEntity response) {
-		this.responses.add(response);
-		response.setOrigin(this);
+	public void addChild (ElementEntity child) {
+		this.children.add(child);
+		child.setParent(this);
 	}
 }

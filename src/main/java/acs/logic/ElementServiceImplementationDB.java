@@ -76,7 +76,7 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 	public ElementBoundary create(String managerDomain, String managerEmail, ElementBoundary element) {
 		ElementId id = new ElementId();
 		id.setId(UUID.randomUUID().toString());
-		id.setElementDomain(projectName);
+		id.setDomain(projectName);
 		
 		element.setElementId(id);
 		
@@ -110,7 +110,7 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
         element.setLocation(new Location(0,0));
         
 		ElementEntity entity = this.converter.toEntity(element);
-		entity.setCreatedTimeStamp(new Date());
+		entity.setCreatedTimestamp(new Date());
 		
 		return this.converter
 			.fromEntity(
@@ -149,7 +149,7 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 			ElementBoundary update) {
 		
 		ElementId id = new ElementId();
-		id.setElementDomain(elementDomain);
+		id.setDomain(elementDomain);
 		id.setId(elementID);
 		
 		ElementEntity existing = this.elementDao.findById(new ElementId(elementDomain,elementID))
@@ -210,18 +210,6 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 				.stream()
 				.map(this.converter::fromEntity)
 				.collect(Collectors.toList());
-		
-//		// get entity objects from database
-//		ElementEntity elementExisting = this.elementDao.findById(new ElementId(elementDomain,elementId))
-//				.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));
-//		
-//		return elementExisting
-//				.getResponses()
-//				.stream()
-//				.map(this.converter::fromEntity)
-//				.collect(Collectors.toSet());
-		
-		
 	}
 
 	@Override
@@ -251,13 +239,6 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 			rv.add(rvBoundary);
 		}
 		return rv;
-		
-//		while(elementExisting.getOrigin()!=null) {
-//			rv.add(this.converter.fromEntity(elementExisting.getOrigin()));
-//			elementExisting=elementExisting.getOrigin();
-//		}
-//		
-//		return rv;
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package acs.data;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 @Embeddable
 public class ActionId implements Serializable{
@@ -21,20 +22,20 @@ public class ActionId implements Serializable{
         this.actionDomain = actionDomain;
         this.actionID = actionID;
     }
-
-    public String getActionDomain() {
+    @Column(name = "action_domain")
+    public String getDomain() {
         return actionDomain;
     }
 
-    public void setActionDomain(String actionDomain) {
+    public void setDomain(String actionDomain) {
         this.actionDomain = actionDomain;
     }
-
-    public int getActionId() {
+    @Column(name = "action_id")
+    public int getId() {
         return actionID;
     }
 
-    public void setActionId(int actionID) {
+    public void setId(int actionID) {
         this.actionID = actionID;
     }
 	@Override

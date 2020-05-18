@@ -35,8 +35,8 @@ public class ActionServiceImplementationDB implements ActionService{
 	@Transactional
 	public Object InvokeAction(ActionBoundary action) {
 		ActionId aid = new ActionId();
-    	aid.setActionDomain(this.domain);
-    	aid.setActionId(ActionIdGenerator.nextValue());
+    	aid.setDomain(this.domain);
+    	aid.setId(ActionIdGenerator.nextValue());
     	action.setActionId(aid);
     	
 		if (action.getType() == null) {

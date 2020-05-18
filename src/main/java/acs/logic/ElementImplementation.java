@@ -39,7 +39,7 @@ public class ElementImplementation implements ElementService {
 	public ElementBoundary create(String managerDomain, String managerEmail, ElementBoundary element) {
 		ElementId id = new ElementId();
 		id.setId(UUID.randomUUID().toString());
-		id.setElementDomain(domain);
+		id.setDomain(domain);
 		
 		element.setElementId(id);
 		
@@ -82,7 +82,7 @@ public class ElementImplementation implements ElementService {
 			ElementBoundary update) {
 		
 		ElementId id = new ElementId();
-		id.setElementDomain(elementDomain);
+		id.setDomain(elementDomain);
 		id.setId(elementID);
 		
 		ElementEntity existing = this.elementDatabase.get(id);
@@ -100,7 +100,7 @@ public class ElementImplementation implements ElementService {
 			existing.setActive(true);
 		}
 		
-		existing.setCreatedTimeStamp(new Date());
+		existing.setCreatedTimestamp(new Date());
 		if (update.getCreatedBy() != null) {
 			existing.setCreatedBy(update.getCreatedBy());
 		}
@@ -129,7 +129,7 @@ public class ElementImplementation implements ElementService {
 			String elementId) throws Exception {
 		
 		ElementId id = new ElementId();
-		id.setElementDomain(elementDomain);
+		id.setDomain(elementDomain);
 		id.setId(elementId);
 		
 		ElementEntity existing = this.elementDatabase.get(id);

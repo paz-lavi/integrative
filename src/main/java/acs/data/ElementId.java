@@ -2,6 +2,7 @@ package acs.data;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
@@ -26,14 +27,16 @@ public class ElementId implements Serializable {
         this.id = id;
     }
 
-    public String getElementDomain() {
+    @Column(name = "element_domain")
+    public String getDomain() {
         return domain;
     }
 
-    public void setElementDomain(String domain) {
+    public void setDomain(String domain) {
         this.domain = domain;
     }
 
+    @Column(name = "element_id")
     public String getId() {
         return id;
     }

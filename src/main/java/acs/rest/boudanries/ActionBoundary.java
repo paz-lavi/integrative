@@ -44,11 +44,11 @@ public class ActionBoundary {
         this.element = element;
     }
 
-    public Date getCreatedTimeStamp() {
+    public Date getCreatedTimestamp() {
         return createdTimeStamp;
     }
 
-    public void setCreatedTimeStamp(Date createdTimeStamp) {
+    public void setCreatedTimestamp(Date createdTimeStamp) {
         this.createdTimeStamp = createdTimeStamp;
     }
 

@@ -12,7 +12,7 @@ public class ElementBoundary {
     private String type;
     private String name;
     private boolean active;
-    private Date createdTimeStamp = new Date();
+    private Date createdTimestamp = new Date();
     private UserId createdBy;
     private Location location;
     private Map<String, Object> elementAttributes;
@@ -50,12 +50,12 @@ public class ElementBoundary {
         this.active = active;
     }
 
-    public Date getCreatedTimeStamp() {
-        return createdTimeStamp;
+    public Date getCreatedTimestamp() {
+        return createdTimestamp;
     }
 
     public void setCreatedTimeStamp(Date createdTimeStamp) {
-        this.createdTimeStamp = createdTimeStamp;
+        this.createdTimestamp = createdTimeStamp;
     }
 
     public UserId getCreatedBy() {

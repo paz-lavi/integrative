@@ -44,8 +44,8 @@ public class ActionImplementation implements ActionService {
     @Override
     public Object InvokeAction(ActionBoundary action) {
     	ActionId aid = new ActionId();
-    	aid.setActionDomain(this.domain);
-    	aid.setActionId(ActionIdGenerator.nextValue());
+    	aid.setDomain(this.domain);
+    	aid.setId(ActionIdGenerator.nextValue());
     	action.setActionId(aid);
         actionsDatabase.put(action.getActionId(), this.actionConverter.toEntity(action));
         return (Object)action;
