@@ -60,7 +60,7 @@ public class ElementImplementation implements ElementService {
 			element.setElementAttributes(new HashMap<>());
 		}
 		element.setIsActive(false);
-        element.setCreatedTimeStamp(new Date());
+        element.setCreatedTimestamp(new Date());
         
         if(managerDomain.equals(null))
         	throw new InsafitiontInputExeption("Need to have a managerDomain");

@@ -54,7 +54,7 @@ public class ElementBoundary {
         return createdTimestamp;
     }
 
-    public void setCreatedTimeStamp(Date createdTimeStamp) {
+    public void setCreatedTimestamp(Date createdTimeStamp) {
         this.createdTimestamp = createdTimeStamp;
     }
 

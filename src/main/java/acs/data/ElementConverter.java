@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 			rv.setName(entity.getName());
 			rv.setIsActive(entity.getActive());
 			rv.setCreatedBy(entity.getCreatedBy());
-			rv.setCreatedTimeStamp(entity.getCreatedTimestamp());
+			rv.setCreatedTimestamp(entity.getCreatedTimestamp());
 			rv.setElementAttributes(entity.getElementAttributes());
 			rv.setLocation(entity.getLocation());
 			return rv;

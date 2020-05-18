@@ -2,8 +2,6 @@ package acs.logic;
 
 import java.util.Collection;
 import java.util.List;
-
-import acs.data.Location;
 import acs.rest.boudanries.ElementBoundary;
 import acs.rest.boudanries.ElementIdBoundary;
 
@@ -21,5 +19,5 @@ public interface EnhancedElementService extends ElementService{
    
    public List<ElementBoundary> getElementByType(String type, int size, int page);
    
-   public List<ElementBoundary> getElementByLocation(Location location, int size, int page);
+   public List<ElementBoundary> getElementByLocation(double minLat,  double maxLat, double minLng, double maxLng, int size, int page);
 }

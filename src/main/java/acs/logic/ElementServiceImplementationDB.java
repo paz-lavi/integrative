@@ -96,7 +96,7 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 			element.setElementAttributes(new HashMap<>());
 		}
 		element.setIsActive(true);
-        element.setCreatedTimeStamp(new Date());
+        element.setCreatedTimestamp(new Date());
         
         if(managerDomain.equals(null))
         	throw new RuntimeException("Need to have a managerDomain");
@@ -245,7 +245,7 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 	@Transactional(readOnly = true)
 	public List<ElementBoundary> getElementByType(String type, int size, int page) {
 		return this.elementDao
-				.findAllByType(type, PageRequest.of(page, size, Direction.DESC, "createdTimeStamp", "elementId"))
+				.findAllByType(type, PageRequest.of(page, size, Direction.DESC, "createdTimestamp", "elementId"))
 				.stream()
 				.map(this.converter::fromEntity)
 				.collect(Collectors.toList());
@@ -254,16 +254,16 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 	@Override
 	public List<ElementBoundary> getElementByName(String name, int size, int page) {
 		return this.elementDao
-				.findAllByName(name, PageRequest.of(page, size, Direction.DESC,"createdTimeStamp", "elementId"))
+				.findAllByName(name, PageRequest.of(page, size, Direction.DESC,"createdTimestamp", "elementId"))
 				.stream()
 				.map(this.converter::fromEntity)
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public List<ElementBoundary> getElementByLocation(Location location, int size, int page) {
+	public List<ElementBoundary> getElementByLocation(double minLat,  double maxLat, double minLng, double maxLng, int size, int page) {
 		return this.elementDao
-				.findAllByLocation(location, PageRequest.of(page, size, Direction.DESC,"createdTimeStamp", "elementId"))
+				.findAllByLocation_LatBetweenAndLocation_LngBetween(minLat, maxLat, minLng, maxLng,PageRequest.of(page, size, Direction.DESC,"createdTimestamp", "elementId"))
 				.stream()
 				.map(this.converter::fromEntity)
 				.collect(Collectors.toList());

@@ -169,6 +169,23 @@ public class ElementController {
 				.toArray(new ElementBoundary[0]);
 	}
 	
+	@RequestMapping(
+			path="/acs/elements/{userDomain}/{userEmail}/search/near/{lat}/{lng}/{distance}", 
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ElementBoundary[] getElementByLocation(
+			@PathVariable("lat") double lat,
+			@PathVariable("lng") double lng,
+			@PathVariable("distance") double distance,
+			@RequestParam(name = "size", required = false, defaultValue = "3") int size, 
+			@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
+		return this.elementService
+				.getElementByLocation((lat - distance), (lat + distance), (lng - distance), (lng + distance), size, page)
+				.stream()
+				.collect(Collectors.toList())
+				.toArray(new ElementBoundary[0]);
+	}
+	
 	@ExceptionHandler
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	public Map<String, Object> handleException (UserNotFoundException e){
