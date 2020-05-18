@@ -56,7 +56,7 @@ public class UserController {
     @RequestMapping(path = "/acs/users/getall/{adminDomain}/{adminEmail}",
     		method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserBoundary[] getAllDummies(
+    public UserBoundary[] getAllUsers(
 			@PathVariable("adminDomain") String adminDomain,
             @PathVariable("adminEmail") String adminEmail) {
 		return this.userService

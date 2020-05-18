@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +20,7 @@ import acs.data.UserEntity;
 import acs.data.UserId;
 
 @Service
-public class UserServiceImplementationDB extends UserImplementation {
+public class UserServiceImplementationDB implements EnhancedUserService {
     private UserConverter userConverter;
 	private String domain;
 	private UserDao userDao;
@@ -32,7 +35,6 @@ public class UserServiceImplementationDB extends UserImplementation {
 	
 	@Autowired
 	public UserServiceImplementationDB(UserConverter converter, UserDao userDao) {
-		super(converter);
 		this.userConverter = converter;
 		this.userDao = userDao;
 	}
@@ -113,6 +115,16 @@ public class UserServiceImplementationDB extends UserImplementation {
 		}
 		
 		return rv;
+	}
+	
+	
+	
+	@Override
+	@Transactional(readOnly = true)
+    public List<UserBoundary> getAllUsers(String adminDomain, String adminEmail,int size ,int page) {
+		return this.userDao.findAll(
+				PageRequest.of(page, size,Direction.DESC,"userId")).getContent().stream().
+				map(this.userConverter::fromEntity).collect(Collectors.toList());
 	}
 
 	@Override

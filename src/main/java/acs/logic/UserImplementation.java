@@ -17,7 +17,7 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 
-@Service
+
 public class UserImplementation implements UserService {
     private UserConverter userConverter;
     private Map<UserId, UserEntity> userDatabase;
@@ -109,5 +109,17 @@ public class UserImplementation implements UserService {
     public void deleteAllUsers(String adminDomain, String adminEmail) {
 		this.userDatabase.clear();		
 	}
+
+
+
+
+
+
+
+	
+
+
+
+
 
 }

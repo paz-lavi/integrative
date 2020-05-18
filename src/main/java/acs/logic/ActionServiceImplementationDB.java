@@ -1,8 +1,12 @@
 package acs.logic;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import acs.dal.ActionDao;
@@ -13,7 +17,7 @@ import acs.data.ActionIdGenerator;
 import acs.rest.boudanries.ActionBoundary;
 
 @Service
-public class ActionServiceImplementationDB implements ActionService{
+public class ActionServiceImplementationDB implements EnhancedActionService{
 	private ActionDao actionDao;
 	private ActionConverter converter; 
     private String domain;
@@ -59,11 +63,19 @@ public class ActionServiceImplementationDB implements ActionService{
 		}
 		return rv;
 	}
+	
 	@Override
 	@Transactional
 	public void deleteAllActions(String adminDomain, String adminEmail) {
 		this.actionDao.deleteAll();
 		
+	}
+
+	@Override
+	public List<ActionBoundary> getAllActions(String adminDomain, String adminEmail, int size, int page) {
+		return this.actionDao.findAll(
+				PageRequest.of(page, size,Direction.DESC,"actionId")).getContent().stream().
+				map(this.converter::fromEntity).collect(Collectors.toList());
 	}
 
 }

@@ -4,16 +4,16 @@ package acs.logic;
 import acs.rest.boudanries.ActionBoundary;
 import acs.rest.boudanries.UserBoundary;
 
-
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class AdminImplementation implements AdminService {
-	private ActionImplementation actionImplementaion;
-	private UserImplementation userImplementaion;
-	private ElementImplementation elementImplementaion;
+public class AdminImplementation implements EnhancedAdminService {
+	private ActionServiceImplementationDB actionImplementaion;
+	private UserServiceImplementationDB userImplementaion;
+	private ElementServiceImplementationDB elementImplementaion;
 	
 	
 
@@ -33,12 +33,20 @@ public class AdminImplementation implements AdminService {
     }
 
     @Override
-    public UserBoundary exportAllUsers(String adminDomain, String adminEmail) {
-    	return (UserBoundary) userImplementaion.getAllUsers(adminDomain, adminEmail);
+    public List<UserBoundary> exportAllUsers(String adminDomain, String adminEmail) {
+    	return userImplementaion.getAllUsers(adminDomain, adminEmail);
+    }
+    
+    @Override
+    public List<UserBoundary> exportAllUsers(String adminDomain, String adminEmail,int size,int page) {
+    	return userImplementaion.getAllUsers(adminDomain, adminEmail,size,page);
     }
 
     @Override
     public ActionBoundary exportAllActions(String adminDomain, String adminEmail) {
         return (ActionBoundary) actionImplementaion.getAllActions(adminDomain, adminEmail);
     }
+
+	
+
 }
