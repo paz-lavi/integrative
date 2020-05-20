@@ -9,21 +9,27 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import acs.dal.ElementDao;
+import acs.dal.UserDao;
 import acs.data.ElementConverter;
 import acs.data.ElementEntity;
 import acs.data.ElementId;
 import acs.data.Location;
+import acs.data.UserEntity;
 import acs.data.UserId;
+import acs.data.UserRole;
 import acs.rest.boudanries.ElementBoundary;
 import acs.rest.boudanries.ElementIdBoundary;
 
@@ -32,12 +38,18 @@ import acs.rest.boudanries.ElementIdBoundary;
 public class ElementServiceImplementationDB implements EnhancedElementService{
 	private String projectName;
 	private ElementDao elementDao;
+	private UserDao userDao;
 	private ElementConverter converter; 
+	public static String VALID_EMAIL_PATTERN = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+	public static double defoultLongitude;
+	public static double defoultLatitude;
 	
 	@Autowired
-	public ElementServiceImplementationDB(ElementDao elementDao, ElementConverter converter) {
+	public ElementServiceImplementationDB(ElementDao elementDao, ElementConverter converter,
+			UserDao userDao) {
 		this.elementDao = elementDao;
 		this.converter = converter;
+		this.userDao = userDao;
 	}
 	
 	// injection of value from the spring boot configuration
@@ -46,9 +58,11 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 		this.projectName = projectName;
 	}
 	
+	
 	@Override
 	@Transactional(readOnly = true)
 	public List<ElementBoundary> getAll(String userDomain, String userEmail) {
+		
 		// get entity objects from database
 		Iterable<ElementEntity> all = this.elementDao
 			.findAll();
@@ -64,121 +78,160 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 	@Override
 	@Transactional(readOnly = true)
 	public List<ElementBoundary> getAll(String userDomain,String  userEmail,int size, int page) {
-		return this.elementDao.findAll(
-				PageRequest.of(page,size, Direction.DESC, "type")) // Page<ElementEntity>
-				.getContent() // List<ElementEntity>
-				.stream() // Stream<ElementEntity>
-				.map(this.converter::fromEntity) // Stream<ElementBoundary>
-				.collect(Collectors.toList()); // List<ElementBoundary>
+		
+		//check input data. if it's incorrect then throw exception.
+		checkInputData(userDomain, userEmail);
+		
+		//get user id if user in DB 
+		UserEntity user = checkIfUserInDB_returnUser(userDomain, userEmail);		
+			
+		//if user is manager then return all elements active and not active
+		if(user.getRole().equals(UserRole.MANAGER)) {
+			// return all elements
+			return this.elementDao.findAll(
+					PageRequest.of(page,size, Direction.DESC, "type")) // Page<ElementEntity>
+					.getContent() // List<ElementEntity>
+					.stream() // Stream<ElementEntity>
+					.map(this.converter::fromEntity) // Stream<ElementBoundary>
+					.collect(Collectors.toList()); // List<ElementBoundary>
+					
+		//if user is player then return all elements active and not active
+		} else if(user.getRole().equals(UserRole.PLAYER)){
+			// return all elements
+			return this.elementDao.findAllByisActive(true, 
+					PageRequest.of(page, size, Direction.DESC, "type")) // Page<ElementEntity>
+					.stream() // Stream<ElementEntity>
+					.map(this.converter::fromEntity) // Stream<ElementBoundary>
+					.collect(Collectors.toList()); // List<ElementBoundary>	
+		
+		//if user is not manager or player then throw exception
+		} else
+			throw new RuntimeException("This user has no permission for setrieval or search element" + user.toString());	
 	}
+	
+	
 	@Override
 	@Transactional
 	public ElementBoundary create(String managerDomain, String managerEmail, ElementBoundary element) {
-		ElementId id = new ElementId();
-		id.setId(UUID.randomUUID().toString());
-		id.setDomain(projectName);
-		
-		element.setElementId(id);
-		
-		UserId userId = new UserId();
-		userId.setDomain(managerDomain);
-		userId.setEmail(managerEmail);
-		
-		if (element.getType() == null) {
-			element.setType("None");
-		}
-		
-        if (element.getName() == null)
-			element.setName("");
+		//check input data. if it's incorrect then throw exception.
+				checkInputData(managerDomain, managerEmail);
+				
+				//get user id if user in DB 
+				UserEntity user = checkIfUserInDB_returnUser(managerDomain, managerEmail);
+				
+				if(!user.getRole().equals(UserRole.MANAGER))
+					throw new RuntimeException("This user has no permissions for creating element" + user.toString());      
+					
+				//update element's attributes by 
+				if (element.getType() == null)
+					element.setType("None");	
+		        if (element.getName() == null)
+					element.setName("");
+				if (element.getElementAttributes() == null)
+					element.setElementAttributes(new HashMap<>());
+		        if(element.getLocation() == null)
+		            element.setLocation(new Location(defoultLatitude, defoultLongitude));
+				
+		        ElementId id = new ElementId();
+				id.setId(UUID.randomUUID().toString());
+				id.setDomain(projectName);	
+				
+				element.setElementId(id);	
+				element.setIsActive(true);
+		        element.setCreatedTimestamp(new Date());
+		        element.setCreatedBy(user.getUserId());
 
-       
-		if (element.getElementAttributes() == null) {
-			element.setElementAttributes(new HashMap<>());
-		}
-		element.setIsActive(true);
-        element.setCreatedTimestamp(new Date());
-        
-        if(managerDomain.equals(null))
-        	throw new RuntimeException("Need to have a managerDomain");
-        
-        if(managerEmail.equals(null))
-        	throw new RuntimeException("Need to have a managerEmail");
-        
-        element.setCreatedBy(userId);
-        
-        if(element.getLocation() == null)
-        element.setLocation(new Location(0,0));
-        
-		ElementEntity entity = this.converter.toEntity(element);
-		entity.setCreatedTimestamp(new Date());
-		
-		return this.converter
-			.fromEntity(
-				this.elementDao.save(entity));
+		        //convert ElementBoundary to ElementEntity
+				ElementEntity entity = this.converter.toEntity(element);
+				
+				//return ElementBoundary
+				return this.converter.fromEntity(this.elementDao.save(entity));
 	}
 	
 	
 	@Override
 	@Transactional
 	public void deleteAllElements(String adminDomain, String adminEmail) {
-		this.elementDao.deleteAll();
+		
+		//check input data. if it's incorrect then throw exception.
+		//checkInputData(adminDomain, adminEmail);
+		
+		//get user id if user in DB 
+		//UserEntity user = checkIfUserInDB_returnUser(adminDomain, adminEmail);	
+		
+		//if(user.getRole().equals(UserRole.ADMIN))
+	     	this.elementDao.deleteAll();	
+		//else
+		//	throw new RuntimeException("This user has no permission for setrieval or search element" + user.toString());	
 	}
 	
 	@Override
 	@Transactional(readOnly = true)
 	public ElementBoundary getSpecificElement(String userDomain, String userEmail, String elementDomain,
 			String elementId) throws Exception {
+
+		//check input data. if it's incorrect then throw exception.
+		checkInputData(userDomain, userEmail);
 		
-		Optional<ElementEntity> existing = this.elementDao.findById(new ElementId(elementDomain,elementId));
+		//get user id if user in DB 
+		UserEntity user = checkIfUserInDB_returnUser(userDomain, userEmail);	
 		
-		if (existing.isPresent()) {
-			return this.converter
-				.fromEntity(
-					existing.get());
+		// get element from database
+		ElementEntity elementExisting = this.elementDao.findById(new ElementId(elementDomain,elementId))
+				.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));
 			
-			// commit transaction 
-		}else {
-			throw new RuntimeException("could not find object by id: " + elementId);
-			// rollback transaction
-		}
+		//if user is manager then return all elements active and not active
+		if(user.getRole().equals(UserRole.MANAGER))
+			return converter.fromEntity(elementExisting);
+		
+		else if(user.getRole().equals(UserRole.PLAYER) && elementExisting.getActive())
+			return converter.fromEntity(elementExisting);
+		
+		else if(user.getRole().equals(UserRole.PLAYER) && !elementExisting.getActive())
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "element not found");
+		
+		else 
+			throw new RuntimeException("This user has no permission for setrieval or search element" + user.toString());	
+
 	}
-	
 	@Override
 	@Transactional
-	public ElementBoundary update(String managerDomain, String managerEmail, String elementDomain, String elementID,
-			ElementBoundary update) {
+	public ElementBoundary update(String managerDomain, String managerEmail, String elementDomain,
+			String elementID, ElementBoundary update) {
+		//check input data. if it's incorrect then throw exception.
+		checkInputData(managerDomain, managerEmail);
 		
+		//get user id if user in DB 
+		UserEntity user = checkIfUserInDB_returnUser(managerDomain, managerEmail);
+		
+		if(!user.getRole().equals(UserRole.MANAGER))
+			throw new RuntimeException("This user has no permissions for udatin element" + user.toString());   
+		
+		//get element from DB
 		ElementId id = new ElementId();
 		id.setDomain(elementDomain);
-		id.setId(elementID);
-		
-		ElementEntity existing = this.elementDao.findById(new ElementId(elementDomain,elementID))
+		id.setId(elementID);	
+		ElementEntity existing = this.elementDao.findById(id)
 		.orElseThrow(()->new RuntimeException("could not find object by id: " + id));
 		
-		if (update.getName() != null) {
+		// update element's attributes
+		if (update.getName() != null) 
 			existing.setName(update.getName());
-		}
-		if (update.getType() != null) {
+		if (update.getType() != null) 
 			existing.setType(update.getType());
-		}
-		
-		if (update.isActive() == false) {
+		if (update.isActive() == false) 
 			existing.setActive(true);
-		}
-		
-		if (update.getLocation() != null) {
+        if (update.getLocation() != null) 
 			existing.setLocation(update.getLocation());
-		}
-		
-		if (update.getElementAttributes() != null) {
+		if (update.getElementAttributes() != null)
 			existing.setElementAttributes(update.getElementAttributes());
-		}
 		
-		return this.converter
-				.fromEntity(
-					this.elementDao.save(existing));
+        // save updated element to DB
+		return this.converter.fromEntity(this.elementDao.save(existing));
 	}
 
+	
+	
 	@Override
 	@Transactional
 	public void bind(String managerDomain, String managerEmail, String elementDomain, String elementID,
@@ -202,45 +255,92 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 	@Transactional(readOnly = true)
 	public Collection<ElementBoundary> getAllChildrenOfElement(String userDomain, String userEmail, String elementDomain,
 			String elementId, int size, int page) {
-	
-		ElementId element_Id = new ElementId(elementDomain,elementId);
 		
-		return this.elementDao.findAllByElementId(element_Id,
-				PageRequest.of(page, size, Direction.DESC, "createdTimeStamp"))
-				.stream()
-				.map(this.converter::fromEntity)
-				.collect(Collectors.toList());
+		//check input data. if it's incorrect then throw exception.
+		checkInputData(userDomain, userEmail);
+		
+		//get user id if user in DB 
+		UserEntity user = checkIfUserInDB_returnUser(userDomain, userEmail);		
+		
+		
+		//if user is manager then return all elements active and not active
+		if(user.getRole().equals(UserRole.MANAGER)) {
+			// get entity elements from database
+			ElementEntity elementExisting = this.elementDao.findById(new ElementId(elementDomain,elementId))
+					.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));		
+			
+			// return all elements active and not active
+			return this.elementDao.findAllByElementId(elementExisting.getElementId(),
+					PageRequest.of(page, size, Direction.DESC, "createdTimeStamp"))
+					.stream()
+					.map(this.converter::fromEntity)
+					.collect(Collectors.toSet());
+			
+		
+			//if user is player then return all elements active and not active
+		} else if(user.getRole().equals(UserRole.PLAYER)){
+			// get entity objects from database
+			ElementEntity elementExisting = this.elementDao.findById(new ElementId(elementDomain,elementId))
+					.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));
+			
+			// return only active elements 
+			return this.elementDao.findAllByElementId(elementExisting.getElementId(),
+					PageRequest.of(page, size, Direction.DESC, "createdTimeStamp"))
+					.stream()
+					.filter(e -> e.getActive())
+					.map(this.converter::fromEntity)
+					.collect(Collectors.toSet());
+		
+		
+		//if user is not manager or player then throw exception
+		} else
+			throw new RuntimeException("This user has no permission for setrieval or search element" + user.toString());	
 	}
+	
 
 	@Override
 	@Transactional(readOnly = true)
 	public Collection<ElementBoundary> getAllParentsOfElement(String userDomain, String userEmail, String elementDomain,
 			String elementId, int size, int page) {
 		
-		// get entity objects from database
-		ElementEntity elementExisting = this.elementDao.findById(new ElementId(elementDomain,elementId))
-				.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));
+		//check input data. if it's incorrect then throw exception.
+		checkInputData(userDomain, userEmail);
 		
-		if (size < 1) {
-			throw new RuntimeException("size must be not less than 1"); 
-		}
+		//get user id if user in DB 
+		UserEntity user = checkIfUserInDB_returnUser(userDomain, userEmail);		
+			
+		//if user is manager then return all elements active and not active
+		if(user.getRole().equals(UserRole.MANAGER)) {
+			// get element from database
+			ElementEntity elementExisting = this.elementDao.findById(new ElementId(elementDomain,elementId))
+					.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));
+			// get all origins 
+			Set<ElementBoundary> rv = new HashSet<>(); 		
+			while(elementExisting.getParent()!=null) {
+				rv.add(this.converter.fromEntity(elementExisting.getParent()));
+				elementExisting=elementExisting.getParent();
+			}			
+			return rv;
+					
+		//if user is player then return all elements active and not active
+		} else if(user.getRole().equals(UserRole.PLAYER)){
+			// get element from database
+			ElementEntity elementExisting = this.elementDao.findById(new ElementId(elementDomain,elementId))
+					.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));
+			// get all origins 
+			Set<ElementBoundary> rv = new HashSet<>(); 		
+			while(elementExisting.getParent()!=null && elementExisting.getActive()) {
+				rv.add(this.converter.fromEntity(elementExisting.getParent()));
+				elementExisting=elementExisting.getParent();
+			}			
+			return rv;		
 		
-		if (page < 0) {
-			throw new RuntimeException("page must not be negative");
-		}
-		
-		ElementEntity origin = elementExisting.getParent();
-		
-		Set<ElementBoundary> rv = new HashSet<>(); 
-		
-		// page = 0 && size >= 1
-		if (origin != null && page == 0) {
-			ElementBoundary rvBoundary = this.converter.fromEntity(origin);
-			rv.add(rvBoundary);
-		}
-		return rv;
+		//if user is not manager or player then throw exception
+		} else
+			throw new RuntimeException("This user has no permission for setrieval or search element" + user.toString());	
 	}
-
+	
+	
 	@Override
 	@Transactional(readOnly = true)
 	public List<ElementBoundary> getElementByType(String type, int size, int page) {
@@ -259,6 +359,8 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 				.map(this.converter::fromEntity)
 				.collect(Collectors.toList());
 	}
+	
+	
 
 	@Override
 	public List<ElementBoundary> getElementByLocation(double minLat,  double maxLat, double minLng, double maxLng, int size, int page) {
@@ -268,4 +370,47 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 				.map(this.converter::fromEntity)
 				.collect(Collectors.toList());
 	}
+	
+	
+	
+	
+	@Override
+	public boolean checkIfEmailIsValid(String email) {
+		if (Pattern.matches(VALID_EMAIL_PATTERN, email.trim())) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	@Override
+	public void checkInputData(String userDomain, String userEmail) {
+		//check input data
+        if(userDomain.equals(null) || userDomain.isEmpty())
+        	throw new RuntimeException("Domain is null or empty");        
+        if(userEmail.equals(null))
+        	throw new RuntimeException("Email is null");
+        if(!checkIfEmailIsValid(userEmail))
+        	throw new RuntimeException("Email is incorrect");
+	}
+	
+	
+	@Override
+	public UserEntity checkIfUserInDB_returnUser(String userDomain,
+			String userEmail) {
+		//create user id 
+		UserId userId = new UserId();
+		userId.setDomain(userDomain);
+		userId.setEmail(userEmail);		
+		//get user from DB
+		Optional<UserEntity>existing = userDao.findById(userId);		
+		//check if user was DB
+		if (!existing.isPresent()) 
+			throw new UserNotFoundException("Could not find user by id: " + userId);
+		UserEntity user = existing.get();		
+
+		return user;
+	}
+
+
 }
