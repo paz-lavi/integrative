@@ -1,6 +1,8 @@
 package acs.rest;
 
 import acs.rest.boudanries.UserBoundary;
+import acs.data.NewUserDetails;
+import acs.data.UserConverter;
 import acs.logic.IncorrectInputExeption;
 import acs.logic.InsafitiontInputExeption;
 import acs.logic.UserServiceImplementationDB;
@@ -18,19 +20,23 @@ import java.util.Map;
 public class UserController {
 
     private UserServiceImplementationDB userService;
+    private UserConverter userConverter;
+
 
     @Autowired
     public UserController(UserServiceImplementationDB userService) {
         super();
         this.userService = userService;
+        this.userConverter = userConverter;
     }
 
     @RequestMapping(path = "/acs/users",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserBoundary createNewUser(@RequestBody UserBoundary boundry) {
-        return this.userService.createUser(boundry);
+    public UserBoundary createNewUser(@RequestBody NewUserDetails newUserDetails) {
+    	UserBoundary boundary = userConverter.fromUserDitails(newUserDetails);   
+        return this.userService.createUser(boundary);
     }
 
 

@@ -32,9 +32,7 @@ public class ActionController {
         return this.actionService.InvokeAction(action);
     }
     
-    
-    
-    
+       
     @RequestMapping(path = "/acs/actions/{adminDomain}/{adminEmail}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
