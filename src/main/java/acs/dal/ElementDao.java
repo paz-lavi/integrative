@@ -28,5 +28,10 @@ public interface ElementDao extends PagingAndSortingRepository<ElementEntity, El
 			@Param("maxLat") double maxLat,
 			@Param("minLng") double minLng,
 			@Param("maxLng") double maxLng,
-			Pageable pageable);		
+			Pageable pageable);	
+	
+	public List<ElementEntity> findAllByisActive(
+			@Param("isActive") boolean isActive, 
+			Pageable pageable);
+
 }

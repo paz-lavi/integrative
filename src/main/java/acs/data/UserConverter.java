@@ -1,11 +1,20 @@
 package acs.data;
 
 import acs.rest.boudanries.UserBoundary;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 
 @Component
 public class UserConverter {
+private String domain;
+	
+	// injection of value from the spring boot configuration
+	@Value("${spring.application.name:demo}")
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
 
 	public UserBoundary fromEntity(UserEntity entity) {
 		UserBoundary rv = new UserBoundary();
@@ -22,6 +31,21 @@ public class UserConverter {
 		rv.setRole(boundary.getRole());
 		rv.setUserId(boundary.getUserId());
 		rv.setUsername(boundary.getUsername());
+		return rv;
+	}
+	
+	
+	public UserBoundary fromUserDitails(NewUserDetails newUserDetails) {
+		UserBoundary rv = new UserBoundary();
+		
+		UserId id = new UserId();
+		id.setDomain(domain);
+		id.setEmail(newUserDetails.getEmail());
+		rv.setUserId(id);
+		
+		rv.setAvatar(newUserDetails.getAvatar());	
+		rv.setRole(newUserDetails.getRole());	
+		rv.setUsername(newUserDetails.getUsername());		
 		return rv;
 	}
 	

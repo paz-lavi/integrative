@@ -21,18 +21,18 @@ public class ActionEntity {
     private ActionId actionId;
     private String type;
     private ElementId element;
-    private Date createdTimeStamp;
+    private Date createdTimestamp;
     private UserId invokedBy;
     private Map<String, Object> actionAttributes;
 
     public ActionEntity() {
     }
 
-    public ActionEntity(ActionId actionId, String type, ElementId element, Date createdTimeStamp, UserId invokedBy, Map<String, Object> actionAttributes) {
+    public ActionEntity(ActionId actionId, String type, ElementId element, Date createdTimestamp, UserId invokedBy, Map<String, Object> actionAttributes) {
         this.actionId = actionId;
         this.type = type;
         this.element = element;
-        this.createdTimeStamp = createdTimeStamp;
+        this.createdTimestamp = createdTimestamp;
         this.invokedBy = invokedBy;
         this.actionAttributes = actionAttributes;
     }
@@ -65,12 +65,12 @@ public class ActionEntity {
     }
     
     @Temporal(TemporalType.TIMESTAMP)
-    public Date getCreatedTimeStamp() {
-        return createdTimeStamp;
+    public Date getCreatedTimestamp() {
+        return createdTimestamp;
     }
 
-    public void setCreatedTimeStamp(Date createdTimeStamp) {
-        this.createdTimeStamp = createdTimeStamp;
+    public void setCreatedTimestamp(Date createdTimestamp) {
+        this.createdTimestamp = createdTimestamp;
     }
     
     @Embedded

@@ -75,8 +75,8 @@ public class ElementEntity {
         return createdTimestamp;
     }
 
-    public void setCreatedTimestamp(Date createdTimeStamp) {
-        this.createdTimestamp = createdTimeStamp;
+    public void setCreatedTimestamp(Date createdTimestamp) {
+        this.createdTimestamp = createdTimestamp;
     }
 
     @Embedded
