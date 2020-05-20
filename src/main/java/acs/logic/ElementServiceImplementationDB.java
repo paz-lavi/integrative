@@ -290,6 +290,7 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 					.filter(e -> e.getActive())
 					.map(this.converter::fromEntity)
 					.collect(Collectors.toSet());
+			
 		
 		
 		//if user is not manager or player then throw exception
