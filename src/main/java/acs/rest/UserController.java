@@ -24,7 +24,7 @@ public class UserController {
 
 
     @Autowired
-    public UserController(UserServiceImplementationDB userService) {
+    public UserController(UserServiceImplementationDB userService, UserConverter userConverter) {
         super();
         this.userService = userService;
         this.userConverter = userConverter;
@@ -35,7 +35,7 @@ public class UserController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public UserBoundary createNewUser(@RequestBody NewUserDetails newUserDetails) {
-    	UserBoundary boundary = userConverter.fromUserDitails(newUserDetails);   
+    	UserBoundary boundary = this.userConverter.fromUserDitails(newUserDetails);   
         return this.userService.createUser(boundary);
     }
 

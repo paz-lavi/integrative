@@ -1,6 +1,8 @@
 package acs.data;
 
 import acs.rest.boudanries.UserBoundary;
+import acs.data.NewUserDetails;
+import acs.data.UserEntity;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -33,8 +35,7 @@ private String domain;
 		rv.setUsername(boundary.getUsername());
 		return rv;
 	}
-	
-	
+		
 	public UserBoundary fromUserDitails(NewUserDetails newUserDetails) {
 		UserBoundary rv = new UserBoundary();
 		

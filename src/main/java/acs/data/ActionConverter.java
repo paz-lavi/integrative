@@ -9,7 +9,7 @@ public class ActionConverter {
         ActionBoundary rv = new ActionBoundary();
         rv.setActionAttributes(entity.getActionAttributes());
         rv.setActionId(entity.getActionId());
-        rv.setCreatedTimestamp(entity.getCreatedTimeStamp());
+        rv.setCreatedTimestamp(entity.getCreatedTimestamp());
         rv.setElement(entity.getElement());
         rv.setInvokedBy(entity.getInvokedBy());
         rv.setType(entity.getType());
@@ -20,7 +20,7 @@ public class ActionConverter {
         ActionEntity rv = new ActionEntity();
         rv.setActionAttributes(boundary.getActionAttributes());
         rv.setActionId(boundary.getActionId());
-        rv.setCreatedTimeStamp(boundary.getCreatedTimestamp());
+        rv.setCreatedTimestamp(boundary.getCreatedTimestamp());
         rv.setElement(boundary.getElement());
         rv.setInvokedBy(boundary.getInvokedBy());
         rv.setType(boundary.getType());
