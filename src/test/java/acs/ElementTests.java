@@ -50,11 +50,11 @@ public class ElementTests {
 		
 	}
 	
-//	@AfterEach 
-//	public void teardown() {
-//		this.restTemplate
-//			.delete(this.url + "deleteAll/admin/admin");
-//	}
+	@AfterEach 
+	public void teardown() {
+		this.restTemplate
+			.delete(this.url + "deleteAll/adminDomain/adminEmail");
+	}
 	
 	
 	@Test
@@ -70,7 +70,6 @@ public class ElementTests {
 				UserBoundary.class).getUserId(); 
 		System.out.println(userId.toString()+"user");  
 
-		System.out.println("\n************ 1 *****************\n"); 
 		// WHEN I POST new element by manager"
 		ElementBoundary elementBoundary = new ElementBoundary();
 		ElementId elementId = new ElementId();
@@ -79,13 +78,11 @@ public class ElementTests {
 		elementBoundary.setCreatedBy(userId);
 		elementBoundary.setIsActive(true);
 	
-		System.out.println("\n************ 2 *****************\n"); 
 		ElementId putElementId = this.restTemplate
 			.postForObject(this.url + userId.getDomain() + "/" + userId.getEmail(), 
 					elementBoundary, 
 					ElementBoundary.class).getElementId();
 		
-		System.out.println("\n************ 3 *****************\n"+ putElementId.toString()); 
 		// THEN the database contains a user with the id's mail attribute "test"
 		ElementId retriveElementId = this.restTemplate
 				.getForObject(this.url + userId.getDomain() + "/" + userId.getEmail() +

@@ -152,17 +152,7 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 	@Override
 	@Transactional
 	public void deleteAllElements(String adminDomain, String adminEmail) {
-		
-		//check input data. if it's incorrect then throw exception.
-		//checkInputData(adminDomain, adminEmail);
-		
-		//get user id if user in DB 
-		//UserEntity user = checkIfUserInDB_returnUser(adminDomain, adminEmail);	
-		
-		//if(user.getRole().equals(UserRole.ADMIN))
-	     	this.elementDao.deleteAll();	
-		//else
-		//	throw new RuntimeException("This user has no permission for setrieval or search element" + user.toString());	
+	     this.elementDao.deleteAll();	
 	}
 	
 	@Override

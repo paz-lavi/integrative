@@ -186,6 +186,15 @@ public class ElementController {
 				.toArray(new ElementBoundary[0]);
 	}
 	
+	@RequestMapping(path = "/acs/elements/deleteAll/{adminDomain}/{adminEmail}", 
+		    method = RequestMethod.DELETE)
+	public void deleteAll(
+			@PathVariable("adminDomain") String adminDomain,
+            @PathVariable("adminEmail") String adminEmail) {
+		this.elementService
+			.deleteAllElements(adminDomain, adminEmail);
+	}
+	
 	@ExceptionHandler
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	public Map<String, Object> handleException (UserNotFoundException e){
