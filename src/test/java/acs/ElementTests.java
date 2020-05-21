@@ -189,7 +189,6 @@ public class ElementTests {
 					elementBoundaryPosted, 
 					ElementBoundary.class).getElementId();
 		
-		System.out.println("\n************ 1 *****************\n"+elementIdDB.toString());  
 
 		// WHEN I PUT element by manager"
 		ElementBoundary elementBoundaryPut = new ElementBoundary();
@@ -201,7 +200,6 @@ public class ElementTests {
 				.put(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail() +
 						"/" + elementIdDB.getDomain() + "/" + elementIdDB.getId(),
 						elementBoundaryPut);
-		System.out.println("\n************ 2 *****************\n");  
 		// THEN the database contains a user with the id's mail attribute "test"
 		ElementBoundary  retriveElement = this.restTemplate
 				.getForObject(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail() +

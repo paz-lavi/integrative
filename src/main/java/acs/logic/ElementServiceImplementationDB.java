@@ -152,7 +152,7 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 	@Override
 	@Transactional
 	public void deleteAllElements(String adminDomain, String adminEmail) {
-	     this.elementDao.deleteAll();	
+	     this.elementDao.deleteAll();		
 	}
 	
 	@Override
@@ -260,12 +260,10 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 					.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));		
 			
 			// return all elements active and not active
-			return this.elementDao.findAllByElementId(elementExisting.getElementId(),
-					PageRequest.of(page, size, Direction.DESC, "createdTimeStamp"))
+			return elementExisting.getChildren()
 					.stream()
 					.map(this.converter::fromEntity)
 					.collect(Collectors.toSet());
-			
 		
 			//if user is player then return all elements active and not active
 		} else if(user.getRole().equals(UserRole.PLAYER)){
@@ -274,8 +272,7 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 					.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));
 			
 			// return only active elements 
-			return this.elementDao.findAllByElementId(elementExisting.getElementId(),
-					PageRequest.of(page, size, Direction.DESC, "createdTimeStamp"))
+			return elementExisting.getChildren()
 					.stream()
 					.filter(e -> e.getActive())
 					.map(this.converter::fromEntity)
