@@ -235,7 +235,9 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 		
 		//Add child
 		parentExisting.addChild(childExisting);
+		childExisting.setParent(parentExisting);
 		this.elementDao.save(parentExisting);
+		this.elementDao.save(childExisting);
 	
 
 			
@@ -257,29 +259,27 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 		if(user.getRole().equals(UserRole.MANAGER)) {
 			// get entity elements from database
 			ElementEntity elementExisting = this.elementDao.findById(new ElementId(elementDomain,elementId))
-					.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));		
+					.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));	
 			
-			// return all elements active and not active
-			return elementExisting.getChildren()
-					.stream()
+			return this.elementDao.findAllByparent_elementId(elementExisting.getElementId(), 
+					PageRequest.of(page, size, Direction.DESC, "createdTimestamp", "elementId")).stream()
 					.map(this.converter::fromEntity)
 					.collect(Collectors.toSet());
+
 		
 			//if user is player then return all elements active and not active
 		} else if(user.getRole().equals(UserRole.PLAYER)){
 			// get entity objects from database
-			ElementEntity elementExisting = this.elementDao.findById(new ElementId(elementDomain,elementId))
+			ElementEntity elementExisting = this.elementDao.findAllByElementIdAndActive(new ElementId(elementDomain,elementId), true)
 					.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));
 			
 			// return only active elements 
-			return elementExisting.getChildren()
-					.stream()
-					.filter(e -> e.getActive())
+			return this.elementDao.findAllByparent_elementIdAndActive(elementExisting.getElementId(),
+					true,
+					PageRequest.of(page, size, Direction.DESC, "createdTimestamp", "elementId")).stream()
 					.map(this.converter::fromEntity)
 					.collect(Collectors.toSet());
-			
-		
-		
+
 		//if user is not manager or player then throw exception
 		} else
 			throw new RuntimeException("This user has no permission for setrieval or search element" + user.toString());	

@@ -146,7 +146,6 @@ public class ElementTests {
 		ElementBoundary elementBoundary = new ElementBoundary();
 		ElementId elementId = new ElementId();
 		elementId.setDomain(userIdManager.getDomain());
-		elementId.setId("111");
 		elementBoundary.setElementId(elementId);
 		elementBoundary.setCreatedBy(userIdManager);
 		elementBoundary.setIsActive(true);	
@@ -180,10 +179,10 @@ public class ElementTests {
 		ElementBoundary elementBoundaryPosted = new ElementBoundary();
 		ElementId postedElementId = new ElementId();
 		postedElementId.setDomain(userIdManager.getDomain());
-		postedElementId.setId("111");
 		elementBoundaryPosted.setElementId(postedElementId);
 		elementBoundaryPosted.setCreatedBy(userIdManager);
 		elementBoundaryPosted.setIsActive(true);	
+		
 		ElementId elementIdDB = this.restTemplate
 			.postForObject(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail(), 
 					elementBoundaryPosted, 
@@ -211,4 +210,59 @@ public class ElementTests {
 		.isEqualTo("ggg");
 	}
 
+	
+	@Test
+	public void et_all_children_from_DB() throws Exception{
+		// GIVEN the server is up and system contains manager and element and his children
+		NewUserDetails userDitails = new NewUserDetails();
+		userDitails.setAvatar(":-");
+		userDitails.setEmail("aaa@ff.ff");
+		userDitails.setRole(UserRole.MANAGER);
+		userDitails.setUsername("aaa");
+		UserId userIdManager = this.restTemplate.postForObject("http://localhost:" + this.port + "/acs/users", 
+				userDitails, 
+				UserBoundary.class).getUserId();
+		
+		ElementBoundary parent = new ElementBoundary();
+		ElementId parentId = new ElementId();
+		parentId.setDomain(userIdManager.getDomain());
+		parent.setElementId(parentId);
+		parent.setCreatedBy(userIdManager);
+		parent.setIsActive(true);	
+		
+		ElementBoundary parentDB = this.restTemplate
+			.postForObject(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail(), 
+					parent, 
+					ElementBoundary.class);
+		
+		
+		
+		ElementBoundary chiled = new ElementBoundary();
+		ElementId chiledId = new ElementId();
+		chiledId.setDomain(userIdManager.getDomain());
+		chiled.setElementId(chiledId);
+		chiled.setCreatedBy(userIdManager);
+		chiled.setIsActive(true);
+		
+		ElementBoundary chiledDB = this.restTemplate
+				.postForObject(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail(), 
+						chiled, 
+						ElementBoundary.class);
+		
+		this.restTemplate
+		.put(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail() +
+				"/" + parentDB.getElementId().getDomain() + "/" + parentDB.getElementId().getId(),
+				chiledDB);
+		
+		
+		ElementBoundary  retriveElement = this.restTemplate
+				.getForObject(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail() +
+						"/" + parentDB.getElementId().getDomain() + "/" + parentDB.getElementId().getId(),
+						ElementBoundary.class);
+
+		assertThat(retriveElement)
+		.isNotNull();
+
+		
+	}
 }

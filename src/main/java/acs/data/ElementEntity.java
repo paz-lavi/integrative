@@ -127,6 +127,7 @@ public class ElementEntity {
 	
 	public void addChild (ElementEntity child) {
 		this.children.add(child);
-		child.setParent(this);
 	}
+	
+	
 }
