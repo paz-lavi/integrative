@@ -88,8 +88,6 @@ public class ElementTests {
 				.getForObject(this.url + userId.getDomain() + "/" + userId.getEmail() +
 						"/" + putElementId.getDomain() + "/" + putElementId.getId(),
 						ElementBoundary.class).getElementId();
-
-		System.out.println("\n************ 4 *****************\n"+retriveElementId.toString()); 
 		
 		assertThat(retriveElementId)
 		.isNotNull();
@@ -191,7 +189,7 @@ public class ElementTests {
 					elementBoundaryPosted, 
 					ElementBoundary.class).getElementId();
 		
-		System.out.println("\n************ 1 *****************\n");  
+		System.out.println("\n************ 1 *****************\n"+elementIdDB.toString());  
 
 		// WHEN I PUT element by manager"
 		ElementBoundary elementBoundaryPut = new ElementBoundary();
@@ -200,10 +198,10 @@ public class ElementTests {
 		elementBoundaryPut.setName("ggg");
 		
 		this.restTemplate
-				.put(url + userIdManager.getDomain() + "/" + userIdManager.getEmail() +
-						"/" + postedElementId.getDomain() + "/" + postedElementId.getId(),
+				.put(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail() +
+						"/" + elementIdDB.getDomain() + "/" + elementIdDB.getId(),
 						elementBoundaryPut);
-		
+		System.out.println("\n************ 2 *****************\n");  
 		// THEN the database contains a user with the id's mail attribute "test"
 		ElementBoundary  retriveElement = this.restTemplate
 				.getForObject(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail() +
