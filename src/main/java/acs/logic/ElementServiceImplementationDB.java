@@ -152,17 +152,7 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 	@Override
 	@Transactional
 	public void deleteAllElements(String adminDomain, String adminEmail) {
-		
-		//check input data. if it's incorrect then throw exception.
-		//checkInputData(adminDomain, adminEmail);
-		
-		//get user id if user in DB 
-		//UserEntity user = checkIfUserInDB_returnUser(adminDomain, adminEmail);	
-		
-		//if(user.getRole().equals(UserRole.ADMIN))
-	     	this.elementDao.deleteAll();	
-		//else
-		//	throw new RuntimeException("This user has no permission for setrieval or search element" + user.toString());	
+	     	this.elementDao.deleteAll();		
 	}
 	
 	@Override
@@ -270,12 +260,10 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 					.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));		
 			
 			// return all elements active and not active
-			return this.elementDao.findAllByElementId(elementExisting.getElementId(),
-					PageRequest.of(page, size, Direction.DESC, "createdTimeStamp"))
+			return elementExisting.getChildren()
 					.stream()
 					.map(this.converter::fromEntity)
 					.collect(Collectors.toSet());
-			
 		
 			//if user is player then return all elements active and not active
 		} else if(user.getRole().equals(UserRole.PLAYER)){
@@ -284,8 +272,7 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 					.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));
 			
 			// return only active elements 
-			return this.elementDao.findAllByElementId(elementExisting.getElementId(),
-					PageRequest.of(page, size, Direction.DESC, "createdTimeStamp"))
+			return elementExisting.getChildren()
 					.stream()
 					.filter(e -> e.getActive())
 					.map(this.converter::fromEntity)
