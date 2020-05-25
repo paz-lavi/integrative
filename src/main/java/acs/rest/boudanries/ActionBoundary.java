@@ -11,7 +11,7 @@ public class ActionBoundary {
     private ActionId actionId;
     private String type;
     private ElementId element;
-    private Date createdTimeStamp = new Date();
+    private Date createdTimestamp = new Date();
     private UserId invokedBy;
     private Map<String, Object> actionAttributes;
 
@@ -45,11 +45,11 @@ public class ActionBoundary {
     }
 
     public Date getCreatedTimestamp() {
-        return createdTimeStamp;
+        return createdTimestamp;
     }
 
-    public void setCreatedTimestamp(Date createdTimeStamp) {
-        this.createdTimeStamp = createdTimeStamp;
+    public void setCreatedTimestamp(Date createdTimestamp) {
+        this.createdTimestamp = createdTimestamp;
     }
 
     public UserId getInvokedBy() {
