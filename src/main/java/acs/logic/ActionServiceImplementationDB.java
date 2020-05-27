@@ -65,10 +65,13 @@ public class ActionServiceImplementationDB implements EnhancedActionService{
 		if (!user.getRole().equals(UserRole.PLAYER))
 			throw new RuntimeException("\"This user has no permission: " + userId);
 		
+		//check if there is such element
 		ElementId elementId = action.getElement();
 		Optional<ElementEntity> existingElement = elementDao.findById(elementId);	
 		if (!existingElement.isPresent()) 
 			throw new UserNotFoundException("element not in system: " + userId);
+		
+		//get element
 		ElementEntity element = existingElement.get();
 		if(!element.getActive())
 			throw new UserNotFoundException("element not in system: " + userId);

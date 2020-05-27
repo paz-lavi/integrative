@@ -1,5 +1,7 @@
 package acs.logic;
 
+import acs.data.CreatedBy;
+import acs.data.CreatedByConverter;
 import acs.data.ElementConverter;
 import acs.data.ElementEntity;
 import acs.data.ElementId;
@@ -18,6 +20,7 @@ public class ElementImplementation implements ElementService {
     private ElementConverter elementConverter;
     private Map<ElementId, ElementEntity> elementDatabase;
 	private String domain;
+	private CreatedByConverter createdByConverter;
 
 	// injection of value from the spring boot configuration
 	@Value("${spring.application.name:}")
@@ -26,8 +29,9 @@ public class ElementImplementation implements ElementService {
 	}
 	
 	@Autowired
-	public ElementImplementation(ElementConverter converter) {
+	public ElementImplementation(ElementConverter converter, CreatedByConverter createdByConverter) {
 		this.elementConverter = converter;
+		this.createdByConverter = createdByConverter;
 	}
 
 	@PostConstruct
@@ -68,7 +72,8 @@ public class ElementImplementation implements ElementService {
         if(managerEmail.equals(null))
         	throw new InsafitiontInputExeption("Need to have a managerEmail");
         
-        element.setCreatedBy(userId);
+
+        element.setCreatedBy(this.createdByConverter.fromUserIdToCreatedBy(userId));
         
         element.setLocation(new  Location(32.123704, 34.806708));
         

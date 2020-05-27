@@ -27,7 +27,7 @@ public class ElementEntity {
     private String name;
     private boolean isActive;
     private Date createdTimestamp = new Date();
-    private UserId createdBy;
+    private CreatedBy createdBy;
     private Location location;
     private Map<String, Object> elementAttributes;
 	private Set<ElementEntity> children;
@@ -80,11 +80,11 @@ public class ElementEntity {
     }
 
     @Embedded
-    public UserId getCreatedBy() {
+    public CreatedBy getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(UserId createdBy) {
+    public void setCreatedBy(CreatedBy createdBy) {
         this.createdBy = createdBy;
     }
 

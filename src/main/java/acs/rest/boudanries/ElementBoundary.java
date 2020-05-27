@@ -1,5 +1,6 @@
 package acs.rest.boudanries;
 
+import acs.data.CreatedBy;
 import acs.data.ElementId;
 import acs.data.Location;
 import acs.data.UserId;
@@ -13,7 +14,7 @@ public class ElementBoundary {
     private String name;
     private boolean active;
     private Date createdTimestamp = new Date();
-    private UserId createdBy;
+    private CreatedBy createdBy;
     private Location location;
     private Map<String, Object> elementAttributes;
 
@@ -58,11 +59,11 @@ public class ElementBoundary {
         this.createdTimestamp = createdTimeStamp;
     }
 
-    public UserId getCreatedBy() {
+    public CreatedBy getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(UserId createdBy) {
+    public void setCreatedBy(CreatedBy createdBy) {
         this.createdBy = createdBy;
     }
 

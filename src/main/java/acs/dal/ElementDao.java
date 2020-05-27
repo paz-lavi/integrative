@@ -1,9 +1,12 @@
 package acs.dal;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import acs.data.ElementEntity;
@@ -49,10 +52,19 @@ public interface ElementDao extends PagingAndSortingRepository<ElementEntity, El
 			@Param("elementId") ElementId elementId, 
 			@Param("isActive") boolean isActive);
 	
-	public List<ElementEntity> findAllBy(
+	
+	@Query("SELECT t.parent FROM ElementEntity t WHERE t.elementId = :elementId") 
+	public List<ElementEntity> findParentByElementId(
+			@Param("elementId") ElementId elementId,
+			Pageable pageable);
+	
+	@Query("SELECT t.parent FROM ElementEntity t WHERE t.elementId = :elementId and t.parent.active = :isActive")
+	public List<ElementEntity> findParentByElementIdAndParent_active(
 			@Param("elementId") ElementId elementId, 
 			@Param("isActive") boolean isActive,
 			Pageable pageable);
+	
+
 	
 
 }

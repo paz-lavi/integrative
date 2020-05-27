@@ -23,6 +23,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import acs.dal.ElementDao;
 import acs.dal.UserDao;
+import acs.data.CreatedBy;
+import acs.data.CreatedByConverter;
 import acs.data.ElementConverter;
 import acs.data.ElementEntity;
 import acs.data.ElementId;
@@ -39,17 +41,19 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 	private String projectName;
 	private ElementDao elementDao;
 	private UserDao userDao;
-	private ElementConverter converter; 
+	private ElementConverter converter;
+	private CreatedByConverter createdByConverter;
 	public static String VALID_EMAIL_PATTERN = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 	public static double defoultLongitude;
 	public static double defoultLatitude;
 	
 	@Autowired
 	public ElementServiceImplementationDB(ElementDao elementDao, ElementConverter converter,
-			UserDao userDao) {
+			UserDao userDao, CreatedByConverter createdByConverter) {
 		this.elementDao = elementDao;
 		this.converter = converter;
 		this.userDao = userDao;
+		this.createdByConverter = createdByConverter;
 	}
 	
 	// injection of value from the spring boot configuration
@@ -139,7 +143,8 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 				element.setElementId(id);	
 				element.setIsActive(true);
 		        element.setCreatedTimestamp(new Date());
-		        element.setCreatedBy(user.getUserId());
+		        
+		        element.setCreatedBy(this.createdByConverter.fromUserIdToCreatedBy(user.getUserId()));
 
 		        //convert ElementBoundary to ElementEntity
 				ElementEntity entity = this.converter.toEntity(element);
@@ -300,28 +305,22 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 		//if user is manager then return all elements active and not active
 		if(user.getRole().equals(UserRole.MANAGER)) {
 			// get element from database
-			ElementEntity elementExisting = this.elementDao.findById(new ElementId(elementDomain,elementId))
-					.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));
-			// get all origins 
-			Set<ElementBoundary> rv = new HashSet<>(); 		
-			while(elementExisting.getParent()!=null) {
-				rv.add(this.converter.fromEntity(elementExisting.getParent()));
-				elementExisting=elementExisting.getParent();
-			}			
-			return rv;
+			return this.elementDao.findParentByElementId(new ElementId(elementDomain,elementId),
+					PageRequest.of(page, size, Direction.DESC, "createdTimestamp", "elementId"))
+					.stream()
+					.map(this.converter::fromEntity)
+					.collect(Collectors.toSet());
+		
 					
 		//if user is player then return all elements active and not active
 		} else if(user.getRole().equals(UserRole.PLAYER)){
 			// get element from database
-			ElementEntity elementExisting = this.elementDao.findById(new ElementId(elementDomain,elementId))
-					.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));
-			// get all origins 
-			Set<ElementBoundary> rv = new HashSet<>(); 		
-			while(elementExisting.getParent()!=null && elementExisting.getActive()) {
-				rv.add(this.converter.fromEntity(elementExisting.getParent()));
-				elementExisting=elementExisting.getParent();
-			}			
-			return rv;		
+			return this.elementDao.findParentByElementIdAndParent_active(new ElementId(elementDomain,elementId),
+					true,
+					PageRequest.of(page, size, Direction.DESC, "createdTimestamp", "elementId"))
+					.stream()
+					.map(this.converter::fromEntity)
+					.collect(Collectors.toSet());		
 		
 		//if user is not manager or player then throw exception
 		} else
