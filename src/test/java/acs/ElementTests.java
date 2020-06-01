@@ -21,6 +21,7 @@ import acs.data.ElementId;
 import acs.data.NewUserDetails;
 import acs.data.UserId;
 import acs.data.UserRole;
+import acs.rest.boudanries.ActionBoundary;
 import acs.rest.boudanries.ElementBoundary;
 import acs.rest.boudanries.UserBoundary;
 
@@ -274,7 +275,7 @@ public class ElementTests {
 	
 	@Test
 	public void get_all_parents_from_DB_by_manager() throws Exception{
-		System.out.println("************************************************************");
+		
 		// GIVEN the server is up and system contains manager and element and his children
 		NewUserDetails userDitails = new NewUserDetails();
 		userDitails.setAvatar(":-");
@@ -309,11 +310,7 @@ public class ElementTests {
 		ElementBoundary chiledDB = this.restTemplate
 				.postForObject(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail(), 
 						chiled, 
-						ElementBoundary.class);
-		
-		System.out.println("************************************************************");
-		System.out.println(chiledDB.toString());  
-		System.out.println(parentDB.toString());  
+						ElementBoundary.class);  
 		
 		//bound parent with child
 		this.restTemplate
@@ -322,21 +319,13 @@ public class ElementTests {
 				+ "/children",
 				chiledDB.getElementId());
 		
-		System.out.println("************************************************************");
-		System.out.println(chiledDB.toString());  
-		System.out.println(parentDB.toString());  
-		
 		// THEN the database contains child with parents
 		ElementBoundary[]  retriveElements = this.restTemplate
 				.getForObject(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail() +
 						"/" + chiledDB.getElementId().getDomain() + "/" + chiledDB.getElementId().getId()
 						+ "/parents",
 						ElementBoundary[].class);
-		
-	    System.out.println("************************************************************");
-		System.out.println(chiledDB.toString());  
-		System.out.println(parentDB.toString());  
-		System.out.println(retriveElements.toString());  
+
 		assertThat(retriveElements[0].getElementId())
 		.isNotNull()
 		.isEqualTo(parentDB.getElementId());			
@@ -345,18 +334,22 @@ public class ElementTests {
 	@Test
 	public void get_all_parents_from_DB_by_player_when_parent_not_active_and_fail() throws Exception{
 		// GIVEN the server is up and system contains manager and element and his children
-		NewUserDetails userDitails = new NewUserDetails();
-		userDitails.setAvatar(":-");
-		userDitails.setEmail("aaa@ff.ff");
-		userDitails.setRole(UserRole.PLAYER);
-		userDitails.setUsername("aaa");
+		NewUserDetails userDitailsPlayer = new NewUserDetails();
+		userDitailsPlayer.setAvatar(":-");
+		userDitailsPlayer.setEmail("aaa@ff.ff");
+		userDitailsPlayer.setRole(UserRole.PLAYER);
+		userDitailsPlayer.setUsername("aaa");
 		UserId userIdPlayer = this.restTemplate.postForObject("http://localhost:" + this.port + "/acs/users", 
-				userDitails, 
+				userDitailsPlayer, 
 				UserBoundary.class).getUserId();
 		
-		userDitails.setRole(UserRole.MANAGER);
+		NewUserDetails userDitailsManager = new NewUserDetails();
+		userDitailsManager.setEmail("aaas@ff.fff");
+		userDitailsManager.setRole(UserRole.MANAGER);
+		userDitailsManager.setAvatar(":-");
+		userDitailsManager.setUsername("aaa");
 		UserId userIdManager = this.restTemplate.postForObject("http://localhost:" + this.port + "/acs/users", 
-				userDitails, 
+				userDitailsManager, 
 				UserBoundary.class).getUserId();
 		
 		ElementBoundary parent = new ElementBoundary();
@@ -395,22 +388,21 @@ public class ElementTests {
 		
 		
 		//parent not active
-		parentDB.setIsActive(false);
+		ActionBoundary action = new ActionBoundary();
+		action.setType("delete element");
+		action.setElement(parentDB.getElementId());
+		action.setInvokedBy(userIdPlayer);
+		
 		this.restTemplate
-		.put(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail() +
-				"/" + parentDB.getElementId().getDomain() + "/" + parentDB.getElementId().getId(),
-				parentDB);
+				.postForObject("http://localhost:" + this.port + "/acs/actions",
+						action,
+						Object.class);
 		
 		ElementBoundary retrive = this.restTemplate
 				.getForObject(this.url + userIdPlayer.getDomain() + "/" + userIdPlayer.getEmail() +
 						"/" + parentDB.getElementId().getDomain() + "/" + parentDB.getElementId().getId(),
 						ElementBoundary.class);
 		
-		assertThat(retrive)
-		.isNotNull();
-		
-		System.out.println("***********************************"+retrive.get); 
-
 		
 		// THEN the database contains child with parents
 		ElementBoundary[]  retriveElements = this.restTemplate
@@ -418,10 +410,6 @@ public class ElementTests {
 						"/" + chiledDB.getElementId().getDomain() + "/" + chiledDB.getElementId().getId()
 						+ "/parents",
 						ElementBoundary[].class);
-		
-		assertThat(retriveElements)
-		.isNotNull()
-		.isEmpty();
 
 		
 	}

@@ -32,15 +32,17 @@ public class ActionServiceImplementationDB implements EnhancedActionService{
 	private ElementDao elementDao;
 	private ActionConverter converter; 
     private String domain;
+    private ElementServiceImplementationDB elementService;
 	public static String VALID_EMAIL_PATTERN = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 
 	@Autowired
 	public ActionServiceImplementationDB(ActionDao actionDao, ActionConverter converter,
-			UserDao userDao, ElementDao elementDao) {
+			UserDao userDao, ElementDao elementDao, ElementServiceImplementationDB elementService) {
 		this.actionDao = actionDao;
 		this.converter = converter;
 		this.userDao = userDao;
 		this.elementDao = elementDao;
+		this.elementService = elementService;
 	}
 
 	 // injection of value from the spring boot configuration
@@ -65,16 +67,17 @@ public class ActionServiceImplementationDB implements EnhancedActionService{
 		if (!user.getRole().equals(UserRole.PLAYER))
 			throw new RuntimeException("\"This user has no permission: " + userId);
 		
-		//check if there is such element
+		//check if there is such element in the system
 		ElementId elementId = action.getElement();
 		Optional<ElementEntity> existingElement = elementDao.findById(elementId);	
 		if (!existingElement.isPresent()) 
 			throw new UserNotFoundException("element not in system: " + userId);
 		
-		//get element
+		//check if element is active
 		ElementEntity element = existingElement.get();
 		if(!element.getActive())
 			throw new UserNotFoundException("element not in system: " + userId);
+		
 		
 		ActionId aid = new ActionId();
     	aid.setDomain(this.domain);
@@ -84,8 +87,20 @@ public class ActionServiceImplementationDB implements EnhancedActionService{
 		if (action.getType() == null) {
 			action.setType("None");
 		}
-		this.actionDao.save(this.converter.toEntity(action));
-        return (Object)action;
+		
+		switch (action.getType()) 
+	      {
+	          //comparing value of variable against each case
+	        case "delete element":
+	        	this.elementService.deleteElement(elementId);
+	        	this.actionDao.save(this.converter.toEntity(action));
+	            return (Object)action;
+	        	
+
+	        //optional
+	        default:
+	          throw new RuntimeException("Action has no type");
+	    }
 	}
 	
 	
