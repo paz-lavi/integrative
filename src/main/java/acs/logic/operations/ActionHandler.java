@@ -5,5 +5,5 @@ import acs.data.ActionEntity;
 
 
 public interface ActionHandler {
-	public void handleAction(ActionEntity action, ElementDao elementDao);
+	public Object handleAction(ActionEntity action, ElementDao elementDao);
 }

@@ -26,7 +26,6 @@ import acs.data.UserId;
 import acs.data.UserRole;
 import acs.logic.operations.ActionHandler;
 import acs.rest.boudanries.ActionBoundary;
-import newdemo.hello.dummy.logic.operations.DummyHandler;
 
 @Service
 public class ActionServiceImplementationDB implements EnhancedActionService{

@@ -20,7 +20,7 @@ public class TurnOffSprinklersByLocationAction implements ActionHandler{
 	
 	@Transactional 
 	@Override
-	public void handleAction(ActionEntity action, ElementDao elementDao) {
+	public Object handleAction(ActionEntity action, ElementDao elementDao) {
 		
 		List<ElementEntity> sprinklers = elementDao.findAllByLocation_LatBetweenAndLocation_LngBetweenAndActive(
 				(int)action.getActionAttributes().get("lat") - (int)action.getActionAttributes().get("dist"),
@@ -28,7 +28,7 @@ public class TurnOffSprinklersByLocationAction implements ActionHandler{
 				(int)action.getActionAttributes().get("lng") - (int)action.getActionAttributes().get("dist"),
 				(int)action.getActionAttributes().get("lng") + (int)action.getActionAttributes().get("dist"), false);
 		
-		elementDao.saveAll(
+		return elementDao.saveAll(
 		    sprinklers 
 			.stream() 
 			.map(e -> { 

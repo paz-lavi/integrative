@@ -19,9 +19,9 @@ public class TurnOffSprinklersBeloningToSensorAction  implements ActionHandler{
 	
 	@Transactional 
 	@Override
-	public void handleAction(ActionEntity action, ElementDao elementDao) {
+	public Object handleAction(ActionEntity action, ElementDao elementDao) {
 		List<ElementEntity> children = elementDao.findAllByparent_elementIdAndActive(action.getElement(), true);
-		elementDao.saveAll(
+		return elementDao.saveAll(
 		children // List<ElementEntity>
 		.stream() // Stream<ElementEntity>
 		.map(e -> { 
@@ -32,7 +32,7 @@ public class TurnOffSprinklersBeloningToSensorAction  implements ActionHandler{
 			e.setElementAttributes(elementAttributes);
 			return e;	
 		}) // Stream<ElementBoundary>
-		.collect(Collectors.toList())); // List<ElementBoundary>	
+		.collect(Collectors.toList()));
 	}
 
 }
