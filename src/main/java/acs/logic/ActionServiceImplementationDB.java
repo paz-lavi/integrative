@@ -84,23 +84,11 @@ public class ActionServiceImplementationDB implements EnhancedActionService{
     	aid.setId(ActionIdGenerator.nextValue());
     	action.setActionId(aid);
     	
-		if (action.getType() == null) {
+		if (action.getType() == null) 
 			action.setType("None");
-		}
 		
-		switch (action.getType()) 
-	      {
-	          //comparing value of variable against each case
-	        case "delete element":
-	        	this.elementService.deleteElement(elementId);
-	        	this.actionDao.save(this.converter.toEntity(action));
-	            return (Object)action;
-	        	
-
-	        //optional
-	        default:
-	          throw new RuntimeException("Action has no type");
-	    }
+		
+		return (Object)action;
 	}
 	
 	

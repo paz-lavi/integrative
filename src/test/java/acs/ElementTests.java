@@ -363,8 +363,7 @@ public class ElementTests {
 			.postForObject(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail(), 
 					parent, 
 					ElementBoundary.class);
-		
-		
+			
 		
 		ElementBoundary chiled = new ElementBoundary();
 		ElementId chiledId = new ElementId();

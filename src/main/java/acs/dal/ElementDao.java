@@ -35,6 +35,13 @@ public interface ElementDao extends PagingAndSortingRepository<ElementEntity, El
 			@Param("maxLng") double maxLng,
 			Pageable pageable);	
 	
+	public List<ElementEntity> findAllByLocation_LatBetweenAndLocation_LngBetweenAndActive(
+			@Param("minLat") double minLat, 
+			@Param("maxLat") double maxLat,
+			@Param("minLng") double minLng,
+			@Param("maxLng") double maxLng,
+			@Param("isActive") boolean isActive);	
+	
 	public List<ElementEntity> findAllByisActive(
 			@Param("isActive") boolean isActive, 
 			Pageable pageable);
@@ -47,6 +54,12 @@ public interface ElementDao extends PagingAndSortingRepository<ElementEntity, El
 			@Param("elementId") ElementId elementId, 
 			@Param("isActive") boolean isActive,
 			Pageable pageable);
+	
+	
+	public List<ElementEntity> findAllByparent_elementIdAndActive(
+			@Param("elementId") ElementId elementId, 
+			@Param("isActive") boolean isActive);
+	
 	
 	public Optional<ElementEntity> findAllByElementIdAndActive(
 			@Param("elementId") ElementId elementId, 

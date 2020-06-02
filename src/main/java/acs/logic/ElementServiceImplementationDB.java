@@ -359,6 +359,12 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 	}
 	
 	
+	@Transactional
+	 public List<ElementEntity> saveAllStudent(List<ElementEntity> studentList) {
+	 List<ElementEntity> response = (List<ElementEntity>) elementDao.saveAll(studentList);
+	 return response;
+	 }
+	
 	
 	
 	@Override
@@ -368,6 +374,8 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 		}
 		return false;
 	}
+	
+	
 	
 	
 	@Override
