@@ -1,4 +1,5 @@
 package acs.logic;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +24,9 @@ import acs.data.ElementId;
 import acs.data.UserEntity;
 import acs.data.UserId;
 import acs.data.UserRole;
+import acs.logic.operations.ActionHandler;
 import acs.rest.boudanries.ActionBoundary;
+import newdemo.hello.dummy.logic.operations.DummyHandler;
 
 @Service
 public class ActionServiceImplementationDB implements EnhancedActionService{
@@ -65,19 +68,20 @@ public class ActionServiceImplementationDB implements EnhancedActionService{
 			throw new RuntimeException("user not in the system: " + userId);	
 		UserEntity user = existingUser.get();		
 		if (!user.getRole().equals(UserRole.PLAYER))
-			throw new RuntimeException("\"This user has no permission: " + userId);
+			throw new RuntimeException("This user has no permission: " + userId);
 		
-		//check if there is such element in the system
-		ElementId elementId = action.getElement();
-		Optional<ElementEntity> existingElement = elementDao.findById(elementId);	
-		if (!existingElement.isPresent()) 
-			throw new UserNotFoundException("element not in system: " + userId);
-		
-		//check if element is active
-		ElementEntity element = existingElement.get();
-		if(!element.getActive())
-			throw new UserNotFoundException("element not in system: " + userId);
-		
+		if (action.getElement() != null){
+			//check if there is such element in the system
+			ElementId elementId = action.getElement();
+			Optional<ElementEntity> existingElement = elementDao.findById(elementId);	
+			if (!existingElement.isPresent()) 
+				throw new UserNotFoundException("element not in system: " + userId);
+			
+			//check if element is active
+			ElementEntity element = existingElement.get();
+			if(!element.getActive())
+				throw new UserNotFoundException("element not in system: " + userId);
+		}
 		
 		ActionId aid = new ActionId();
     	aid.setDomain(this.domain);
@@ -85,8 +89,24 @@ public class ActionServiceImplementationDB implements EnhancedActionService{
     	action.setActionId(aid);
     	
 		if (action.getType() == null) 
-			action.setType("None");
+			action.setType("Defoult");
 		
+		
+		String className = "acs.logic.operations." +
+				action.getType() + "Action";
+		
+		// Use Java Reflection to create a new object from the class name
+		try {
+			Constructor<?> ctor = 
+					Class // main class of Java Reflection
+					  .forName(className) // have class loader get specific Class based on className
+					  .getConstructor(); // get default constructor
+					  
+			ActionHandler handlerByType = (ActionHandler) ctor.newInstance(); // invoke constructor 
+			handlerByType.handleAction(this.converter.toEntity(action), elementDao);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 		
 		return (Object)action;
 	}
