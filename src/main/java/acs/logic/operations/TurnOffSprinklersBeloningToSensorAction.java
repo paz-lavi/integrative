@@ -3,6 +3,8 @@ package acs.logic.operations;
 import acs.dal.ElementDao;
 import acs.data.ActionEntity;
 import acs.data.ElementEntity;
+import acs.rest.boudanries.ElementBoundary;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +23,8 @@ public class TurnOffSprinklersBeloningToSensorAction  implements ActionHandler{
 	@Override
 	public Object handleAction(ActionEntity action, ElementDao elementDao) {
 		List<ElementEntity> children = elementDao.findAllByparent_elementIdAndActive(action.getElement(), true);
-		return elementDao.saveAll(
+		
+		List<ElementEntity> rv = (List<ElementEntity>) elementDao.saveAll(
 		children // List<ElementEntity>
 		.stream() // Stream<ElementEntity>
 		.map(e -> { 
@@ -33,6 +36,11 @@ public class TurnOffSprinklersBeloningToSensorAction  implements ActionHandler{
 			return e;	
 		}) // Stream<ElementBoundary>
 		.collect(Collectors.toList()));
+		
+		return rv.stream().
+				map(e -> e.getLocation())
+				.collect(Collectors.toList())
+				.toArray(new ElementBoundary[0]);
 	}
 
 }

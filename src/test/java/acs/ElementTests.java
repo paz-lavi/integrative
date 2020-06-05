@@ -15,6 +15,8 @@ import org.springframework.web.client.RestTemplate;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.Map;
+
 import acs.data.CreatedByConverter;
 import acs.data.ElementEntity;
 import acs.data.ElementId;
@@ -86,6 +88,7 @@ public class ElementTests {
 			.postForObject(this.url + userId.getDomain() + "/" + userId.getEmail(), 
 					elementBoundary, 
 					ElementBoundary.class).getElementId();
+		 
 		
 		// THEN the database contains a user with the id's mail attribute "test"
 		ElementId retriveElementId = this.restTemplate
@@ -332,7 +335,8 @@ public class ElementTests {
 	}
 	
 	@Test
-	public void get_all_parents_from_DB_by_player_when_parent_not_active_and_fail() throws Exception{
+	public void get_children_of_deleted_parent_by_player_and_get_exeption() throws Exception{
+
 		// GIVEN the server is up and system contains manager and element and his children
 		NewUserDetails userDitailsPlayer = new NewUserDetails();
 		userDitailsPlayer.setAvatar(":-");
@@ -346,19 +350,18 @@ public class ElementTests {
 		NewUserDetails userDitailsManager = new NewUserDetails();
 		userDitailsManager.setEmail("aaas@ff.fff");
 		userDitailsManager.setRole(UserRole.MANAGER);
-		userDitailsManager.setAvatar(":-");
-		userDitailsManager.setUsername("aaa");
+		userDitailsManager.setAvatar(":-)");
+		userDitailsManager.setUsername("aaaa");
 		UserId userIdManager = this.restTemplate.postForObject("http://localhost:" + this.port + "/acs/users", 
 				userDitailsManager, 
 				UserBoundary.class).getUserId();
-		
+	
 		ElementBoundary parent = new ElementBoundary();
 		ElementId parentId = new ElementId();
 		parentId.setDomain(userIdManager.getDomain());
 		parent.setElementId(parentId);
 		parent.setCreatedBy(this.createdByConverter.fromUserIdToCreatedBy(userIdManager));
-		parent.setIsActive(true);	
-		
+		parent.setIsActive(true);			
 		ElementBoundary parentDB = this.restTemplate
 			.postForObject(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail(), 
 					parent, 
@@ -370,8 +373,7 @@ public class ElementTests {
 		chiledId.setDomain(userIdManager.getDomain());
 		chiled.setElementId(chiledId);
 		chiled.setCreatedBy(this.createdByConverter.fromUserIdToCreatedBy(userIdManager));
-		chiled.setIsActive(true);
-		
+		chiled.setIsActive(true);	
 		ElementBoundary chiledDB = this.restTemplate
 				.postForObject(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail(), 
 						chiled, 
@@ -388,7 +390,7 @@ public class ElementTests {
 		
 		//parent not active
 		ActionBoundary action = new ActionBoundary();
-		action.setType("delete element");
+		action.setType("Delete");
 		action.setElement(parentDB.getElementId());
 		action.setInvokedBy(userIdPlayer);
 		
@@ -396,22 +398,84 @@ public class ElementTests {
 				.postForObject("http://localhost:" + this.port + "/acs/actions",
 						action,
 						Object.class);
-		
-		ElementBoundary retrive = this.restTemplate
-				.getForObject(this.url + userIdPlayer.getDomain() + "/" + userIdPlayer.getEmail() +
-						"/" + parentDB.getElementId().getDomain() + "/" + parentDB.getElementId().getId(),
-						ElementBoundary.class);
-		
-		
-		// THEN the database contains child with parents
-		ElementBoundary[]  retriveElements = this.restTemplate
-				.getForObject(this.url + userIdPlayer.getDomain() + "/" + userIdPlayer.getEmail() +
-						"/" + chiledDB.getElementId().getDomain() + "/" + chiledDB.getElementId().getId()
-						+ "/parents",
-						ElementBoundary[].class);
-
-		
+				
+		// THEN the database contains parent  with children
+		assertThrows(Exception.class, ()-> this.restTemplate
+						.getForObject(this.url + userIdPlayer.getDomain() + "/" + userIdPlayer.getEmail() +
+								"/" + parentDB.getElementId().getDomain() + "/" + parentDB.getElementId().getId()
+								+ "/children",
+								ElementBoundary[].class));	
 	}
+	
+	@Test
+	public void get_all_element_atribute_data_action_test() throws Exception{
+		// GIVEN the server is up and system contains manager and element
+		NewUserDetails userDitails = new NewUserDetails();
+		userDitails.setAvatar(":-");
+		userDitails.setEmail("aaa@ff.ff");
+		userDitails.setRole(UserRole.MANAGER);
+		userDitails.setUsername("aaa");
+		UserId userIdManager = this.restTemplate.postForObject("http://localhost:" + this.port + "/acs/users", 
+				userDitails, 
+				UserBoundary.class).getUserId();
+		
+
+		NewUserDetails playerDitails = new NewUserDetails();
+		playerDitails.setAvatar(":-");
+		playerDitails.setEmail("aaa@kk.ff");
+		playerDitails.setRole(UserRole.PLAYER);
+		playerDitails.setUsername("aaaa");
+		UserId userIdPlayer= this.restTemplate.postForObject("http://localhost:" + this.port + "/acs/users", 
+				playerDitails, 
+				UserBoundary.class).getUserId();
+		
+		ElementBoundary element = new ElementBoundary();
+		ElementId elementId = new ElementId();
+		elementId.setDomain(userIdManager.getDomain());
+		element.setElementId(elementId);
+		element.setCreatedBy(this.createdByConverter.fromUserIdToCreatedBy(userIdManager));
+		element.setIsActive(true);	
+		
+		ElementBoundary elementDB = this.restTemplate
+			.postForObject(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail(), 
+					element, 
+					ElementBoundary.class);
+		
+			
+		ActionBoundary action = new ActionBoundary();
+		action.setType("GetAllElementAtributeData");
+		action.setElement(elementDB.getElementId());
+		action.setInvokedBy(userIdPlayer);
+		
+		Object atributeData =this.restTemplate
+		.postForObject("http://localhost:" + this.port + "/acs/actions",
+				action,
+				Object.class);
+		
+		
+		boolean b = areEqual((Map<String, Object>)atributeData, elementDB.getElementAttributes());
+		assertThat(b)
+		.isNotNull()
+		.isEqualTo(true);				
+	}
+	
+	@Test
+	public void insert_data_to_element_atributes_action() throws Exception{
+		//insertDataToElementAtributesAction
+	}
+	
+	
+	
+	private boolean areEqual(Map<String, Object> first, Map<String, Object> second) {
+		
+	    if (first.size() != second.size()) {
+	        return false;
+	    }
+	 
+	    return first.entrySet().stream()
+	      .allMatch(e -> e.getValue().equals(second.get(e.getKey())));
+	}
+	
 	
 	
 }

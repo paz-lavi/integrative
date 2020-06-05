@@ -23,18 +23,24 @@ public class GetSpecificDataFromElementAtributeAction implements ActionHandler{
 	@Override
 	public Object handleAction(ActionEntity action, ElementDao elementDao) {
 		Map<String, Object> actionAtributes = action.getActionAttributes();
-		Map<String, Object> data = (Map<String, Object>) actionAtributes.get("insert data");
+		String[] data = (String[]) actionAtributes.get("get data");
 		
 		ElementEntity elementEntity = elementDao.findById(action.getElement())
 				.orElseThrow(()->new RuntimeException("could not find element by id: " + action.getElement()));
 		Map<String, Object> elementAttributes = elementEntity.getElementAttributes();
 		
-		for (Entry<String, Object> entry : data.entrySet())  
-			elementAttributes.put(entry.getKey(), entry.getValue());
-		
+		Map<String, Object> rv = new HashMap<String, Object>();
+		for (String d : data) { 
+			Object atribute = elementAttributes.get(d);
+		    if (atribute != null) {
+		    	rv.put(d, atribute);	
+		    }
+		}
 		elementEntity.setElementAttributes(elementAttributes);
 		
-		return elementDao.save(elementEntity);
+		return elementDao.save(elementEntity).getElementAttributes();
+		
+
 	}
 
 }

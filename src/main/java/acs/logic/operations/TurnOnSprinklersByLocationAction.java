@@ -1,5 +1,6 @@
 package acs.logic.operations;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import acs.dal.ElementDao;
 import acs.data.ActionEntity;
 import acs.data.ElementEntity;
+import acs.rest.boudanries.ElementBoundary;
 
 public class TurnOnSprinklersByLocationAction  implements ActionHandler{
 
@@ -28,7 +30,7 @@ public class TurnOnSprinklersByLocationAction  implements ActionHandler{
 				(int)action.getActionAttributes().get("lng") - (int)action.getActionAttributes().get("dist"),
 				(int)action.getActionAttributes().get("lng") + (int)action.getActionAttributes().get("dist"), false);
 		
-		return elementDao.saveAll(
+		return ((List<ElementEntity>) elementDao.saveAll(
 		    sprinklers 
 			.stream() 
 			.map(e -> { 
@@ -39,6 +41,10 @@ public class TurnOnSprinklersByLocationAction  implements ActionHandler{
 				e.setElementAttributes(elementAttributes);
 				return e;	
 			}) 
-			.collect(Collectors.toList())); 
+			.collect(Collectors.toList())))
+				.stream()
+				.map(e -> e.getLocation())
+				.collect(Collectors.toList())
+				.toArray(new ElementBoundary[0]);
 	}
 }
