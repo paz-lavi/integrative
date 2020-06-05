@@ -2,6 +2,7 @@ package acs.logic;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ import acs.data.ActionConverter;
 import acs.data.ActionEntity;
 import acs.data.ActionId;
 import acs.data.ActionIdGenerator;
+import acs.data.ElementConverter;
 import acs.data.ElementEntity;
 import acs.data.ElementId;
 import acs.data.UserEntity;
@@ -26,6 +28,7 @@ import acs.data.UserId;
 import acs.data.UserRole;
 import acs.logic.operations.ActionHandler;
 import acs.rest.boudanries.ActionBoundary;
+import acs.rest.boudanries.ElementBoundary;
 
 @Service
 public class ActionServiceImplementationDB implements EnhancedActionService{
@@ -33,18 +36,19 @@ public class ActionServiceImplementationDB implements EnhancedActionService{
 	private UserDao userDao;
 	private ElementDao elementDao;
 	private ActionConverter converter; 
+	private ElementConverter elementConverter;
     private String domain;
-    private ElementServiceImplementationDB elementService;
 	public static String VALID_EMAIL_PATTERN = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 
 	@Autowired
 	public ActionServiceImplementationDB(ActionDao actionDao, ActionConverter converter,
-			UserDao userDao, ElementDao elementDao, ElementServiceImplementationDB elementService) {
+			UserDao userDao, ElementDao elementDao, ElementServiceImplementationDB elementService,
+			 ElementConverter elementConverter) {
 		this.actionDao = actionDao;
 		this.converter = converter;
 		this.userDao = userDao;
 		this.elementDao = elementDao;
-		this.elementService = elementService;
+		this.elementConverter = elementConverter;
 	}
 
 	 // injection of value from the spring boot configuration
@@ -78,6 +82,7 @@ public class ActionServiceImplementationDB implements EnhancedActionService{
 			
 			//check if element is active
 			ElementEntity element = existingElement.get();
+			//System.out.println("*********8"+element); 
 			if(!element.getActive())
 				throw new UserNotFoundException("element not in system: " + userId);
 		}
@@ -90,6 +95,7 @@ public class ActionServiceImplementationDB implements EnhancedActionService{
 		if (action.getType() == null) 
 			action.setType("Defoult");
 		
+		ActionEntity actionEntity = this.converter.toEntity(action);
 		
 		String className = "acs.logic.operations." +
 				action.getType() + "Action";
@@ -102,13 +108,18 @@ public class ActionServiceImplementationDB implements EnhancedActionService{
 					  .getConstructor(); // get default constructor
 					  
 			ActionHandler handlerByType = (ActionHandler) ctor.newInstance(); // invoke constructor 
-			handlerByType.handleAction(this.converter.toEntity(action), elementDao);
+			return handlerByType.handleAction(actionEntity, elementDao);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 		
-		return (Object)action;
-	}
+	
+		
+	
+		
+		 
+		
+   }
 	
 	
 	

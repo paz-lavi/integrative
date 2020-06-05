@@ -3,6 +3,7 @@ package acs.logic.operations;
 import org.springframework.transaction.annotation.Transactional;
 
 import acs.dal.ElementDao;
+import acs.dal.MessageDao;
 import acs.data.ActionEntity;
 import acs.data.ElementEntity;
 
@@ -15,12 +16,12 @@ public class DeleteAction implements ActionHandler {
 	
 	@Transactional
 	@Override
-	public Object handleAction(ActionEntity action, ElementDao elementDao) {
+	public Object handleAction(ActionEntity action, ElementDao elementDao, MessageDao messageDao) {
 		ElementEntity elementEntity = elementDao.findById(action.getElement())
 				.orElseThrow(()->new RuntimeException("could not find element by id: " + action.getElement()));
 		elementEntity.setActive(false);
-		elementDao.save(elementEntity);
-		return elementEntity;
+		elementEntity = elementDao.save(elementEntity);	
+		return elementEntity.getElementId();
 	}
 
 }

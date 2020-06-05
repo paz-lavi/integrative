@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import org.springframework.transaction.annotation.Transactional;
 
 import acs.dal.ElementDao;
+import acs.dal.MessageDao;
 import acs.data.ActionEntity;
 import acs.data.ElementEntity;
 
@@ -21,7 +22,7 @@ public class InsertDataToElementAtributesAction  implements ActionHandler {
 	
 	@Transactional
 	@Override
-	public Object handleAction(ActionEntity action, ElementDao elementDao) {
+	public Object handleAction(ActionEntity action, ElementDao elementDao, MessageDao messageDao) {
 		Map<String, Object> actionAtributes = action.getActionAttributes();
 		Map<String, Object> data = (Map<String, Object>) actionAtributes.get("insert data");
 		

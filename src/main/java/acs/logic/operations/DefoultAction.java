@@ -3,6 +3,7 @@ package acs.logic.operations;
 import org.springframework.transaction.annotation.Transactional;
 
 import acs.dal.ElementDao;
+import acs.dal.MessageDao;
 import acs.data.ActionEntity;
 
 public class DefoultAction implements ActionHandler {
@@ -14,7 +15,7 @@ public class DefoultAction implements ActionHandler {
 	
 	@Transactional
 	@Override
-	public Object handleAction(ActionEntity action, ElementDao elementDao) {
+	public Object handleAction(ActionEntity action, ElementDao elementDao, MessageDao messageDao) {
 		return action;
 	}
 

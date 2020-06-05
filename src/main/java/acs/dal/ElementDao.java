@@ -50,6 +50,7 @@ public interface ElementDao extends PagingAndSortingRepository<ElementEntity, El
 			@Param("elementId") ElementId elementId, 
 			Pageable pageable);
 	
+
 	public List<ElementEntity> findAllByparent_elementIdAndActive(
 			@Param("elementId") ElementId elementId, 
 			@Param("isActive") boolean isActive,

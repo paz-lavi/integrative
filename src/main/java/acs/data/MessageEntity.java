@@ -1,23 +1,26 @@
-package acs.rest.boudanries;
+package acs.data;
 
 import java.util.Date;
 
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import acs.data.UserId;
-
-public class MessageBoundary {
+@Entity
+@Table(name="Massages")
+public class MessageEntity {
 	private int massageId;
-	private Date createdTimestamp;
+	private Date createdTimestamp = new Date();;
 	private String massageBody;
 	private UserId invokedBy;
 	
-	public MessageBoundary() {
+	public MessageEntity() {
 		
 	}
-    
+   
 	@Id
 	public int getMassageId() {
 		return massageId;
@@ -48,8 +51,9 @@ public class MessageBoundary {
 		return invokedBy;
 	}
 
+	@Embedded
 	public void setInvokedBy(UserId invokedBy) {
 		this.invokedBy = invokedBy;
 	}
-
+		
 }

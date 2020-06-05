@@ -91,4 +91,12 @@ public class ActionEntity {
     public void setActionAttributes(Map<String, Object> actionAttributes) {
         this.actionAttributes = actionAttributes;
     }
+
+	@Override
+	public String toString() {
+		return "ActionEntity [actionId=" + actionId + ", type=" + type + ", element=" + element + ", createdTimestamp="
+				+ createdTimestamp + ", invokedBy=" + invokedBy + ", actionAttributes=" + actionAttributes + "]";
+	}
+    
+    
 }

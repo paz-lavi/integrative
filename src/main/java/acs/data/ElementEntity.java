@@ -128,6 +128,14 @@ public class ElementEntity {
 	public void addChild (ElementEntity child) {
 		this.children.add(child);
 	}
+
+	@Override
+	public String toString() {
+		return "ElementEntity [elementId=" + elementId + ", type=" + type + ", name=" + name + ", isActive=" + isActive
+				+ ", createdTimestamp=" + createdTimestamp + ", createdBy=" + createdBy + ", location=" + location
+				+ ", elementAttributes=" + elementAttributes+"]";
+	}
+	
 	
 	
 }

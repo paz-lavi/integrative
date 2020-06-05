@@ -1,6 +1,7 @@
 package acs.logic.operations;
 
 import acs.dal.ElementDao;
+import acs.dal.MessageDao;
 import acs.data.ActionEntity;
 import acs.data.ElementEntity;
 import acs.rest.boudanries.ElementBoundary;
@@ -21,7 +22,7 @@ public class TurnOffSprinklersBeloningToSensorAction  implements ActionHandler{
 	
 	@Transactional 
 	@Override
-	public Object handleAction(ActionEntity action, ElementDao elementDao) {
+	public Object handleAction(ActionEntity action, ElementDao elementDao, MessageDao messageDao) {
 		List<ElementEntity> children = elementDao.findAllByparent_elementIdAndActive(action.getElement(), true);
 		
 		List<ElementEntity> rv = (List<ElementEntity>) elementDao.saveAll(

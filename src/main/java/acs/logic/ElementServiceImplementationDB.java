@@ -174,6 +174,8 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 		// get element from database
 		ElementEntity elementExisting = this.elementDao.findById(new ElementId(elementDomain,elementId))
 				.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));
+		
+		System.out.println("*********8"+elementExisting); 
 			
 		//if user is manager then return all elements active and not active
 		if(user.getRole().equals(UserRole.MANAGER))
@@ -277,6 +279,7 @@ public class ElementServiceImplementationDB implements EnhancedElementService{
 			// get entity objects from database
 			ElementEntity elementExisting = this.elementDao.findAllByElementIdAndActive(new ElementId(elementDomain,elementId), true)
 					.orElseThrow(()->new RuntimeException("could not find object by id: " + elementId));
+			System.out.println("###"+ elementExisting); 
 			
 			// return only active elements 
 			return this.elementDao.findAllByparent_elementIdAndActive(elementExisting.getElementId(),

@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.transaction.annotation.Transactional;
 
 import acs.dal.ElementDao;
+import acs.dal.MessageDao;
 import acs.data.ActionEntity;
 import acs.data.ElementEntity;
 
@@ -21,7 +22,7 @@ public class GetSpecificDataFromElementAtributeAction implements ActionHandler{
 	
 	@Transactional
 	@Override
-	public Object handleAction(ActionEntity action, ElementDao elementDao) {
+	public Object handleAction(ActionEntity action, ElementDao elementDao, MessageDao messageDao) {
 		Map<String, Object> actionAtributes = action.getActionAttributes();
 		String[] data = (String[]) actionAtributes.get("get data");
 		
