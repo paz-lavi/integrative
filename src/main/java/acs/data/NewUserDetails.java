@@ -1,5 +1,6 @@
 package acs.data;
 
+
 public class NewUserDetails {
     private String email;
     private UserRole role;

@@ -1,5 +1,6 @@
 package acs.rest.boudanries;
 
+
 public class ElementIdBoundary {
 	private String domain;
     private String id;

@@ -1,6 +1,5 @@
 package acs.logic.operations;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -10,6 +9,8 @@ import acs.dal.ElementDao;
 import acs.dal.MessageDao;
 import acs.data.ActionEntity;
 import acs.data.ElementEntity;
+
+
 
 public class InsertDataToElementAtributesAction  implements ActionHandler {
 

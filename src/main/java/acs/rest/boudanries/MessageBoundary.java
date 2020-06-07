@@ -1,5 +1,6 @@
 package acs.rest.boudanries;
 
+
 import java.util.Date;
 
 import javax.persistence.Id;
@@ -13,6 +14,7 @@ public class MessageBoundary {
 	private Date createdTimestamp;
 	private String massageBody;
 	private UserId invokedBy;
+	private boolean treated;
 	
 	public MessageBoundary() {
 		
@@ -51,5 +53,15 @@ public class MessageBoundary {
 	public void setInvokedBy(UserId invokedBy) {
 		this.invokedBy = invokedBy;
 	}
+
+	public boolean getTreated() {
+		return treated;
+	}
+
+	public void setTreated(boolean treated) {
+		this.treated = treated;
+	}
+	
+	
 
 }

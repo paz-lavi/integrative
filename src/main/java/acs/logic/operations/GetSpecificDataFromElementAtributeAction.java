@@ -1,10 +1,8 @@
 package acs.logic.operations;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
+
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +10,7 @@ import acs.dal.ElementDao;
 import acs.dal.MessageDao;
 import acs.data.ActionEntity;
 import acs.data.ElementEntity;
+
 
 public class GetSpecificDataFromElementAtributeAction implements ActionHandler{
 

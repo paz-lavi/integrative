@@ -1,6 +1,5 @@
 package acs.logic.operations;
 
-
 import org.springframework.transaction.annotation.Transactional;
 
 import acs.dal.ElementDao;
@@ -8,24 +7,24 @@ import acs.dal.MessageDao;
 import acs.data.ActionEntity;
 import acs.data.MessageConverter;
 import acs.data.MessageEntity;
-import acs.rest.boudanries.MessageBoundary;
 
 
-public class WriteMessaggeAction  implements ActionHandler{
+
+public class MessageTreatedAction  implements ActionHandler {
 
 	// this class must have a default constructor to support implementation based on java reflection
-	public WriteMessaggeAction() {
-		System.err.println("**** WriteMessaggeAction()");
+	public MessageTreatedAction() {
+		System.err.println("**** MessageTreatedAction()");
 	}
 	
-	@Transactional 
+	@Transactional
 	@Override
 	public Object handleAction(ActionEntity action, ElementDao elementDao, MessageDao messageDao) {
-		MessageBoundary messageBoundry = (MessageBoundary) action.getActionAttributes().get("message");
+		MessageEntity messagge = messageDao.findById((Integer) action.getActionAttributes().get("message treated"))
+				.orElseThrow(()->new RuntimeException("could not find this massage"));
+		
 		MessageConverter converter = new MessageConverter();
-		MessageEntity messageEntity = converter.toEntity(messageBoundry);
-		messageEntity.setTreated(false);
-		return messageDao.save(messageEntity).getMassageBody();
+		messagge.setTreated(true);
+		return converter.fromEntity(messageDao.save(messagge));
 	}
-	
 }

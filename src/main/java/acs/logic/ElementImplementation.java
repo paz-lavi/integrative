@@ -1,6 +1,6 @@
 package acs.logic;
 
-import acs.data.CreatedBy;
+
 import acs.data.CreatedByConverter;
 import acs.data.ElementConverter;
 import acs.data.ElementEntity;

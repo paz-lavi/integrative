@@ -1,10 +1,8 @@
 package acs.dal;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -12,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import acs.data.ElementEntity;
 import acs.data.ElementId;
 
+ 
 
 
 public interface ElementDao extends PagingAndSortingRepository<ElementEntity, ElementId>{

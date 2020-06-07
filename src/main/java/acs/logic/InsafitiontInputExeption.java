@@ -1,5 +1,6 @@
 package acs.logic;
 
+
 public class InsafitiontInputExeption extends IllegalArgumentException{
     private static final long serialVersionUID = 1L;
     

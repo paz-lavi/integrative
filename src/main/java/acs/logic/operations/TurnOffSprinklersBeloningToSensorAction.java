@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.transaction.annotation.Transactional;
 
+
 public class TurnOffSprinklersBeloningToSensorAction  implements ActionHandler{
 
 	// this class must have a default constructor to support implementation based on java reflection

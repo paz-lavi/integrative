@@ -1,6 +1,5 @@
 package acs.logic;
 
-
 import acs.rest.boudanries.ActionBoundary;
 import acs.rest.boudanries.UserBoundary;
 

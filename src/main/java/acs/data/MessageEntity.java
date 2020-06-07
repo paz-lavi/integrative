@@ -1,5 +1,6 @@
 package acs.data;
 
+
 import java.util.Date;
 
 import javax.persistence.Embedded;
@@ -16,6 +17,7 @@ public class MessageEntity {
 	private Date createdTimestamp = new Date();;
 	private String massageBody;
 	private UserId invokedBy;
+	private boolean treated;
 	
 	public MessageEntity() {
 		
@@ -55,5 +57,15 @@ public class MessageEntity {
 	public void setInvokedBy(UserId invokedBy) {
 		this.invokedBy = invokedBy;
 	}
+
+	public boolean getTreated() {
+		return treated;
+	}
+
+	public void setTreated(boolean treated) {
+		this.treated = treated;
+	}
+	
+	
 		
 }

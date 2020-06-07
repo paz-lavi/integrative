@@ -1,5 +1,6 @@
 package acs;
 
+
 import javax.annotation.PostConstruct;
 
 import org.junit.jupiter.api.AfterEach;
@@ -90,7 +91,7 @@ public class ElementTests {
 					ElementBoundary.class).getElementId();
 		 
 		
-		// THEN the database contains a user with the id's mail attribute "test"
+		// THEN the database contains that element
 		ElementId retriveElementId = this.restTemplate
 				.getForObject(this.url + userId.getDomain() + "/" + userId.getEmail() +
 						"/" + putElementId.getDomain() + "/" + putElementId.getId(),
@@ -132,7 +133,7 @@ public class ElementTests {
 	
 	@Test
 	public void test_update_new_element_if_user_is_player_and_fail() throws Exception{
-		// GIVEN the server is up and system contains player and element
+		// GIVEN the server is up and system contains player and element(created by manager)
 		NewUserDetails userDitails = new NewUserDetails();
 		userDitails.setAvatar(":-");
 		userDitails.setEmail("aaa@ff.ff");
@@ -206,7 +207,8 @@ public class ElementTests {
 				.put(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail() +
 						"/" + elementIdDB.getDomain() + "/" + elementIdDB.getId(),
 						elementBoundaryPut);
-		// THEN the database contains a user with the id's mail attribute "test"
+	
+		// THEN the database contains that element
 		ElementBoundary  retriveElement = this.restTemplate
 				.getForObject(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail() +
 						"/" + elementIdDB.getDomain() + "/" + elementIdDB.getId(),
@@ -264,13 +266,14 @@ public class ElementTests {
 				+ "/children",
 				chiledDB.getElementId());
 		
-		// THEN the database contains parent  with children
+		// WHEN  manager trying to get children of element 
 		ElementBoundary[]  retriveElements = this.restTemplate
 				.getForObject(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail() +
 						"/" + parentDB.getElementId().getDomain() + "/" + parentDB.getElementId().getId()
 						+ "/children",
 						ElementBoundary[].class);
 		
+		// THEN he succeeds
 		assertThat(retriveElements[0].getElementId())
 		.isNotNull()
 		.isEqualTo(chiledDB.getElementId());	
@@ -322,13 +325,15 @@ public class ElementTests {
 				+ "/children",
 				chiledDB.getElementId());
 		
-		// THEN the database contains child with parents
+		// WHEN  manager trying to get parents of element 
+		
 		ElementBoundary[]  retriveElements = this.restTemplate
 				.getForObject(this.url + userIdManager.getDomain() + "/" + userIdManager.getEmail() +
 						"/" + chiledDB.getElementId().getDomain() + "/" + chiledDB.getElementId().getId()
 						+ "/parents",
 						ElementBoundary[].class);
 
+		// THEN manager succeeds to get parent from DB
 		assertThat(retriveElements[0].getElementId())
 		.isNotNull()
 		.isEqualTo(parentDB.getElementId());			
@@ -337,7 +342,7 @@ public class ElementTests {
 	@Test
 	public void get_children_of_deleted_parent_by_player_and_get_exeption() throws Exception{
 
-		// GIVEN the server is up and system contains manager and element and his children
+		// GIVEN the server is up and system contains player and element and his children
 		NewUserDetails userDitailsPlayer = new NewUserDetails();
 		userDitailsPlayer.setAvatar(":-");
 		userDitailsPlayer.setEmail("aaa@ff.ff");
@@ -396,10 +401,10 @@ public class ElementTests {
 		
 		this.restTemplate
 				.postForObject("http://localhost:" + this.port + "/acs/actions",
-						action,
+				 		action,
 						Object.class);
-				
-		// THEN the database contains parent  with children
+		// WHEN player trying to get children of not active element
+		// THEN the database throws exception
 		assertThrows(Exception.class, ()-> this.restTemplate
 						.getForObject(this.url + userIdPlayer.getDomain() + "/" + userIdPlayer.getEmail() +
 								"/" + parentDB.getElementId().getDomain() + "/" + parentDB.getElementId().getId()
@@ -409,7 +414,7 @@ public class ElementTests {
 	
 	@Test
 	public void get_all_element_atribute_data_action_test() throws Exception{
-		// GIVEN the server is up and system contains manager and element
+		// GIVEN the server is up and system contains manager, player and element
 		NewUserDetails userDitails = new NewUserDetails();
 		userDitails.setAvatar(":-");
 		userDitails.setEmail("aaa@ff.ff");
@@ -461,7 +466,6 @@ public class ElementTests {
 	
 	@Test
 	public void insert_data_to_element_atributes_action() throws Exception{
-		//insertDataToElementAtributesAction
 	}
 	
 	

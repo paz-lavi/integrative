@@ -1,13 +1,12 @@
 package acs.logic;
 
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -23,7 +22,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import acs.dal.ElementDao;
 import acs.dal.UserDao;
-import acs.data.CreatedBy;
 import acs.data.CreatedByConverter;
 import acs.data.ElementConverter;
 import acs.data.ElementEntity;

@@ -6,6 +6,7 @@ import acs.dal.ElementDao;
 import acs.dal.MessageDao;
 import acs.data.ActionEntity;
 
+
 public class DefoultAction implements ActionHandler {
 
 	// this class must have a default constructor to support implementation based on java reflection

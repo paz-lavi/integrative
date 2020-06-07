@@ -1,5 +1,6 @@
 package acs.data;
 
+
 import org.springframework.stereotype.Component;
 
 @Component

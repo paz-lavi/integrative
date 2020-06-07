@@ -1,6 +1,5 @@
 package acs.rest.boudanries;
 
-
 import acs.data.UserId;
 import acs.data.UserRole;
 

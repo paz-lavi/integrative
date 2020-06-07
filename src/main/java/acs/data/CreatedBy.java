@@ -1,5 +1,6 @@
 package acs.data;
 
+
 import javax.persistence.Embeddable;
 
 @Embeddable

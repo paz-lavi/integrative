@@ -7,6 +7,7 @@ import acs.dal.MessageDao;
 import acs.data.ActionEntity;
 import acs.data.ElementEntity;
 
+
 public class DeleteAction implements ActionHandler {
 
 	// this class must have a default constructor to support implementation based on java reflection

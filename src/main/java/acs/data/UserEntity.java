@@ -1,5 +1,6 @@
 package acs.data;
 
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

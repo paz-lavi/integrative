@@ -1,5 +1,6 @@
 package acs.data;
 
+
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;

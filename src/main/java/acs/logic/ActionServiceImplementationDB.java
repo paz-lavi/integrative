@@ -2,7 +2,6 @@ package acs.logic;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import acs.dal.ActionDao;
 import acs.dal.ElementDao;
+import acs.dal.MessageDao;
 import acs.dal.UserDao;
 import acs.data.ActionConverter;
 import acs.data.ActionEntity;
@@ -28,15 +28,15 @@ import acs.data.UserId;
 import acs.data.UserRole;
 import acs.logic.operations.ActionHandler;
 import acs.rest.boudanries.ActionBoundary;
-import acs.rest.boudanries.ElementBoundary;
+
 
 @Service
 public class ActionServiceImplementationDB implements EnhancedActionService{
 	private ActionDao actionDao;
 	private UserDao userDao;
 	private ElementDao elementDao;
+	private MessageDao messageDao;
 	private ActionConverter converter; 
-	private ElementConverter elementConverter;
     private String domain;
 	public static String VALID_EMAIL_PATTERN = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 
@@ -48,7 +48,6 @@ public class ActionServiceImplementationDB implements EnhancedActionService{
 		this.converter = converter;
 		this.userDao = userDao;
 		this.elementDao = elementDao;
-		this.elementConverter = elementConverter;
 	}
 
 	 // injection of value from the spring boot configuration
@@ -98,7 +97,7 @@ public class ActionServiceImplementationDB implements EnhancedActionService{
 		ActionEntity actionEntity = this.converter.toEntity(action);
 		
 		String className = "acs.logic.operations." +
-				action.getType() + "Action";
+				toTitleCase(action.getType()) + "Action";
 		
 		// Use Java Reflection to create a new object from the class name
 		try {
@@ -108,7 +107,7 @@ public class ActionServiceImplementationDB implements EnhancedActionService{
 					  .getConstructor(); // get default constructor
 					  
 			ActionHandler handlerByType = (ActionHandler) ctor.newInstance(); // invoke constructor 
-			return handlerByType.handleAction(actionEntity, elementDao);
+			return handlerByType.handleAction(actionEntity, elementDao, messageDao);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -170,5 +169,17 @@ public class ActionServiceImplementationDB implements EnhancedActionService{
 		}
 		return false;
 	}
+	
+	public static String toTitleCase(String givenString) {
+	    String[] arr = givenString.split(" ");
+	    StringBuffer sb = new StringBuffer();
+
+	    for (int i = 0; i < arr.length; i++) {
+	        sb.append(Character.toUpperCase(arr[i].charAt(0)))
+	            .append(arr[i].substring(1));
+	    }          
+	    return sb.toString().trim();
+	}  
+
 
 }

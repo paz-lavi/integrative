@@ -1,8 +1,8 @@
 package acs.data;
 
+
 import org.springframework.stereotype.Component;
 
-import acs.rest.boudanries.ActionBoundary;
 import acs.rest.boudanries.MessageBoundary;
 
 @Component
@@ -14,6 +14,7 @@ public class MessageConverter {
 		 rv.setInvokedBy(entity.getInvokedBy());
 		 rv.setMassageBody(entity.getMassageBody());
 		 rv.setMassageId(entity.getMassageId());	
+		 rv.setTreated(entity.getTreated());
 	        return rv;
 	    }
 
@@ -22,6 +23,7 @@ public class MessageConverter {
 	    	rv.setInvokedBy(boundary.getInvokedBy());
 	    	rv.setMassageBody(boundary.getMassageBody());
 	    	rv.setMassageId(MessageIdGenerator.nextValue());
+	    	rv.setTreated(boundary.getTreated());
 	        return rv;
 	    }
 	
