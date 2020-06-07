@@ -6,14 +6,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
-import acs.data.ElementEntity;
-import acs.data.ElementId;
 import acs.data.MessageEntity;
+import acs.data.UserId;
 
 public interface MessageDao extends PagingAndSortingRepository<MessageEntity, Integer>{
 	
 	public List<MessageEntity> findAllByInvokedBy(
-			@Param("element_Id") ElementId element_Id, 
+			@Param("user_Id") UserId user_Id, 
+			Pageable pageable);
+	
+	public List<MessageEntity> getAll(
 			Pageable pageable);
 	
 	
