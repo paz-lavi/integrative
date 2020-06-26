@@ -12,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import acs.aop.MyLogger;
 import acs.dal.ActionDao;
 import acs.dal.ElementDao;
 import acs.dal.MessageDao;
@@ -56,7 +58,7 @@ public class ActionServiceImplementationDB implements EnhancedActionService{
   		this.domain = domain;
   	}
 
-
+  	@MyLogger
 	@Override
 	@Transactional
 	public Object InvokeAction(ActionBoundary action) {
@@ -121,7 +123,7 @@ public class ActionServiceImplementationDB implements EnhancedActionService{
    }
 	
 	
-	
+  	@MyLogger
 	@Override
 	@Transactional(readOnly = true)
 	public List<ActionBoundary> getAllActions(String adminDomain, String adminEmail) {
@@ -136,14 +138,14 @@ public class ActionServiceImplementationDB implements EnhancedActionService{
 		}
 		return rv;
 	}
-	
+  	@MyLogger
 	@Override
 	@Transactional
 	public void deleteAllActions(String adminDomain, String adminEmail) {
 		this.actionDao.deleteAll();
 		
 	}
-
+  	@MyLogger
 	@Override
 	public List<ActionBoundary> getAllActions(String adminDomain, String adminEmail, int size, int page) {
 		return this.actionDao.findAll(

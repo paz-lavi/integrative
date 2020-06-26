@@ -1,6 +1,7 @@
 package acs.logic;
 
 
+import acs.aop.MyLogger;
 import acs.data.ActionConverter;
 import acs.data.ActionEntity;
 import acs.data.ActionId;
@@ -40,7 +41,7 @@ public class ActionImplementation implements ActionService {
         // since this class is a singleton, we generate a thread safe collection
         this.actionsDatabase = Collections.synchronizedMap(new HashMap<>());
     }
-
+    @MyLogger
     @Override
     public Object InvokeAction(ActionBoundary action) {
     	ActionId aid = new ActionId();
@@ -50,7 +51,7 @@ public class ActionImplementation implements ActionService {
         actionsDatabase.put(action.getActionId(), this.actionConverter.toEntity(action));
         return (Object)action;
     }
-    
+    @MyLogger
     @Override
     public List<ActionBoundary> getAllActions(String adminDomain, String adminEmail) {
         return this.actionsDatabase
@@ -59,7 +60,7 @@ public class ActionImplementation implements ActionService {
                 .map(this.actionConverter::fromEntity)
                 .collect(Collectors.toList());
     }
-
+    @MyLogger
     @Override
     public void deleteAllActions(String adminDomain, String adminEmail) {
         actionsDatabase.clear();
